@@ -46,6 +46,25 @@ communicate with the service.
 * User Interface: opof
 * Log: __journalctl -u nv-opof -f__
 
+## Setup
+
+User can run __nv_opof_setup__ to setup opof.
+
+1. As default, the script does configures below:
+* Configure OVS fallback bridges. So that, when daemon is failed or killed,
+  all traffic will be forward to PAN-OS for processing.
+* Configure gRPC interface(default pf0vf1) IP address.
+* Reserve hugepages, default 2048 * 2M.
+
+2. User can specify the number of HugePages
+```sh
+$ nv_opof_setup -p 2048
+```
+3. User can specify the interface used by grpc
+```sh
+$ nv_opof_setup -g pf1vf1
+```
+
 ## SystemD Service
 
 If daemon is running on a DPU, most likely the service already started

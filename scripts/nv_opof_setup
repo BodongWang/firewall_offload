@@ -11,7 +11,6 @@ OVS_BRIDGE0=${OVS_BRIDGE1:-"ovsbr0"}
 OVS_BRIDGE0_PORTS=${OVS_BRIDGE0_PORTS:-"p0 pf0vf0"}
 OVS_BRIDGE1=${OVS_BRIDGE2:-"ovsbr1"}
 OVS_BRIDGE1_PORTS=${OVS_BRIDGE1_PORTS:-"p1 pf1vf0"}
-GRPC_PORT=pf0vf1
 GRPC_IP_MASK=169.254.33.51/24
 
 usage()
@@ -19,14 +18,18 @@ usage()
 cat 1>&2 <<EOF
 Usage ${0##*/} [-h|?] [-p NUM_HUGEPAGE]
     -p NUM_HUGEPAGE: Number of 2MB hugepages, default 2048
+    -g GRPC_PORT:    GRPC port name, default pf0vf1
     -h|?             Show this help message
 EOF
 }
 
-while getopts ":h:p:" arg; do
+while getopts ":h:p:g:" arg; do
 	case $arg in
 		p)
 			NUM_HUGEPAGE="${OPTARG}"
+			;;
+		g)
+			GRPC_PORT="${OPTARG}"
 			;;
 		h | *) # Display help.
 			usage
@@ -38,6 +41,11 @@ done
 if [ -z "${NUM_HUGEPAGE-}" ] ; then
 	echo -e "${COLOR_RED}[ INFO ] No num of hugepages specified, use 2048 ${COLOR_OFF}"
 	NUM_HUGEPAGE=2048
+fi
+
+if [ -z "${GRPC_PORT-}" ] ; then
+	echo -e "${COLOR_RED}[ INFO ] No gRPC port specified, use pf0vf1 ${COLOR_OFF}"
+	GRPC_PORT=pf0vf1
 fi
 
 pre_check()
@@ -76,7 +84,7 @@ configure_grpc_interface()
 {
 	ip addr flush dev $GRPC_PORT
 	ip addr add dev $GRPC_PORT $GRPC_IP_MASK
-	echo -e "${COLOR_GREEN}Configure grpc interface ${COLOR_OFF}"
+	echo -e "${COLOR_GREEN}Configure grpc for $GRPC_PORT ${COLOR_OFF}"
 }
 
 reserve_hugepages()

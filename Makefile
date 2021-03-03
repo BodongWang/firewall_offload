@@ -96,6 +96,7 @@ install:
 	cp build/$(APP) /usr/sbin
 	cp scripts/nv-opof.service /etc/systemd/system
 	cp scripts/nv_opof_check /usr/sbin
+	cp scripts/nv_opof_setup /usr/sbin
 	cp src/opof /usr/sbin
 	mkdir -p /opt/mellanox/nv_opof
 	cp README.md /opt/mellanox/nv_opof
