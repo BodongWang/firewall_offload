@@ -1,0 +1,183 @@
+From e59836dce28e23398174fd6213a0bf00d06a9c76 Mon Sep 17 00:00:00 2001
+From: Bodong Wang <bodong@nvidia.com>
+Date: Fri, 19 Feb 2021 04:33:34 +0000
+Subject: [PATCH] mlx5/core: E-Switch, Add sent to vport miss rule
+
+Kernel doesn't forward traffic from unknown SQ to uplink vport, in
+this case, the hairpin SQ created from DPDK won't work.
+
+Create miss rule to forward all miss traffic from eswitch manager
+to uplink.
+
+Change-Id: I80a96424550b7d9b9f575ebc64f1d5b8d80d82e9
+Signed-off-by: Bodong Wang <bodong@nvidia.com>
+---
+ .../net/ethernet/mellanox/mlx5/core/en_rep.c  | 15 +++++
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h |  1 +
+ .../mellanox/mlx5/core/eswitch_offloads.c     | 59 +++++++++++++++++++
+ include/linux/mlx5/eswitch.h                  |  6 +-
+ 4 files changed, 80 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rep.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rep.c
+index 4eae62c25..82009759f 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_rep.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rep.c
+@@ -346,6 +346,9 @@ static void mlx5e_sqs2vport_stop(struct mlx5_eswitch *esw,
+ 	if (esw->mode != MLX5_ESWITCH_OFFLOADS)
+ 		return;
+ 
++	if (rep->vport == MLX5_VPORT_UPLINK && rep->miss_flow_rule)
++		mlx5_del_flow_rules((struct mlx5_flow_handle *)rep->miss_flow_rule);
++
+ 	rpriv = mlx5e_rep_to_rep_priv(rep);
+ 	list_for_each_entry_safe(rep_sq, tmp, &rpriv->vport_sqs_list, list) {
+ 		mlx5_eswitch_del_send_to_vport_rule(rep_sq->send_to_vport_rule);
+@@ -411,6 +414,18 @@ static int mlx5e_sqs2vport_start(struct mlx5_eswitch *esw,
+ 		}
+ 		list_add(&rep_sq->list, &rpriv->vport_sqs_list);
+ 	}
++
++	if (rep->vport == MLX5_VPORT_UPLINK) {
++		rep->miss_flow_rule =
++			mlx5_eswitch_add_miss_send_to_vport_rule(esw,
++								 esw,
++								 rep);
++		if (IS_ERR(rep->miss_flow_rule)) {
++			rep->miss_flow_rule = NULL;
++			mlx5_core_err(esw->dev, "Vport miss rule failed\n");
++		}
++	}
++
+ 	return 0;
+ 
+ out_err:
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
+index edb85699e..a2dcf0689 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
+@@ -204,6 +204,7 @@ struct mlx5_eswitch_fdb {
+ 			struct mlx5_flow_namespace *ns;
+ 			struct mlx5_flow_table *slow_fdb;
+ 			struct mlx5_flow_group *send_to_vport_grp;
++			struct mlx5_flow_group *miss_send_to_vport_grp;
+ 			struct mlx5_flow_group *send_to_vport_meta_grp;
+ 			struct mlx5_flow_group *peer_miss_grp;
+ 			struct mlx5_flow_handle **peer_miss_rules;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+index c74eb840f..8228e1489 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+@@ -1040,6 +1040,46 @@ out:
+ 	return flow_rule;
+ }
+ EXPORT_SYMBOL(mlx5_eswitch_add_send_to_vport_rule);
++ 
++struct mlx5_flow_handle *
++mlx5_eswitch_add_miss_send_to_vport_rule(struct mlx5_eswitch *on_esw,
++					 struct mlx5_eswitch *from_esw,
++					 struct mlx5_eswitch_rep *rep)
++{
++	struct mlx5_flow_act flow_act = {0};
++	struct mlx5_flow_destination dest = {};
++	struct mlx5_flow_handle *flow_rule;
++	struct mlx5_flow_spec *spec;
++
++	spec = kvzalloc(sizeof(*spec), GFP_KERNEL);
++	if (!spec) {
++		flow_rule = ERR_PTR(-ENOMEM);
++		goto out;
++	}
++
++	dest.type = MLX5_FLOW_DESTINATION_TYPE_VPORT;
++	dest.vport.num = rep->vport;
++	dest.vport.vhca_id = MLX5_CAP_GEN(rep->esw->dev, vhca_id);
++	dest.vport.flags |= MLX5_FLOW_DEST_VPORT_VHCA_ID;
++
++	/* source vport is the esw manager */
++	mlx5_eswitch_set_rule_source_port(on_esw, spec, from_esw, NULL,
++					  from_esw->manager_vport);
++
++	flow_act.action = MLX5_FLOW_CONTEXT_ACTION_FWD_DEST;
++
++	if (rep->vport == MLX5_VPORT_UPLINK)
++		spec->flow_context.flow_source = MLX5_FLOW_CONTEXT_FLOW_SOURCE_LOCAL_VPORT;
++
++	flow_rule = mlx5_add_flow_rules(on_esw->fdb_table.offloads.slow_fdb,
++					spec, &flow_act, &dest, 1);
++	if (IS_ERR_OR_NULL(flow_rule))
++		esw_warn(on_esw->dev, "FDB: Failed to add send to vport miss rule err %ld\n", PTR_ERR(flow_rule));
++out:
++	kvfree(spec);
++	return flow_rule;
++}
++EXPORT_SYMBOL(mlx5_eswitch_add_miss_send_to_vport_rule);
+ 
+ void mlx5_eswitch_del_send_to_vport_rule(struct mlx5_flow_handle *rule)
+ {
+@@ -1709,6 +1749,22 @@ static int esw_create_offloads_fdb_tables(struct mlx5_eswitch *esw)
+ 		goto send_vport_err;
+ 	}
+ 	esw->fdb_table.offloads.send_to_vport_grp = g;
++ 
++	/* create miss-send-to-vport group */
++	memset(flow_group_in, 0, inlen);
++	esw_set_flow_group_source_port_vhca_id(esw, flow_group_in);
++
++	MLX5_SET(create_flow_group_in, flow_group_in, start_flow_index, ix);
++	ix += 2 * esw->total_vports * MAX_SQ_NVPORTS + 2 * MLX5E_MAX_NUM_TC * MAX_PF_SQ;
++	MLX5_SET(create_flow_group_in, flow_group_in, end_flow_index, ix - 1);
++
++	g = mlx5_create_flow_group(fdb, flow_group_in);
++	if (IS_ERR(g)) {
++		err = PTR_ERR(g);
++		esw_warn(dev, "Failed to create miss-send-to-vport flow group err(%d)\n", err);
++		goto miss_send_vport_err;
++	}
++	esw->fdb_table.offloads.miss_send_to_vport_grp = g;
+ 
+ 	/* meta send to vport */
+ 	memset(flow_group_in, 0, inlen);
+@@ -1798,6 +1854,8 @@ miss_err:
+ 	if (MLX5_CAP_ESW(esw->dev, merged_eswitch))
+ 		mlx5_destroy_flow_group(esw->fdb_table.offloads.peer_miss_grp);
+ peer_miss_err:
++	mlx5_destroy_flow_group(esw->fdb_table.offloads.miss_send_to_vport_grp);
++miss_send_vport_err:
+ 	mlx5_eswitch_del_send_to_vport_meta_rules(esw);
+ meta_rule_err:
+ 	if (esw->fdb_table.offloads.send_to_vport_meta_grp)
+@@ -1826,6 +1884,7 @@ static void esw_destroy_offloads_fdb_tables(struct mlx5_eswitch *esw)
+ 	esw_debug(esw->dev, "Destroy offloads FDB Tables\n");
+ 	mlx5_del_flow_rules(esw->fdb_table.offloads.miss_rule_multi);
+ 	mlx5_del_flow_rules(esw->fdb_table.offloads.miss_rule_uni);
++	mlx5_destroy_flow_group(esw->fdb_table.offloads.miss_send_to_vport_grp);
+ 	mlx5_eswitch_del_send_to_vport_meta_rules(esw);
+ 	mlx5_destroy_flow_group(esw->fdb_table.offloads.send_to_vport_grp);
+ 	if (esw->fdb_table.offloads.send_to_vport_meta_grp)
+diff --git a/include/linux/mlx5/eswitch.h b/include/linux/mlx5/eswitch.h
+index 1e7ac91b9..353ba6df9 100644
+--- a/include/linux/mlx5/eswitch.h
++++ b/include/linux/mlx5/eswitch.h
+@@ -59,6 +59,7 @@ struct mlx5_eswitch_rep {
+ 	u32		       vlan_refcount;
+ 	void		       *priv;
+ 	struct                 mlx5_eswitch *esw;
++	void		       *miss_flow_rule;
+ };
+ 
+ void mlx5_eswitch_register_vport_reps(struct mlx5_eswitch *esw,
+@@ -76,7 +77,10 @@ mlx5_eswitch_add_send_to_vport_rule(struct mlx5_eswitch *on_esw,
+ 				    struct mlx5_eswitch *from_esw,
+ 				    struct mlx5_eswitch_rep *rep,
+ 				    u32 sqn);
+-
++struct mlx5_flow_handle *
++mlx5_eswitch_add_miss_send_to_vport_rule(struct mlx5_eswitch *on_esw,
++					 struct mlx5_eswitch *from_esw,
++					 struct mlx5_eswitch_rep *rep);
+ u16 mlx5_eswitch_get_total_vports(const struct mlx5_core_dev *dev);
+ int mlx5_eswitch_query_esw_vport_context(struct mlx5_core_dev *dev, u16 vport,
+ 					 bool other_vport,
+-- 
+2.25.1
+

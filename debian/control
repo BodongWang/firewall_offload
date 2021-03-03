@@ -1,0 +1,12 @@
+Source: nv-opof
+Section: unknown
+Priority: optional
+Maintainer: Bodong Wang <bodong@nvidia.com>
+Build-Depends: debhelper (>= 10), autotools-dev
+Standards-Version: 4.1.2
+Homepage: www.nvidia.com
+
+Package: nv-opof
+Architecture: amd64 arm64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Mellanox firewall offload daemon

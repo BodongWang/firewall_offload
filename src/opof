@@ -1,0 +1,206 @@
+#!/usr/bin/env python3
+
+import argparse
+import sys
+import shlex
+import json
+import socket
+import time
+import os
+import copy
+
+try:
+    from shlex import quote
+except ImportError:
+    from pipes import quote
+
+
+class JsonRpcSnapException(Exception):
+    def __init__(self, message):
+        self.message = message
+
+class JsonRpcVirtnetClient(object):
+    decoder = json.JSONDecoder()
+
+    def __init__(self, address, port, timeout=60.0):
+        self.sock = None
+        self._request_id = 0
+        self.timeout = timeout
+        try:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.connect((address, int(port)))
+        except socket.error as ex:
+            raise JsonRpcSnapException("Error while connecting to %s:%s\n"
+                                       "Error details: %s" % (address, port, ex))
+
+    def __json_to_string(self, request):
+        return json.dumps(request)
+
+    def send(self, method, params=None):
+        self._request_id += 1
+        req = {
+            'jsonrpc': '2.0',
+            'method': method,
+            'id': self._request_id
+        }
+        if params:
+            req['params'] = copy.deepcopy(params)
+
+        self.sock.sendall(self.__json_to_string(req).encode("utf-8"))
+        return self._request_id
+
+    def __string_to_json(self, request_str):
+        try:
+            obj, idx = self.decoder.raw_decode(request_str)
+            return obj
+        except ValueError:
+            return None
+
+    def recv(self):
+        timeout = self.timeout
+        start_time = time.process_time()
+        response = None
+        buf = ""
+
+        while not response:
+            try:
+                timeout = timeout - (time.process_time() - start_time)
+                self.sock.settimeout(timeout)
+                buf += self.sock.recv(4096).decode("utf-8")
+                response = self.__string_to_json(buf)
+            except socket.timeout:
+                break
+            except ValueError:
+                continue  # incomplete response; keep buffering
+
+        if not response:
+            raise JsonRpcSnapException("Response Timeout")
+        return response
+
+    def call(self, method, params={}):
+        if params:
+            print(params)
+        req_id = self.send(method, params)
+        response = self.recv()
+
+        if 'error' in response:
+            params["method"] = method
+            params["req_id"] = req_id
+            msg = "\n".join(["request:", "%s" % json.dumps(params, indent=2),
+                             "Got JSON-RPC error response",
+                             "response:",
+                             json.dumps(response['error'], indent=2)])
+            raise JsonRpcSnapException(msg)
+
+        return response['result']
+
+def call_rpc_func(args):
+    args.func(args)
+
+def execute_script(parser, client, fd):
+    executed_rpc = ""
+    for rpc_call in map(str.rstrip, fd):
+        if not rpc_call.strip():
+            continue
+        executed_rpc = "\n".join([executed_rpc, rpc_call])
+        args = parser.parse_args(shlex.split(rpc_call))
+        args.client = client
+        try:
+            call_rpc_func(args)
+        except JsonRpcSnapException as ex:
+            print("Exception:")
+            print(executed_rpc.strip() + " <<<")
+            print(ex.message)
+            exit(1)
+
+def stats(args):
+    params = {}
+    if args.clear != None:
+        params['clear'] = args.clear
+
+    result = args.client.call('stats', params)
+    print(json.dumps(result, indent=2))
+
+def query(args):
+    params = {}
+    if args.id != None:
+        params['id'] = args.id
+
+    result = args.client.call('query', params)
+    print(json.dumps(result, indent=2))
+
+def delete(args):
+    params = {}
+    if args.id != None:
+        params['id'] = args.id
+
+    result = args.client.call('delete', params)
+    print(json.dumps(result, indent=2))
+
+def log_level(args):
+    params = {
+        'level': args.level,
+    }
+
+    result = args.client.call('log_level', params)
+    print(json.dumps(result, indent=2))
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Nvidia firwall offload command line interface')
+    parser.add_argument('-s', dest='server_addr',
+                        help='RPC server address',
+                        default='127.0.0.1')
+    parser.add_argument('-p', dest='server_port',
+                        help='RPC server port',
+                        default='12180')
+    parser.add_argument('-t', dest='timeout',
+                        help='Timeout as a floating point number expressed in '
+                             'seconds waiting for response. Default: 60.0',
+                        default=60.0, type=float)
+    subparsers = parser.add_subparsers(help='** Use -h for sub-command usage',
+                                       dest='called_rpc_name')
+
+    # Stats
+    p = subparsers.add_parser('stats', help='offload stats')
+    p.add_argument('-c', '--clear', help="clear counters: all aging "
+                   " coutners", required=False, action="store_const",
+                   const=1, default=0)
+    p.set_defaults(func=stats)
+
+    # Query
+    p = subparsers.add_parser('query', help='query session')
+    p.add_argument('-i', '--id', help="session ID",
+                   required=True, type=int)
+    p.set_defaults(func=query)
+
+    # Delete
+    p = subparsers.add_parser('delete', help='delete session')
+    p.add_argument('-i', '--id', help="session ID",
+                   required=True, type=int)
+    p.set_defaults(func=query)
+
+    # Log
+    p = subparsers.add_parser('log', help='set log level')
+    p.add_argument('-l', '--level', help="log level: info/err/debug",
+                   required=True, type=str, choices=['info', 'err', 'debug'])
+    p.set_defaults(func=log_level)
+
+    args = parser.parse_args()
+    args.client = JsonRpcVirtnetClient(args.server_addr, args.server_port,
+                                       args.timeout)
+    if hasattr(args, 'func'):
+        try:
+            call_rpc_func(args)
+        except JsonRpcSnapException as ex:
+            print(ex)
+            exit(1)
+    elif sys.stdin.isatty():
+        # No arguments and no data piped through stdin
+        parser.print_help()
+        exit(1)
+    else:
+        execute_script(parser, args.client, sys.stdin)
+
+if __name__ == "__main__":
+    main()

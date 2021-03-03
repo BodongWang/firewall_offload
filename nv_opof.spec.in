@@ -1,0 +1,63 @@
+%define scm_version @PACKAGE_VERSION@
+%define scm_rev @PACKAGE_REVISION@
+%define _sha1 @GIT_SHA1@
+%define _branch @GIT_BRANCH@
+
+%define unmangled_version %{scm_version}
+%if "%{?_sha1:1}" == ""
+    %define _sha1 ""
+%endif
+%if "%{?_branch:1}" == ""
+    %define _branch "master"
+%endif
+
+%define dist .mlnx
+
+Name:		nv-opof
+Version:	%{scm_version}
+Release:	%{scm_rev}%{?dist}
+Summary:	Nvidia firewall offload daemon
+License:	Proprietary
+Source0:	%{name}-%{version}.tar.gz
+BuildRequires:	automake autoconf make gcc
+
+%description
+git branch %{_branch}, sha1 %{_sha1}
+
+%prep
+%setup -q
+
+%build
+cd snap-rdma
+./autogen.sh
+%configure %{?configure_options}
+make %{?_smp_mflags}
+cd ..
+./autogen.sh
+%configure %{?configure_options}
+make %{?_smp_mflags}
+
+%install
+rm -rf $RPM_BUILD_ROOT
+%make_install
+mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
+install -m 755 ./build/nv_opof ${RPM_BUILD_ROOT}%{_sbindir}
+install -m 755 ./src/opof ${RPM_BUILD_ROOT}%{_sbindir}
+install -m 755 ./scripts/nv_opof_check ${RPM_BUILD_ROOT}%{_sbindir}
+mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/systemd/system
+install -m 644 ./scripts/nv-opof.service ${RPM_BUILD_ROOT}%{_sysconfdir}/systemd/system
+mkdir -p ${RPM_BUILD_ROOT}/opt/mellanox/nv_opof
+install -m 644 ./README.md ${RPM_BUILD_ROOT}/opt/mellanox/nv_opof
+
+%files
+%defattr(-,root,root)
+%{_sbindir}/*
+%{_libdir}/*
+%{_includedir}/*
+%{_sysconfdir}/systemd/system/*
+
+%doc /opt/mellanox/nv_opof/README.md
+
+%post
+systemctl daemon-reload
+systemctl enable nv-opof

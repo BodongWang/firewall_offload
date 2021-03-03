@@ -1,0 +1,48 @@
+#! /bin/sh
+
+timeout=1
+
+mftconfig=mstconfig
+if [ -x /usr/bin/mlxconfig ]; then
+	mftconfig=mlxconfig
+fi
+
+get_eswitch_mode()
+{
+	pci_dev=$1
+	shift
+
+	devlink dev eswitch show pci/${pci_dev} 2> /dev/null | cut -d ' ' -f 3
+}
+
+emu_manager=`lspci -nD -d 15b3: | grep 'a2d[26]\|101d' | cut -d ' ' -f 1 | head -n 1`
+
+echo "Wait for dev move to switch dev mode"
+while [ $timeout -le 60 ]
+do
+	eswitch_mode=`get_eswitch_mode ${emu_manager}`
+	if [ "${eswitch_mode}" != "switchdev" ]; then
+		sleep 1
+		$timeout=$(( timeout + 1 ))
+		continue
+	else
+		break
+	fi
+done
+
+if [ "${eswitch_mode}" != "switchdev" ]; then
+	echo "$(emu_manager) is not in switch dev mode"
+	exit 1
+fi
+
+if [ ! -d /sys/class/net/pf0vf0/ ] ; then
+	echo "Error: No VF for PF0"
+	exit 2
+fi
+
+if [ ! -d /sys/class/net/pf1vf0/ ] ; then
+	echo "Error: No VF for PF1"
+	exit 3
+fi
+
+exit 0

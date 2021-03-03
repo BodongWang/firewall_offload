@@ -1,0 +1,4 @@
+build/nv_opof usr/sbin
+scripts/nv_opof_check usr/sbin
+scripts/nv-opof.service  etc/systemd/system
+README.md opt/mellanox/nv_opof
