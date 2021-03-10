@@ -18,12 +18,15 @@ void lcore_init(void)
 static void aging_thread(uint32_t lcore_id)
 {
 	long int lwp_id;
+	uint32_t i = 0;
 
 	lwp_id = syscall(SYS_gettid);
 	log_debug("LCORE(%u) (LWP=%ld): aging thread started",
 		  lcore_id, lwp_id);
 
 	while (1) {
+		if (++i & 0x10000)
+			rte_atomic32_inc(&off_config_g.stats.  age_thread_hb);
 		offload_flow_aged(INITIATOR_PORT_ID);
 		offload_flow_aged(RESPONDER_PORT_ID);
 	}

@@ -99,6 +99,8 @@ cJSON *stats(jrpc_context *ctx, cJSON *params, cJSON *id)
 		rte_atomic32_clear(&off_config_g.stats.zero_in);
 		rte_atomic32_clear(&off_config_g.stats.zero_out);
 		rte_atomic32_clear(&off_config_g.stats.zero_io);
+		rte_atomic32_clear(&off_config_g.stats.client_del);
+		rte_atomic32_clear(&off_config_g.stats.age_thread_hb);
 		return cJSON_CreateString("SUCCEED");
 	}
 
@@ -119,6 +121,10 @@ cJSON *stats(jrpc_context *ctx, cJSON *params, cJSON *id)
 			    rte_atomic32_read(&off_config_g.stats.zero_out));
 	JSON_STR_NUM_TO_OBJ(result, "Zero In&Out Sessions", "%d",
 			    rte_atomic32_read(&off_config_g.stats.zero_io));
+	JSON_STR_NUM_TO_OBJ(result, "Client Del Sessions", "%d",
+			    rte_atomic32_read(&off_config_g.stats.client_del));
+	JSON_STR_NUM_TO_OBJ(result, "Aging Thread Heartbeat", "%u",
+			    rte_atomic32_read(&off_config_g.stats.age_thread_hb));
 	pthread_mutex_unlock(&rpc_ctx->rpc_lock);
 
 	return result;

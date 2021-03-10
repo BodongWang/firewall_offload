@@ -319,6 +319,8 @@ int opof_del_session_server(unsigned long sessionId,
 	ret = opof_del_flow(session);
 	pthread_mutex_unlock(&session->lock);
 
+	rte_atomic32_inc(&off_config_g.stats.client_del);
+
 	return ret ? _INTERNAL : _OK;
 }
 

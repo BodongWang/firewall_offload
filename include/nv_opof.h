@@ -184,6 +184,8 @@ struct offload_stats {
 	rte_atomic32_t zero_in;
 	rte_atomic32_t zero_out;
 	rte_atomic32_t zero_io;
+	rte_atomic32_t client_del;
+	rte_atomic32_t age_thread_hb;
 };
 
 struct fw_offload_config {
