@@ -27,6 +27,7 @@ static struct rte_hash* create_session_hash_table(void)
 	params.entries = MAX_SESSION;
 	params.key_len = sizeof(struct session_key);
 	params.hash_func_init_val = 0;
+	params.extra_flag = RTE_HASH_EXTRA_FLAGS_RW_CONCURRENCY_LF;
 
 	h = rte_hash_create(&params);
 
