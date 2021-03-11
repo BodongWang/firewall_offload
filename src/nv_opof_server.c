@@ -298,8 +298,8 @@ int opof_add_session_server(sessionRequest_t *parameters,
 	return _OK;
 }
 
-int opof_del_session_server(unsigned long sessionId,
-			    sessionResponse_t *response)
+int _opof_del_session_server(unsigned long sessionId,
+			     sessionResponse_t *response)
 {
 	struct rte_hash *ht = off_config_g.session_ht;
 	struct fw_session *session = NULL;
@@ -319,9 +319,19 @@ int opof_del_session_server(unsigned long sessionId,
 	ret = opof_del_flow(session);
 	pthread_mutex_unlock(&session->lock);
 
+	return ret ? _INTERNAL : _OK;
+}
+
+int opof_del_session_server(unsigned long sessionId,
+			    sessionResponse_t *response)
+{
+	/* PAN-OS should not del any session. If it does, don't
+	 * issue any del command as session operation is not
+	 * thread safe
+	 */
 	rte_atomic32_inc(&off_config_g.stats.client_del);
 
-	return ret ? _INTERNAL : _OK;
+	return _OK;
 }
 
 void opof_del_all_session_server(void)

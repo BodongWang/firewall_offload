@@ -235,6 +235,8 @@ int offload_flow_flush(portid_t port_id);
 
 int opof_del_flow(struct fw_session *session);
 void opof_del_all_session_server(void);
+int _opof_del_session_server(unsigned long sessionId,
+			     sessionResponse_t *response);
 
 char *get_session_state(uint8_t state);
 char *get_close_code(uint8_t code);
