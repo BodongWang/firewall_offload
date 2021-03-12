@@ -16,7 +16,7 @@ GRPC_IP_MASK=169.254.33.51/24
 usage()
 {
 cat 1>&2 <<EOF
-Usage ${0##*/} [-h|?] [-p NUM_HUGEPAGE]
+Usage ${0##*/} [-h|?]
     -p NUM_HUGEPAGE: Number of 2MB hugepages, default 2048
     -g GRPC_PORT:    GRPC port name, default pf0vf1
     -h|?             Show this help message
