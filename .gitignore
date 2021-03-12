@@ -26,3 +26,9 @@ _build
 # ignore other build directory patterns
 *-gcc*
 *-clang*
+
+# ignore lib
+lib
+
+# ignore tar ball
+*.tar*

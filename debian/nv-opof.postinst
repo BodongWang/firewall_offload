@@ -1,2 +1,0 @@
-systemctl daemon-reload
-systemctl enable nv-opof

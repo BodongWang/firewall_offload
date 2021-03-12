@@ -93,16 +93,17 @@ build:
 
 install:
 	if systemctl --all --type service | grep -q "opof.service"; then systemctl stop opof.service; fi
-	cp build/$(APP) /usr/sbin
-	cp scripts/opof.service /etc/systemd/system
-	cp scripts/opof_check /usr/sbin
-	cp scripts/opof_setup /usr/sbin
-	cp src/opof /usr/sbin
-	mkdir -p /opt/mellanox/opof
-	cp README.md /opt/mellanox/opof
+	mkdir -p ${DESTDIR}/usr/sbin
+	cp build/$(APP) ${DESTDIR}/usr/sbin
+	cp src/opof ${DESTDIR}/usr/sbin
+	cp scripts/opof_pre_check ${DESTDIR}/usr/sbin
+	cp scripts/opof_setup ${DESTDIR}/usr/sbin
+	mkdir -p ${DESTDIR}/etc/systemd/system
+	cp scripts/opof.service ${DESTDIR}/etc/systemd/system
+	mkdir -p  ${DESTDIR}/opt/mellanox/opof
+	cp README.md ${DESTDIR}/opt/mellanox/opof
 	systemctl daemon-reload
 
 .PHONY: clean
 clean:
 	rm -f build/$(APP)
-	test -d build && rmdir -p build || true

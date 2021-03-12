@@ -1,15 +1,15 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: firewall_offload
+Upstream-Name: Nvidia Firewall Open Offload
 Source: https://github.com/BodongWang/firewall_offload
 
 Files: *
-Copyright: 2020- <sales@mellanox.com>
+Copyright: 2021- <sales@nvidia.com>
 License: Proprietary
 
 # If you want to use GPL v2 or later for the /debian/* files use 
 # the following clauses, or change it to suit. Delete these two lines
 Files: debian/*
-Copyright: 2018- <sales@mellanox.com>
+Copyright: 2021- <sales@nvidia.com>
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
