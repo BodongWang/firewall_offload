@@ -36,6 +36,8 @@
 extern "C" {
 #endif
 
+#define NV_OPOF_VERSION "1.0.0"
+
 #define RTE_PORT_ALL	(~(uint16_t)0x0)
 
 #define RX_RING_SIZE	1024

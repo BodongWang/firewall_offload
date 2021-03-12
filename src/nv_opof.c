@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 	nv_opof_signal_handler_install();
 	nv_opof_log_open();
 
-	log_info("nv_opof started");
+	log_info("nv_opof started, version %s", NV_OPOF_VERSION);
 	ret = nv_opof_config_load(CONFIG_FILE);
 	if (ret)
 		rte_exit(EXIT_FAILURE, "Cannot load config file\n");
