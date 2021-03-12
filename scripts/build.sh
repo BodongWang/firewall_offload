@@ -6,7 +6,9 @@ NCPUS=$(nproc)
 if (( NCPUS < 4 )); then
 	NCPUS=4
 fi
-ROOT_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+FILE_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+ROOT_DIR="$(dirname "$FILE_DIR")"
 SOURCE_ONLY="n"
 
 # Useful constants
