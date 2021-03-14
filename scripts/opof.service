@@ -1,12 +1,12 @@
 [Unit]
-Description=Nvidia Firewall Offload Daemon
-Documentation=file:/opt/mellanox/nv_opof/README.md
+Description=Nvidia Firewall Open Offload Daemon
+Documentation=file:/opt/mellanox/opof/README.md
 After=network.target network.service networking.service
 
 [Service]
 Type=simple
 Environment="LD_LIBRARY_PATH=/opt/mellanox/dpdk/lib/aarch64-linux-gnu/"
-ExecStartPre=/usr/sbin/nv_opof_check
+ExecStartPre=/usr/sbin/opof_pre_check
 ExecStart=/usr/sbin/nv_opof -n 1 -a 0000:03:00.0,representor=[0] -a 0000:03:00.1,representor=[0]
 Restart=on-failure
 

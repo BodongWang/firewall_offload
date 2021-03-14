@@ -92,14 +92,14 @@ build:
 	@mkdir -p $@
 
 install:
-	if systemctl --all --type service | grep -q "nv-opof.service"; then systemctl stop nv-opof.service; fi
+	if systemctl --all --type service | grep -q "opof.service"; then systemctl stop opof.service; fi
 	cp build/$(APP) /usr/sbin
-	cp scripts/nv-opof.service /etc/systemd/system
-	cp scripts/nv_opof_check /usr/sbin
-	cp scripts/nv_opof_setup /usr/sbin
+	cp scripts/opof.service /etc/systemd/system
+	cp scripts/opof_check /usr/sbin
+	cp scripts/opof_setup /usr/sbin
 	cp src/opof /usr/sbin
-	mkdir -p /opt/mellanox/nv_opof
-	cp README.md /opt/mellanox/nv_opof
+	mkdir -p /opt/mellanox/opof
+	cp README.md /opt/mellanox/opof
 	systemctl daemon-reload
 
 .PHONY: clean
