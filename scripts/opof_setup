@@ -54,6 +54,7 @@ pre_check()
 	do
 		if [ ! -d /sys/class/net/$port ]; then
 			echo -e "${COLOR_RED}$port is missing ${COLOR_OFF}"
+			echo -e "${COLOR_RED}2 VFs per each PF are needed on x86 ${COLOR_OFF}"
 			exit 1
 		fi
 	done
