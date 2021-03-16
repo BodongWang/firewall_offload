@@ -146,18 +146,12 @@ def log_level(args):
     print(json.dumps(result, indent=2))
 
 def main():
+    server_addr='127.0.0.1'
+    server_port='12180'
+    timeout=60.0
+
     parser = argparse.ArgumentParser(
         description='Nvidia firwall offload command line interface')
-    parser.add_argument('-s', dest='server_addr',
-                        help='RPC server address',
-                        default='127.0.0.1')
-    parser.add_argument('-p', dest='server_port',
-                        help='RPC server port',
-                        default='12180')
-    parser.add_argument('-t', dest='timeout',
-                        help='Timeout as a floating point number expressed in '
-                             'seconds waiting for response. Default: 60.0',
-                        default=60.0, type=float)
     subparsers = parser.add_subparsers(help='** Use -h for sub-command usage',
                                        dest='called_rpc_name')
 
@@ -187,8 +181,7 @@ def main():
     p.set_defaults(func=log_level)
 
     args = parser.parse_args()
-    args.client = JsonRpcVirtnetClient(args.server_addr, args.server_port,
-                                       args.timeout)
+    args.client = JsonRpcVirtnetClient(server_addr, server_port, timeout)
     if hasattr(args, 'func'):
         try:
             call_rpc_func(args)
