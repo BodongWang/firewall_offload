@@ -172,8 +172,6 @@ struct fw_session {
 
 	struct offload_flow		flow_in;
 	struct offload_flow		flow_out;
-	/* Protects both flow_in and flow_out */
-	pthread_mutex_t			lock;
 
 	uint8_t				state;
 	uint8_t				close_code;

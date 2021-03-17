@@ -436,7 +436,6 @@ void offload_flow_aged(portid_t port_id)
 			continue;
 		session = flow->session;
 
-		pthread_mutex_lock(&session->lock);
 		rte_atomic32_set(&flow->ref_count, 0);
 
 		/* Only delete flow when both directions are aged out.
@@ -450,7 +449,6 @@ void offload_flow_aged(portid_t port_id)
 			if (!ret)
 				rte_atomic32_inc(&off_config_g.stats.aged);
 		}
-		pthread_mutex_unlock(&session->lock);
 	}
 	free(contexts);
 }

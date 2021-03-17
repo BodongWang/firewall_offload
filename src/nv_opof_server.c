@@ -239,7 +239,6 @@ int opof_add_session_server(sessionRequest_t *parameters,
 			      RTE_CACHE_LINE_SIZE);
 
 	session->key.sess_id = parameters->sessId;
-	pthread_mutex_init(&session->lock, NULL);
 
 	session->info.src_ip = parameters->srcIP.s_addr;
 	session->info.dst_ip = parameters->dstIP.s_addr;
@@ -315,9 +314,7 @@ int _opof_del_session_server(unsigned long sessionId,
 	if (!session)
 		return _NOT_FOUND;
 
-	pthread_mutex_lock(&session->lock);
 	ret = opof_del_flow(session);
-	pthread_mutex_unlock(&session->lock);
 
 	return ret ? _INTERNAL : _OK;
 }
@@ -342,11 +339,8 @@ void opof_del_all_session_server(void)
 	uint32_t iter = 0;
 
 	while (rte_hash_iterate(ht, &next_key,
-				(void **)&session, &iter) >= 0) {
-		pthread_mutex_lock(&session->lock);
+				(void **)&session, &iter) >= 0)
 		opof_del_flow(session);
-		pthread_mutex_unlock(&session->lock);
-	}
 }
 
 int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
