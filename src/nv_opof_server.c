@@ -176,7 +176,10 @@ int opof_del_flow(struct fw_session *session)
 {
 	struct rte_hash *ht = off_config_g.session_ht;
 	sessionResponse_t *session_stat;
+        uint64_t tic, toc;
 	int ret = 0;
+
+        tic = rte_rdtsc();
 
 	session->state = _CLOSED;
 	session_stat = rte_zmalloc("stats",
@@ -206,6 +209,12 @@ int opof_del_flow(struct fw_session *session)
 
 	rte_atomic32_dec(&off_config_g.stats.active);
 
+        toc = (long double)(rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
+	if (toc > rte_atomic64_read(&off_config_g.stats.flows_del_maxtsc))
+		rte_atomic64_set(&off_config_g.stats.flows_del_maxtsc, toc);
+        rte_atomic64_add(&off_config_g.stats.flows_del_tottsc, toc);
+        rte_atomic32_inc(&off_config_g.stats.flows_del);
+
 	return ret;
 
 out:
@@ -219,11 +228,14 @@ int opof_add_session_server(sessionRequest_t *parameters,
 	struct rte_hash *ht = off_config_g.session_ht;
 	struct fw_session *session = NULL;
 	struct session_key key;
+        uint64_t tic, toc;
 	int ret;
 
 	memset(&key, 0, sizeof(key));
 
 	display_request(parameters, "add");
+
+        tic = rte_rdtsc();
 
 	key.sess_id = parameters->sessId;
 
@@ -294,7 +306,13 @@ int opof_add_session_server(sessionRequest_t *parameters,
 		return _INTERNAL;
 	}
 
-	return _OK;
+        toc = (long double)(rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
+	if (toc > rte_atomic64_read(&off_config_g.stats.flows_in_maxtsc))
+		rte_atomic64_set(&off_config_g.stats.flows_in_maxtsc, toc);
+        rte_atomic64_add(&off_config_g.stats.flows_in_tottsc, toc);
+        rte_atomic32_inc(&off_config_g.stats.flows_in);
+
+        return _OK;
 }
 
 int _opof_del_session_server(unsigned long sessionId,
@@ -348,7 +366,10 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 {
 	int size = request->pageSize;
 	int deq, count, ret, i;
+        uint64_t tic, toc;
 	sessionResponse_t **session_stats;
+
+        tic = rte_rdtsc();
 
 	count = rte_ring_count(off_config_g.session_fifo);
 
@@ -379,6 +400,13 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 	}
 
 	rte_free(session_stats);
+
+	toc = (long double)(rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
+	if (toc >
+	    rte_atomic64_read(&off_config_g.stats.flows_get_closed_maxtsc))
+		rte_atomic64_set(&off_config_g.stats.flows_get_closed_maxtsc, toc);
+	rte_atomic64_add(&off_config_g.stats.flows_get_closed_tottsc, toc);
+	rte_atomic32_inc(&off_config_g.stats.flows_get_closed);
 
 	return deq;
 }
