@@ -26,7 +26,7 @@ static void aging_thread(uint32_t lcore_id)
 
 	while (1) {
 		if (++i & 0x10000)
-			rte_atomic32_inc(&off_config_g.stats.  age_thread_hb);
+			rte_atomic32_inc(&off_config_g.stats.age_thread_hb);
 		offload_flow_aged(INITIATOR_PORT_ID);
 		offload_flow_aged(RESPONDER_PORT_ID);
 	}
