@@ -188,6 +188,14 @@ struct offload_stats {
 	rte_atomic32_t zero_io;
 	rte_atomic32_t client_del;
 	rte_atomic32_t age_thread_hb;
+        rte_atomic32_t flows_in;
+        rte_atomic32_t flows_del;
+        rte_atomic64_t flows_in_maxtsc;
+        rte_atomic64_t flows_in_tottsc;
+        rte_atomic64_t flows_del_maxtsc;
+        rte_atomic64_t flows_del_tottsc;
+
+
 };
 
 struct fw_offload_config {
