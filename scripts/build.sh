@@ -130,7 +130,7 @@ build_firewall_offload() {
 	fi
 	cd "$ROOT_DIR"
 	export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/mellanox/dpdk/lib/aarch64-linux-gnu/pkgconfig/
-	make -j "$NCPUS"
+	make -j "$NCPUS" && make install
 	if [ 0 -ne $? ] ; then exit 1 ; fi
 	echo -e "${COLOR_GREEN}firewall offload is compiled ${COLOR_OFF}"
 }

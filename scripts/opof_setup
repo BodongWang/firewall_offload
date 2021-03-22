@@ -8,7 +8,7 @@ COLOR_GREEN="\033[0;32m"
 COLOR_OFF="\033[0m"
 
 OVS_BRIDGE0=${OVS_BRIDGE1:-"ovsbr0"}
-OVS_BRIDGE0_PORTS=${OVS_BRIDGE0_PORTS:-"p0 pf0vf0"}
+OVS_BRIDGE0_PORTS=${OVS_BRIDGE0_PORTS:-"p0 pf0vf0 pf0sf0 pf0vf1"}
 OVS_BRIDGE1=${OVS_BRIDGE2:-"ovsbr1"}
 OVS_BRIDGE1_PORTS=${OVS_BRIDGE1_PORTS:-"p1 pf1vf0"}
 GRPC_IP_MASK=169.254.33.51/24
@@ -44,8 +44,8 @@ if [ -z "${NUM_HUGEPAGE-}" ] ; then
 fi
 
 if [ -z "${GRPC_PORT-}" ] ; then
-	echo -e "${COLOR_RED}[ INFO ] No gRPC port specified, use pf0vf1 ${COLOR_OFF}"
-	GRPC_PORT=pf0vf1
+	echo -e "${COLOR_RED}[ INFO ] No gRPC port specified, use p0m0${COLOR_OFF}"
+	GRPC_PORT=p0m0
 fi
 
 pre_check()
@@ -54,7 +54,7 @@ pre_check()
 	do
 		if [ ! -d /sys/class/net/$port ]; then
 			echo -e "${COLOR_RED}$port is missing ${COLOR_OFF}"
-			echo -e "${COLOR_RED}2 VFs per each PF are needed on x86 ${COLOR_OFF}"
+			echo -e "${COLOR_RED}2 VFs on PF0, 1VF on PF1 are needed on x86 ${COLOR_OFF}"
 			exit 1
 		fi
 	done

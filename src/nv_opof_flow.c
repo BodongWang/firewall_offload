@@ -431,6 +431,7 @@ void offload_flow_aged(portid_t port_id)
 	}
 
 	for (idx = 0; idx < nb_context; idx++) {
+		rte_atomic32_inc(&off_config_g.stats.age_thread_hb);
 		flow = (struct offload_flow *)contexts[idx];
 		if (!flow)
 			continue;
