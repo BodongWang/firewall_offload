@@ -413,21 +413,25 @@ void offload_flow_aged(portid_t port_id)
 	    port_id == (portid_t)RTE_PORT_ALL)
 		return;
 
+	pthread_mutex_lock(&off_config_g.ht_lock);
 	total = rte_flow_get_aged_flows(port_id, NULL, 0, &error);
 	if (total < 0) {
 		port_flow_complain(&error);
-		return;
+		goto unlock;
 	}
+
 	if (total == 0)
-		return;
+		goto unlock;
+
 	contexts = malloc(sizeof(void *) * total);
 	if (contexts == NULL)
-		return;
+		goto unlock;
+
 	nb_context = rte_flow_get_aged_flows(port_id, contexts,
 					     total, &error);
 	if (nb_context != total) {
 		free(contexts);
-		return;
+		goto free;
 	}
 
 	for (idx = 0; idx < nb_context; idx++) {
@@ -451,7 +455,11 @@ void offload_flow_aged(portid_t port_id)
 				rte_atomic32_inc(&off_config_g.stats.aged);
 		}
 	}
+
+free:
 	free(contexts);
+unlock:
+	pthread_mutex_unlock(&off_config_g.ht_lock);
 }
 
 int offload_flow_flush(portid_t port_id)

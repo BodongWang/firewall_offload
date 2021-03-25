@@ -201,6 +201,8 @@ int opof_del_flow(struct fw_session *session)
 		goto out;
 
 	rte_hash_del_key(ht, &session->key);
+	memset(&session->flow_in, 0, sizeof(struct offload_flow));
+	memset(&session->flow_out, 0, sizeof(struct offload_flow));
 
 	if (rte_ring_enqueue(off_config_g.session_fifo, session_stat))
 		log_error("no enough room in session session_fifo");
@@ -315,8 +317,8 @@ int opof_add_session_server(sessionRequest_t *parameters,
         return _OK;
 }
 
-int _opof_del_session_server(unsigned long sessionId,
-			     sessionResponse_t *response)
+int opof_del_session_server(unsigned long sessionId,
+			    sessionResponse_t *response)
 {
 	struct rte_hash *ht = off_config_g.session_ht;
 	struct fw_session *session = NULL;
@@ -328,25 +330,19 @@ int _opof_del_session_server(unsigned long sessionId,
 	memset(response, 0, sizeof(*response));
 	response->sessionId = sessionId;
 
+	pthread_mutex_lock(&off_config_g.ht_lock);
 	ret = rte_hash_lookup_data(ht, &key, (void **)&session);
-	if (!session)
+	if (!session) {
+		pthread_mutex_unlock(&off_config_g.ht_lock);
 		return _NOT_FOUND;
+	}
 
 	ret = opof_del_flow(session);
+	pthread_mutex_unlock(&off_config_g.ht_lock);
+	if (!ret)
+		rte_atomic32_inc(&off_config_g.stats.client_del);
 
 	return ret ? _INTERNAL : _OK;
-}
-
-int opof_del_session_server(unsigned long sessionId,
-			    sessionResponse_t *response)
-{
-	/* PAN-OS should not del any session. If it does, don't
-	 * issue any del command as session operation is not
-	 * thread safe
-	 */
-	rte_atomic32_inc(&off_config_g.stats.client_del);
-
-	return _OK;
 }
 
 void opof_del_all_session_server(void)
@@ -356,9 +352,11 @@ void opof_del_all_session_server(void)
 	const void *next_key = NULL;
 	uint32_t iter = 0;
 
+	pthread_mutex_lock(&off_config_g.ht_lock);
 	while (rte_hash_iterate(ht, &next_key,
 				(void **)&session, &iter) >= 0)
 		opof_del_flow(session);
+	pthread_mutex_unlock(&off_config_g.ht_lock);
 }
 
 int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,

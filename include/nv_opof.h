@@ -202,6 +202,7 @@ struct fw_offload_config {
 	struct aging_priv	aging;
 	struct rte_ring		*session_fifo;
 	struct rte_hash		*session_ht;
+	pthread_mutex_t		ht_lock;
 	struct rte_port		*ports;
 	struct offload_stats	stats;
 

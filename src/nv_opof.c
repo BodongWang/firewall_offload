@@ -56,6 +56,7 @@ static void config_init(void)
 	off_config_g.vf_port[portid_pf1] = portid_pf1_vf0;
 	off_config_g.vf_port[portid_pf1_vf0] = portid_pf1_vf0;
 
+	pthread_mutex_init(&off_config_g.ht_lock, NULL);
 	off_config_g.session_ht = create_session_hash_table();
 	off_config_g.session_fifo = rte_ring_create("sess_fifo",
 						    next_pow2(MAX_SESSION), 0, 0);
