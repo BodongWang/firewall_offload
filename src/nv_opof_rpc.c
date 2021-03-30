@@ -169,7 +169,7 @@ cJSON *delete(jrpc_context *ctx, cJSON *params, cJSON *id)
 
 	pthread_mutex_lock(&rpc_ctx->rpc_lock);
 	ret = opof_del_session_server(sess_id->valueint, &response);
-	if(response.requestStatus == _REJECTED_SESSION_NONEXISTENT) {
+	if(ret == _NOT_FOUND) {
 		cJSON_AddStringToObject(result, "Error",
 					"Session doesn't exist");
 		goto unlock;
