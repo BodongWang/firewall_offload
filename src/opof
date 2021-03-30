@@ -67,12 +67,14 @@ class JsonRpcVirtnetClient(object):
             try:
                 timeout = timeout - (time.process_time() - start_time)
                 self.sock.settimeout(timeout)
-                buf += self.sock.recv(4096).decode("utf-8")
+                buf += self.sock.recv(64).decode("utf-8")
                 response = self.__string_to_json(buf)
             except socket.timeout:
                 break
             except ValueError:
                 continue  # incomplete response; keep buffering
+
+        self.sock.close()
 
         if not response:
             raise JsonRpcSnapException("Response Timeout")
@@ -174,7 +176,7 @@ def main():
     p = subparsers.add_parser('delete', help='delete session')
     p.add_argument('-i', '--id', help="session ID",
                    required=True, type=int)
-    p.set_defaults(func=query)
+    p.set_defaults(func=delete)
 
     # Log
     p = subparsers.add_parser('log', help='set log level')
