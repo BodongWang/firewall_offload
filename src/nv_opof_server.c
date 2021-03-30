@@ -185,20 +185,26 @@ int opof_del_flow(struct fw_session *session)
 	session_stat = rte_zmalloc("stats",
 				   sizeof(sessionResponse_t),
 				   RTE_CACHE_LINE_SIZE);
-	opof_get_session_server(session->key.sess_id,
-				session_stat);
+	ret = opof_get_session_server(session->key.sess_id,
+				      session_stat);
+	if (ret == _NOT_FOUND)
+		return _NOT_FOUND;
 
 	ret = offload_flow_destroy(session->flow_in.portid,
 				   session->flow_in.flow);
 
-	if (ret)
+	if (ret) {
+		log_error("failed to delete flow in");
 		goto out;
+	}
 
 	ret = offload_flow_destroy(session->flow_out.portid,
 				   session->flow_out.flow);
 
-	if (ret)
+	if (ret) {
+		log_error("failed to delete flow out");
 		goto out;
+	}
 
 	rte_hash_del_key(ht, &session->key);
 	memset(&session->flow_in, 0, sizeof(struct offload_flow));
@@ -332,7 +338,7 @@ int opof_del_session_server(unsigned long sessionId,
 
 	pthread_mutex_lock(&off_config_g.ht_lock);
 	ret = rte_hash_lookup_data(ht, &key, (void **)&session);
-	if (!session) {
+	if (ret < 0 || !session) {
 		pthread_mutex_unlock(&off_config_g.ht_lock);
 		return _NOT_FOUND;
 	}
