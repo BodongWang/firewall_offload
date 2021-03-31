@@ -140,6 +140,14 @@ def delete(args):
     result = args.client.call('delete', params)
     print(json.dumps(result, indent=2))
 
+def add(args):
+    params = {}
+    if args.num != None:
+        params['num'] = args.num
+
+    result = args.client.call('add', params)
+    print(json.dumps(result, indent=2))
+
 def log_level(args):
     params = {
         'level': args.level,
@@ -177,6 +185,12 @@ def main():
     p.add_argument('-i', '--id', help="session ID",
                    required=True, type=int)
     p.set_defaults(func=delete)
+
+    # Add
+    p = subparsers.add_parser('add', help='add session')
+    p.add_argument('-n', '--num', help="num of sessions",
+                   required=True, type=int)
+    p.set_defaults(func=add)
 
     # Log
     p = subparsers.add_parser('log', help='set log level')
