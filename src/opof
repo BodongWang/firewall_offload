@@ -16,11 +16,11 @@ except ImportError:
 
 __version__='v1.0.1'
 
-class JsonRpcSnapException(Exception):
+class JsonRpcOpofException(Exception):
     def __init__(self, message):
         self.message = message
 
-class JsonRpcVirtnetClient(object):
+class JsonRpcOpofClient(object):
     decoder = json.JSONDecoder()
 
     def __init__(self, address, port, timeout=60.0):
@@ -31,7 +31,7 @@ class JsonRpcVirtnetClient(object):
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.connect((address, int(port)))
         except socket.error as ex:
-            raise JsonRpcSnapException("Error while connecting to %s:%s\n"
+            raise JsonRpcOpofException("Error while connecting to %s:%s\n"
                                        "Error details: %s" % (address, port, ex))
 
     def __json_to_string(self, request):
@@ -77,7 +77,7 @@ class JsonRpcVirtnetClient(object):
         self.sock.close()
 
         if not response:
-            raise JsonRpcSnapException("Response Timeout")
+            raise JsonRpcOpofException("Response Timeout")
         return response
 
     def call(self, method, params={}):
@@ -93,7 +93,7 @@ class JsonRpcVirtnetClient(object):
                              "Got JSON-RPC error response",
                              "response:",
                              json.dumps(response['error'], indent=2)])
-            raise JsonRpcSnapException(msg)
+            raise JsonRpcOpofException(msg)
 
         return response['result']
 
@@ -110,7 +110,7 @@ def execute_script(parser, client, fd):
         args.client = client
         try:
             call_rpc_func(args)
-        except JsonRpcSnapException as ex:
+        except JsonRpcOpofException as ex:
             print("Exception:")
             print(executed_rpc.strip() + " <<<")
             print(ex.message)
@@ -199,11 +199,11 @@ def main():
     p.set_defaults(func=log_level)
 
     args = parser.parse_args()
-    args.client = JsonRpcVirtnetClient(server_addr, server_port, timeout)
+    args.client = JsonRpcOpofClient(server_addr, server_port, timeout)
     if hasattr(args, 'func'):
         try:
             call_rpc_func(args)
-        except JsonRpcSnapException as ex:
+        except JsonRpcOpofException as ex:
             print(ex)
             exit(1)
     elif sys.stdin.isatty():
