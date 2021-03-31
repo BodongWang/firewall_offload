@@ -31,8 +31,8 @@ class JsonRpcOpofClient(object):
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.connect((address, int(port)))
         except socket.error as ex:
-            raise JsonRpcOpofException("Error while connecting to %s:%s\n"
-                                       "Error details: %s" % (address, port, ex))
+            print("Error while connecting to %s:%s: %s" % (address, port, ex))
+            sys.exit()
 
     def __json_to_string(self, request):
         return json.dumps(request)
