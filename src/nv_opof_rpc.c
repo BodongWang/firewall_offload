@@ -185,6 +185,56 @@ unlock:
 	return result;
 }
 
+cJSON *add(jrpc_context *ctx, cJSON *params, cJSON *id)
+{
+	struct nv_opof_rpc_context *rpc_ctx;
+	addSessionResponse_t response;
+	sessionRequest_t request;
+        uint64_t tic, toc;
+	uint32_t rate;
+	int ret = 0;
+
+	rpc_ctx = (struct nv_opof_rpc_context *)ctx->data;
+
+	memset(&response, 0, sizeof(response));
+	memset(&request, 0, sizeof(request));
+
+	cJSON *num = cJSON_GetObjectItem(params, "num");
+	cJSON *result = cJSON_CreateObject();
+
+	request.actType = 1;
+	request.proto = 6;
+	request.ipver == _IPV4;
+	request.inlif = 1;
+	request.srcIP.s_addr = 0xc3010102; // 195.1.1.2
+	request.dstIP.s_addr = 0xc3010103; // 195.1.1.3
+	request.srcPort = 5002;
+	request.dstPort = 5003;
+
+	pthread_mutex_lock(&rpc_ctx->rpc_lock);
+        tic = rte_rdtsc();
+	while (request.sessId < num->valueint) {
+		ret = opof_add_session_server(&request, &response);
+		if (ret != _OK) {
+			JSON_STR_NUM_TO_OBJ(result, "Failed at iter", "%lu",
+						request.sessId);
+			goto unlock;
+		}
+		request.sessId++;
+	}
+
+        toc = rte_rdtsc() - tic;
+
+	rate = (long double)num->valueint * rte_get_tsc_hz() / toc;
+
+	JSON_STR_NUM_TO_OBJ(result, "CPS", "%u", rate);
+
+unlock:
+	opof_del_all_session_server();
+	pthread_mutex_unlock(&rpc_ctx->rpc_lock);
+	return result;
+}
+
 cJSON *log_level(jrpc_context *ctx, cJSON *params, cJSON *id)
 {
 	cJSON *level = cJSON_GetObjectItem(params, "level");
@@ -217,6 +267,8 @@ static void *nv_opof_rpc_handler(void *ctx)
 	jrpc_register_procedure(&rpc_ctx->rpc_server, stats, "stats",
 				ctx);
 	jrpc_register_procedure(&rpc_ctx->rpc_server, query, "query",
+				ctx);
+	jrpc_register_procedure(&rpc_ctx->rpc_server, add, "add",
 				ctx);
 	jrpc_register_procedure(&rpc_ctx->rpc_server, log_level,
 				"log_level", ctx);
