@@ -112,6 +112,125 @@ add_simple_flow(uint16_t port_id,
 	return flow;
 }
 
+int offload_flow_test(portid_t port_id, uint32_t num)
+{
+#define MAX_FLOW_ITEM (6)
+#define MAX_ACTION_ITEM (6)
+	struct rte_flow_item flow_pattern[MAX_FLOW_ITEM];
+	struct rte_flow_action actions[MAX_ACTION_ITEM];
+	struct rte_flow_action_age age = {};
+	struct rte_flow_item_ipv4 ipv4_spec;
+	struct rte_flow_item_ipv4 ipv4_mask;
+	struct rte_flow_item ip_item;
+	struct rte_flow_item_tcp tcp_spec;
+	struct rte_flow_item_tcp tcp_mask;
+	struct rte_flow_item tcp_item;
+	enum rte_flow_item_type ip_type;
+	void *ip_spec, *ip_mask;
+	int i = 0, flow_index = 0;
+	struct rte_flow **flows;
+	uint64_t tic, toc;
+	uint32_t rate;
+
+	struct rte_flow_action age_action = {
+		RTE_FLOW_ACTION_TYPE_AGE,
+		&age
+	};
+
+	memset(&flow_pattern, 0, sizeof(flow_pattern));
+
+	/* Eth item*/
+	flow_pattern[flow_index++] = eth_item;
+
+	/* IP item */
+	ip_type = RTE_FLOW_ITEM_TYPE_IPV4;
+
+	memset(&ipv4_spec, 0, sizeof(ipv4_spec));
+	ipv4_spec.hdr.next_proto_id = IPPROTO_TCP;
+	ipv4_spec.hdr.src_addr = 0xc3010102;
+	ipv4_spec.hdr.dst_addr = 0xc3010103;
+	ip_spec = &ipv4_spec;
+
+	memset(&ipv4_mask, 0, sizeof(ipv4_mask));
+	ipv4_mask.hdr.next_proto_id = 0xFF;
+	ipv4_mask.hdr.src_addr = 0xFFFFFFFF;
+	ipv4_mask.hdr.dst_addr = 0xFFFFFFFF;
+	ip_mask = &ipv4_mask;
+
+	ip_item.type = ip_type;
+	ip_item.spec = ip_spec;
+	ip_item.mask = ip_mask;
+	ip_item.last = NULL;
+
+	flow_pattern[flow_index++] = ip_item;
+
+	memset(&tcp_spec, 0, sizeof(tcp_spec));
+
+	tcp_spec.hdr.src_port = 6002;
+	tcp_spec.hdr.dst_port = 6003;
+
+	tcp_spec.hdr.tcp_flags = 0;
+
+	memset(&tcp_mask, 0, sizeof(tcp_mask));
+	tcp_mask.hdr.src_port = 0xFFFF;
+	tcp_mask.hdr.dst_port = 0xFFFF;
+	tcp_mask.hdr.tcp_flags = RTE_TCP_FIN_FLAG |
+		RTE_TCP_SYN_FLAG |
+		RTE_TCP_RST_FLAG;
+
+	tcp_item.type = RTE_FLOW_ITEM_TYPE_TCP;
+	tcp_item.spec = &tcp_spec;
+	tcp_item.mask = &tcp_mask;
+	tcp_item.last = NULL;
+
+	flow_pattern[flow_index++] = tcp_item;
+
+	flow_pattern[flow_index] = end_item;
+	if (flow_index >= MAX_FLOW_ITEM) {
+		log_error("Offload flow: flow item overflow");
+		return -EINVAL;
+	}
+
+	attr.ingress = 1;
+	attr.transfer = 1;
+
+	age.timeout = DEFAULT_TIMEOUT;
+	attr.priority = FDB_FWD_PRIORITY;
+	actions[i++] = age_action;
+	actions[i++] = jump_action;
+	actions[i++] = end_action;
+
+	flows = rte_zmalloc("flows",
+			    sizeof(struct rte_flow*) * num,
+			    RTE_CACHE_LINE_SIZE);
+
+	log_info("Insert flows %d", num);
+        tic = rte_rdtsc();
+	for (i = 0; i < num; i++) {
+		ipv4_spec.hdr.src_addr++;
+		flows[i] = rte_flow_create(port_id, &attr, flow_pattern,
+					   actions, NULL);
+		if (!flows[i])
+			break;
+	}
+
+        toc = rte_rdtsc() - tic;
+
+	rate = (long double)i * rte_get_tsc_hz() / toc;
+	num = i;
+
+	log_info("Destroy flows %d", num);
+	for (i = 0; i < num; i++)
+		if (flows[i] && rte_flow_destroy(port_id, flows[i], NULL))
+			log_error("Failed to destory flow %u", i);
+
+	log_info("Done");
+
+	rte_free(flows);
+
+	return rate;
+}
+
 int offload_flow_add(portid_t port_id,
 		     struct fw_session *session,
 		     enum flow_action action,

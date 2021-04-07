@@ -250,6 +250,7 @@ int _opof_del_session_server(unsigned long sessionId,
 
 char *get_session_state(uint8_t state);
 char *get_close_code(uint8_t code);
+int offload_flow_test(portid_t port_id, uint32_t num);
 
 #ifdef __cplusplus
 }

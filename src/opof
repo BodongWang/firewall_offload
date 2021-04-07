@@ -144,6 +144,8 @@ def add(args):
     params = {}
     if args.num != None:
         params['num'] = args.num
+    if args.rte != None:
+        params['rte'] = args.rte
 
     result = args.client.call('add', params)
     print(json.dumps(result, indent=2))
@@ -190,6 +192,9 @@ def main():
     p = subparsers.add_parser('add', help='add session')
     p.add_argument('-n', '--num', help="num of sessions",
                    required=True, type=int)
+    p.add_argument('-r', '--rte', help="test pure rte flows",
+                   required=False, action="store_const", const=1, default=0)
+
     p.set_defaults(func=add)
 
     # Log
