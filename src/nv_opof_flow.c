@@ -98,23 +98,16 @@ add_simple_flow(uint16_t port_id,
 		struct rte_flow_action actions[],
 		const char *flow_name)
 {
+	struct rte_flow_error error = {};
 	struct rte_flow *flow = NULL;
-	struct rte_flow_error error;
-	int res;
 
-	memset(&error, 0, sizeof(error));
-	res = rte_flow_validate(port_id, attr, pattern, actions, &error);
-	if (!res)
-		flow = rte_flow_create(port_id, attr, pattern,
-				       actions, &error);
-	else
-		log_error("%s flow validation failed", flow_name);
+	flow = rte_flow_create(port_id, attr, pattern,
+			       actions, &error);
 
 	if (!flow)
 		log_error("%s flow creation failed(0x%x): %s",
-		       flow_name, error.type,
-		       error.message ? error.message :
-		       "(no stated reason)");
+		       flow_name, error.type, error.message ?
+		       error.message : "(no stated reason)");
 
 	return flow;
 }
