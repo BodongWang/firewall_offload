@@ -31,7 +31,40 @@ static struct rte_flow_action end_action = {
 	0
 };
 
-static struct rte_flow_attr attr;
+static struct rte_flow_item_ipv4 ipv4_mask = {
+	.hdr.next_proto_id = 0xFF,
+	.hdr.src_addr = 0xFFFFFFFF,
+	.hdr.dst_addr = 0xFFFFFFFF,
+};
+
+static struct rte_flow_item_ipv6 ipv6_mask = {
+	.hdr.src_addr = 0xFF,
+	.hdr.src_addr =
+		"\xff\xff\xff\xff\xff\xff\xff\xff"
+		"\xff\xff\xff\xff\xff\xff\xff\xff",
+	.hdr.dst_addr =
+		"\xff\xff\xff\xff\xff\xff\xff\xff"
+		"\xff\xff\xff\xff\xff\xff\xff\xff",
+};
+
+static struct rte_flow_item_udp udp_mask = {
+	.hdr.src_port = 0xFFFF,
+	.hdr.dst_port = 0xFFFF,
+};
+
+static struct rte_flow_item_tcp tcp_mask = {
+	.hdr.src_port = 0xFFFF,
+	.hdr.dst_port = 0xFFFF,
+	.hdr.tcp_flags = RTE_TCP_FIN_FLAG |
+		RTE_TCP_SYN_FLAG |
+		RTE_TCP_RST_FLAG,
+};
+
+static struct rte_flow_attr attr = {
+	.ingress = 1,
+	.transfer = 1,
+	.priority = FDB_FWD_PRIORITY,
+};
 
 static int
 port_id_is_invalid(portid_t port_id, enum print_warning warning)
@@ -122,15 +155,11 @@ int offload_flow_test(portid_t port_id, uint32_t num)
 	struct rte_flow_item_vlan vlan_spec;
 	struct rte_flow_item vlan_item;
 	struct rte_flow_item_ipv4 ipv4_spec;
-	struct rte_flow_item_ipv4 ipv4_mask;
 	struct rte_flow_item_ipv6 ipv6_spec;
-	struct rte_flow_item_ipv6 ipv6_mask;
 	struct rte_flow_item ip_item;
 	struct rte_flow_item_udp udp_spec;
-	struct rte_flow_item_udp udp_mask;
 	struct rte_flow_item udp_item;
 	struct rte_flow_item_tcp tcp_spec;
-	struct rte_flow_item_tcp tcp_mask;
 	struct rte_flow_item tcp_item;
 	enum rte_flow_item_type ip_type;
 	void *ip_spec, *ip_mask;
@@ -160,10 +189,6 @@ int offload_flow_test(portid_t port_id, uint32_t num)
 	ipv4_spec.hdr.dst_addr = 0xc3010103;
 	ip_spec = &ipv4_spec;
 
-	memset(&ipv4_mask, 0, sizeof(ipv4_mask));
-	ipv4_mask.hdr.next_proto_id = 0xFF;
-	ipv4_mask.hdr.src_addr = 0xFFFFFFFF;
-	ipv4_mask.hdr.dst_addr = 0xFFFFFFFF;
 	ip_mask = &ipv4_mask;
 
 	ip_item.type = ip_type;
@@ -180,13 +205,6 @@ int offload_flow_test(portid_t port_id, uint32_t num)
 
 	tcp_spec.hdr.tcp_flags = 0;
 
-	memset(&tcp_mask, 0, sizeof(tcp_mask));
-	tcp_mask.hdr.src_port = 0xFFFF;
-	tcp_mask.hdr.dst_port = 0xFFFF;
-	tcp_mask.hdr.tcp_flags = RTE_TCP_FIN_FLAG |
-		RTE_TCP_SYN_FLAG |
-		RTE_TCP_RST_FLAG;
-
 	tcp_item.type = RTE_FLOW_ITEM_TYPE_TCP;
 	tcp_item.spec = &tcp_spec;
 	tcp_item.mask = &tcp_mask;
@@ -200,11 +218,7 @@ int offload_flow_test(portid_t port_id, uint32_t num)
 		return -EINVAL;
 	}
 
-	attr.ingress = 1;
-	attr.transfer = 1;
-
 	age.timeout = DEFAULT_TIMEOUT;
-	attr.priority = FDB_FWD_PRIORITY;
 	actions[i++] = age_action;
 	actions[i++] = jump_action;
 	actions[i++] = end_action;
@@ -253,15 +267,11 @@ int offload_flow_add(portid_t port_id,
 	struct rte_flow_item_vlan vlan_spec;
 	struct rte_flow_item vlan_item;
 	struct rte_flow_item_ipv4 ipv4_spec;
-	struct rte_flow_item_ipv4 ipv4_mask;
 	struct rte_flow_item_ipv6 ipv6_spec;
-	struct rte_flow_item_ipv6 ipv6_mask;
 	struct rte_flow_item ip_item;
 	struct rte_flow_item_udp udp_spec;
-	struct rte_flow_item_udp udp_mask;
 	struct rte_flow_item udp_item;
 	struct rte_flow_item_tcp tcp_spec;
-	struct rte_flow_item_tcp tcp_mask;
 	struct rte_flow_item tcp_item;
 	enum rte_flow_item_type ip_type;
 	void *ip_spec, *ip_mask;
@@ -288,7 +298,6 @@ int offload_flow_add(portid_t port_id,
 
 		memset(&vlan_spec, 0, sizeof(vlan_spec));
 		vlan_spec.tci = htons(session->info.vlan);
-		vlan_spec.inner_type = 0;
 
 		flow_pattern[flow_index++] = vlan_item;
 	}
@@ -308,11 +317,6 @@ int offload_flow_add(portid_t port_id,
 			ipv4_spec.hdr.dst_addr = htonl(session->info.src_ip);
 		}
 		ip_spec = &ipv4_spec;
-
-		memset(&ipv4_mask, 0, sizeof(ipv4_mask));
-		ipv4_mask.hdr.next_proto_id = 0xFF;
-		ipv4_mask.hdr.src_addr = 0xFFFFFFFF;
-		ipv4_mask.hdr.dst_addr = 0xFFFFFFFF;
 		ip_mask = &ipv4_mask;
 		break;
 	case IPPROTO_IPV6:
@@ -337,11 +341,6 @@ int offload_flow_add(portid_t port_id,
 			       sizeof(struct in6_addr));
 		}
 		ip_spec = &ipv6_spec;
-
-		memset(&ipv6_mask, 0, sizeof(ipv6_mask));
-		ipv6_mask.hdr.proto = 0xFF;
-		memset(&ipv6_mask.hdr.src_addr, 1, sizeof(struct in6_addr));
-		memset(&ipv6_mask.hdr.dst_addr, 1, sizeof(struct in6_addr));
 		ip_mask = &ipv6_mask;
 		break;
 	}
@@ -349,7 +348,6 @@ int offload_flow_add(portid_t port_id,
 	ip_item.type = ip_type;
 	ip_item.spec = ip_spec;
 	ip_item.mask = ip_mask;
-	ip_item.last = NULL;
 
 	flow_pattern[flow_index++] = ip_item;
 
@@ -363,18 +361,10 @@ int offload_flow_add(portid_t port_id,
 			udp_spec.hdr.src_port = htons(session->info.dst_port);
 			udp_spec.hdr.dst_port = htons(session->info.src_port);
 		}
-		udp_spec.hdr.dgram_len = 0;
-		udp_spec.hdr.dgram_cksum = 0;
-
-		udp_mask.hdr.src_port = 0xFFFF;
-		udp_mask.hdr.dst_port = 0xFFFF;
-		udp_mask.hdr.dgram_len = 0;
-		udp_mask.hdr.dgram_cksum = 0;
 
 		udp_item.type = RTE_FLOW_ITEM_TYPE_UDP;
 		udp_item.spec = &udp_spec;
 		udp_item.mask = &udp_mask;
-		udp_item.last = NULL;
 
 		flow_pattern[flow_index++] = udp_item;
 		break;
@@ -389,19 +379,9 @@ int offload_flow_add(portid_t port_id,
 			tcp_spec.hdr.dst_port = htons(session->info.src_port);
 		}
 
-		tcp_spec.hdr.tcp_flags = 0;
-
-		memset(&tcp_mask, 0, sizeof(tcp_mask));
-		tcp_mask.hdr.src_port = 0xFFFF;
-		tcp_mask.hdr.dst_port = 0xFFFF;
-		tcp_mask.hdr.tcp_flags = RTE_TCP_FIN_FLAG |
-					 RTE_TCP_SYN_FLAG |
-					 RTE_TCP_RST_FLAG;
-
 		tcp_item.type = RTE_FLOW_ITEM_TYPE_TCP;
 		tcp_item.spec = &tcp_spec;
 		tcp_item.mask = &tcp_mask;
-		tcp_item.last = NULL;
 
 		flow_pattern[flow_index++] = tcp_item;
 		break;
@@ -410,13 +390,6 @@ int offload_flow_add(portid_t port_id,
 	}
 
 	flow_pattern[flow_index] = end_item;
-	if (flow_index >= MAX_FLOW_ITEM) {
-		log_error("Offload flow: flow item overflow");
-		return -EINVAL;
-	}
-
-	attr.ingress = 1;
-	attr.transfer = 1;
 
 	if (session->timeout)
 		age.timeout = session->timeout;
@@ -434,15 +407,14 @@ int offload_flow_add(portid_t port_id,
 	switch(action)
 	{
 	case ACTION_FORWARD:
-		attr.priority = FDB_FWD_PRIORITY;
-		actions[i++] = jump_action;
 		actions[i++] = age_action;
+		actions[i++] = jump_action;
 		actions[i++] = end_action;
 		break;
 	case ACTION_DROP:
 		attr.priority = FDB_DROP_PRIORITY;
-		actions[i++] = drop_action;
 		actions[i++] = age_action;
+		actions[i++] = drop_action;
 		actions[i++] = end_action;
 		break;
 	default:
