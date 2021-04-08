@@ -261,18 +261,18 @@ int offload_flow_add(portid_t port_id,
 {
 #define MAX_FLOW_ITEM (6)
 #define MAX_ACTION_ITEM (6)
-	struct rte_flow_item flow_pattern[MAX_FLOW_ITEM];
-	struct rte_flow_action actions[MAX_ACTION_ITEM];
+	struct rte_flow_item flow_pattern[MAX_FLOW_ITEM] = {};
+	struct rte_flow_action actions[MAX_ACTION_ITEM] = {};
 	struct rte_flow_action_age age = {};
-	struct rte_flow_item_vlan vlan_spec;
-	struct rte_flow_item vlan_item;
-	struct rte_flow_item_ipv4 ipv4_spec;
-	struct rte_flow_item_ipv6 ipv6_spec;
-	struct rte_flow_item ip_item;
-	struct rte_flow_item_udp udp_spec;
-	struct rte_flow_item udp_item;
-	struct rte_flow_item_tcp tcp_spec;
-	struct rte_flow_item tcp_item;
+	struct rte_flow_item_vlan vlan_spec = {};
+	struct rte_flow_item vlan_item = {};
+	struct rte_flow_item_ipv4 ipv4_spec = {};
+	struct rte_flow_item_ipv6 ipv6_spec = {};
+	struct rte_flow_item ip_item = {};
+	struct rte_flow_item_udp udp_spec = {};
+	struct rte_flow_item udp_item = {};
+	struct rte_flow_item_tcp tcp_spec = {};
+	struct rte_flow_item tcp_item = {};
 	enum rte_flow_item_type ip_type;
 	void *ip_spec, *ip_mask;
 	struct rte_flow *flow = NULL;
@@ -284,19 +284,15 @@ int offload_flow_add(portid_t port_id,
 		&age
 	};
 
-	memset(&flow_pattern, 0, sizeof(flow_pattern));
-
 	/* Eth item*/
 	flow_pattern[flow_index++] = eth_item;
 
 	/* Vlan item */
 	if (session->info.vlan) {
-		memset(&vlan_item, 0, sizeof(vlan_item));
 		vlan_item.type = RTE_FLOW_ITEM_TYPE_VLAN;
 		vlan_item.spec = &vlan_spec;
 		vlan_item.mask = &rte_flow_item_vlan_mask,
 
-		memset(&vlan_spec, 0, sizeof(vlan_spec));
 		vlan_spec.tci = htons(session->info.vlan);
 
 		flow_pattern[flow_index++] = vlan_item;
@@ -307,7 +303,6 @@ int offload_flow_add(portid_t port_id,
 	case IPPROTO_IP:
 		ip_type = RTE_FLOW_ITEM_TYPE_IPV4;
 
-		memset(&ipv4_spec, 0, sizeof(ipv4_spec));
 		ipv4_spec.hdr.next_proto_id = session->info.proto;
 		if (dir == DIR_IN) {
 			ipv4_spec.hdr.src_addr = htonl(session->info.src_ip);
@@ -322,7 +317,6 @@ int offload_flow_add(portid_t port_id,
 	case IPPROTO_IPV6:
 		ip_type = RTE_FLOW_ITEM_TYPE_IPV6;
 
-		memset(&ipv6_spec, 0, sizeof(ipv6_spec));
 		ipv6_spec.hdr.proto = session->info.proto;
 
 		if (dir == DIR_IN) {
@@ -369,8 +363,6 @@ int offload_flow_add(portid_t port_id,
 		flow_pattern[flow_index++] = udp_item;
 		break;
 	case IPPROTO_TCP:
-		memset(&tcp_spec, 0, sizeof(tcp_spec));
-
 		if (dir == DIR_IN) {
 			tcp_spec.hdr.src_port = htons(session->info.src_port);
 			tcp_spec.hdr.dst_port = htons(session->info.dst_port);
@@ -403,7 +395,6 @@ int offload_flow_add(portid_t port_id,
 	}
 
 	/* Fill actions */
-	memset(&actions, 0, sizeof(actions));
 	switch(action)
 	{
 	case ACTION_FORWARD:
