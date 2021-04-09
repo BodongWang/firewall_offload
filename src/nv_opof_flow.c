@@ -406,8 +406,12 @@ int offload_flow_add(portid_t port_id,
 		return -EOPNOTSUPP;
 	}
 
-	flow = add_simple_flow(port_id, &attr, flow_pattern,
-			       actions, "offload");
+	flow = rte_flow_create(port_id, &attr, flow_pattern,
+			       actions, NULL);
+	if (!flow) {
+		log_error("Port %d: flow creation failed", port_id);
+		return -EINVAL;
+	}
 
 	if (dir == DIR_IN) {
 		session->flow_in.session = session;

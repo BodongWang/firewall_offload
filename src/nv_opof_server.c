@@ -262,10 +262,12 @@ int opof_add_session_server(sessionRequest_t *parameters,
 
 	session->info.src_ip = parameters->srcIP.s_addr;
 	session->info.dst_ip = parameters->dstIP.s_addr;
-	memcpy(&session->info.src_ipv6, &parameters->srcIPV6.s6_addr,
-	       sizeof(struct in6_addr));
-	memcpy(&session->info.dst_ipv6, &parameters->dstIPV6.s6_addr,
-	       sizeof(struct in6_addr));
+	if (parameters->ipver == _IPV6) {
+		memcpy(&session->info.src_ipv6, &parameters->srcIPV6.s6_addr,
+		       sizeof(struct in6_addr));
+		memcpy(&session->info.dst_ipv6, &parameters->dstIPV6.s6_addr,
+		       sizeof(struct in6_addr));
+	}
 	session->info.src_port = parameters->srcPort;
 	session->info.dst_port = parameters->dstPort;
 	session->info.ip_ver = parameters->ipver == _IPV4 ?
