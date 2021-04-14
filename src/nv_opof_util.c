@@ -36,6 +36,7 @@ static char *signals [] = {
 void nv_opof_log_open(void)
 {
 	openlog("nv_opof", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_USER);
+	setlogmask(LOG_UPTO(LOG_INFO));
 }
 
 void nv_opof_log_close(void)
