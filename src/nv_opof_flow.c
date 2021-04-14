@@ -270,7 +270,6 @@ int offload_flow_add(portid_t port_id,
 	void *ip_spec, *ip_mask;
 	struct rte_flow *flow = NULL;
 	uint8_t i = 0, flow_index = 0;
-	int ret = -1;
 
 	struct rte_flow_action age_action = {
 		RTE_FLOW_ACTION_TYPE_AGE,
