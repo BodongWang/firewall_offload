@@ -48,9 +48,6 @@ char *get_close_code(uint8_t code)
 static void display_response(sessionResponse_t *response,
 			     uint8_t *cmd)
 {
-	time_t t = time(NULL);
-	struct tm tm = *localtime(&t);
-
 	log_debug("\n" "CMD        " "ID        "
 	       "IN_PACKETS   IN_BYTES      OUT_PACKETS  OUT_BYTES     "
 	       "STATE   " "CLOSE   " "\n"
@@ -70,9 +67,6 @@ static void display_response(sessionResponse_t *response,
 static void display_request(sessionRequest_t *request,
 			    uint8_t *cmd)
 {
-	time_t t = time(NULL);
-	struct tm tm = *localtime(&t);
-
 	if (request->ipver == _IPV6) {
 		request->srcIP.s_addr = 0;
 		request->dstIP.s_addr = 0;
