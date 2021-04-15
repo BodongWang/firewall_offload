@@ -65,7 +65,8 @@ nv_opof_signal_handler(int signum, siginfo_t *info, void *ucontext)
 	case SIGFPE:
 	case SIGSEGV:
 	default:
-		rte_exit(EXIT_FAILURE, "EAL: exit with error");
+		rte_exit(EXIT_FAILURE, "EAL: exit with %s",
+			 signals[signum]);
 		abort(); /* We should not be here, coredump... */
 	}
 }
