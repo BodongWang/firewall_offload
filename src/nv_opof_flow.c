@@ -211,7 +211,7 @@ int offload_flow_test(portid_t port_id, uint32_t num)
 		return -EINVAL;
 	}
 
-	age.timeout = DEFAULT_TIMEOUT;
+	age.timeout = 300;
 	actions[i++] = age_action;
 	actions[i++] = jump_action;
 	actions[i++] = end_action;
