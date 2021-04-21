@@ -15,9 +15,8 @@ extern "C" {
 #define CONFIG_FILE		"/opt/mellanox/nv_opof/nv_opof.conf"
 
 #define log_error(M, ...) \
-	syslog(LOG_ERR, "[ERROR] %s:%d:%s: (errno: %d - %s) " M "\n", \
-                    __FILE__, __LINE__, __func__, errno, strerror(errno), \
-                    ##__VA_ARGS__)
+	syslog(LOG_ERR, "[ERROR] %s:%d:%s: " M "\n", \
+                    __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 
 #define log_info(M, ...) \
 	syslog(LOG_INFO,  "[INFO]  %s:%d:%s: " M "\n", \

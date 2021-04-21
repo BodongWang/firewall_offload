@@ -384,11 +384,14 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 
 	size = MIN(MIN(size, count), BUFFER_MAX);
 
+	if (!size)
+		return 0;
+
 	session_stats = rte_zmalloc("temp",
 				    sizeof(sessionResponse_t *) * size,
 				    RTE_CACHE_LINE_SIZE);
 	if (!session_stats) {
-		log_error("failed to allocate session stats");
+		log_error("failed to allocate session stats, size = %d", size);
 		return 0;
 	}
 
