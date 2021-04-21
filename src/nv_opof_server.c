@@ -179,6 +179,11 @@ int opof_del_flow(struct fw_session *session)
 	session_stat = rte_zmalloc("stats",
 				   sizeof(sessionResponse_t),
 				   RTE_CACHE_LINE_SIZE);
+	if (!session_stat) {
+		log_error("failed to allocate session stat");
+		return _RESOURCE_EXHAUSTED;
+	}
+
 	ret = opof_get_session_server(session->key.sess_id,
 				      session_stat);
 	if (ret == _NOT_FOUND)
@@ -251,6 +256,10 @@ int opof_add_session_server(sessionRequest_t *parameters,
 	session = rte_zmalloc("session",
 			      sizeof(struct fw_session),
 			      RTE_CACHE_LINE_SIZE);
+	if (!session) {
+		log_error("failed to allocate session");
+		return _RESOURCE_EXHAUSTED;
+	}
 
 	session->key.sess_id = parameters->sessId;
 
@@ -378,6 +387,10 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 	session_stats = rte_zmalloc("temp",
 				    sizeof(sessionResponse_t *) * size,
 				    RTE_CACHE_LINE_SIZE);
+	if (!session_stats) {
+		log_error("failed to allocate session stats");
+		return 0;
+	}
 
 	deq = rte_ring_dequeue_bulk(off_config_g.session_fifo,
 				    (void **)session_stats, size,
