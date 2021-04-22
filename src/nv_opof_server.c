@@ -187,7 +187,7 @@ int opof_del_flow(struct fw_session *session)
 	ret = opof_get_session_server(session->key.sess_id,
 				      session_stat);
 	if (ret == _NOT_FOUND)
-		return _NOT_FOUND;
+		goto out;
 
 	ret = offload_flow_destroy(session->flow_in.portid,
 				   session->flow_in.flow);
@@ -300,8 +300,12 @@ int opof_add_session_server(sessionRequest_t *parameters,
 			       (enum flow_action)parameters->actType,
 			       DIR_IN);
 
-	if (ret)
-		return _INTERNAL;
+	if (ret) {
+		log_error("ERR(%d): Failed to add session (%lu) flow in",
+			  ret, session->key.sess_id);
+		ret = _INTERNAL;
+		goto out;
+	}
 
 	ret = offload_flow_add(session->flow_out.portid, session,
 			       (enum flow_action)parameters->actType,
@@ -314,9 +318,10 @@ int opof_add_session_server(sessionRequest_t *parameters,
 	} else {
 		offload_flow_destroy(session->flow_in.portid,
 				     session->flow_in.flow);
-		log_error("ERR(%d): Failed to add session (%lu)",
+		log_error("ERR(%d): Failed to add session (%lu), flow out",
 		       ret, session->key.sess_id);
-		return _INTERNAL;
+		ret = _INTERNAL;
+		goto out;
 	}
 
         toc = (long double)(rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
@@ -326,6 +331,10 @@ int opof_add_session_server(sessionRequest_t *parameters,
         rte_atomic32_inc(&off_config_g.stats.flows_in);
 
         return _OK;
+
+out:
+	rte_free(session);
+	return ret;
 }
 
 int opof_del_session_server(unsigned long sessionId,
