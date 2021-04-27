@@ -246,8 +246,8 @@ int opof_add_session_server(sessionRequest_t *parameters,
 
 	ret = rte_hash_lookup_data(ht, &key, (void **)&session);
 	if (session) {
-		log_debug("Session (%lu) already exists",
-			  session->key.sess_id);
+		log_warn("Session (%lu) already exists",
+			 session->key.sess_id);
 		return _ALREADY_EXISTS;
 	}
 

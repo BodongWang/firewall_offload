@@ -36,7 +36,7 @@ static char *signals [] = {
 void nv_opof_log_open(void)
 {
 	openlog("nv_opof", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_USER);
-	setlogmask(LOG_UPTO(LOG_INFO));
+	setlogmask(LOG_UPTO(LOG_ERR));
 }
 
 void nv_opof_log_close(void)
@@ -148,14 +148,14 @@ int nv_opof_config_load(const char *file_path)
 	buffer = calloc(1, lSize + 1);
 	if (!buffer) {
 		ret = ENOMEM;
-		log_debug("Memory allocation failed");
+		log_error("Memory allocation failed");
 		goto out_close;
 	}
 
 	/* copy the file into the buffer */
 	if (1 != fread(buffer, lSize, 1, fp)) {
 		ret = errno;
-		log_debug("Read config file failed");
+		log_error("Read config file failed");
 		goto out_free;
 	}
 
