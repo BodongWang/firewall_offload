@@ -509,10 +509,8 @@ void offload_flow_aged(portid_t port_id)
 
 	nb_context = rte_flow_get_aged_flows(port_id, contexts,
 					     total, &error);
-	if (nb_context != total) {
-		free(contexts);
+	if (nb_context != total)
 		goto free;
-	}
 
 	for (idx = 0; idx < nb_context; idx++) {
 		rte_atomic32_inc(&off_config_g.stats.age_thread_hb);
