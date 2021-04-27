@@ -308,8 +308,15 @@ int opof_add_session_server(sessionRequest_t *parameters,
 			       DIR_OUT);
 
 	if (!ret) {
+		ret = rte_hash_add_key_data(ht, &session->key,
+					    (void *)session);
+		if (ret < 0) {
+			log_error("Failed to add sessiion (%lu) to ht",
+				  session->key.sess_id);
+			ret = _INTERNAL;
+			goto err_hash;
+		}
 		session->state = _ESTABLISHED;
-		rte_hash_add_key_data(ht, &session->key, (void *)session);
 		rte_atomic32_inc(&off_config_g.stats.active);
 	} else {
 		offload_flow_destroy(session->flow_in.portid,
@@ -328,6 +335,12 @@ int opof_add_session_server(sessionRequest_t *parameters,
 
         return _OK;
 
+err_hash:
+	offload_flow_destroy(session->flow_out.portid,
+			     session->flow_out.flow);
+
+	offload_flow_destroy(session->flow_in.portid,
+			     session->flow_in.flow);
 out:
 	free(session);
 	return ret;
