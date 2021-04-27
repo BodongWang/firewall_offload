@@ -252,6 +252,9 @@ cJSON *log_level(jrpc_context *ctx, cJSON *params, cJSON *id)
 		val = LOG_ERR;
 	else if (!strcmp("debug", level->valuestring))
 		val = LOG_DEBUG;
+	else if (!strcmp("warn", level->valuestring))
+		val = LOG_WARNING;
+
 	log_info("Set log level to %s", level->valuestring);
 
 	nv_opof_set_log_level(val);

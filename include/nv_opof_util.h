@@ -26,6 +26,9 @@ extern "C" {
 	syslog(LOG_DEBUG, "[DEBUG] %s:%d:%s: " M "\n", \
                     __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 
+#define log_warn(M, ...) \
+	syslog(LOG_WARNING, "[WARNING] %s:%d:%s: " M "\n", \
+                    __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 
 void nv_opof_signal_handler_install(void);
 void nv_opof_signal_handler_uninstall(void);
