@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 
 	lcore_init();
 
-	rte_eal_mp_remote_launch(&thread_mux, NULL, CALL_MAIN);
+	rte_eal_mp_remote_launch(&thread_mux, NULL, SKIP_MAIN);
 
 	ret = nv_opof_rpc_start(&rpc_ctx);
 	if (ret)
