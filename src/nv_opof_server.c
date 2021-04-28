@@ -151,8 +151,10 @@ int opof_get_session_server(unsigned long sessionId,
 	response->sessionId = sessionId;
 
 	ret = rte_hash_lookup_data(ht, &key, (void **)&session);
-	if (!session)
+	if (ret < 0) {
+		log_debug("no such session (%lu)", sessionId);
 		return _NOT_FOUND;
+	}
 
 	offload_flow_query(session->flow_in.portid, session->flow_in.flow,
 			   &response->inPackets, &response->inBytes);
@@ -203,7 +205,10 @@ int opof_del_flow(struct fw_session *session)
 		goto out;
 	}
 
-	rte_hash_del_key(ht, &session->key);
+	ret = rte_hash_del_key(ht, &session->key);
+	if (ret < 0)
+		log_warn("no such session (%lu)", session->key.sess_id);
+
 	memset(&session->flow_in, 0, sizeof(struct offload_flow));
 	memset(&session->flow_out, 0, sizeof(struct offload_flow));
 
@@ -220,7 +225,7 @@ int opof_del_flow(struct fw_session *session)
         rte_atomic64_add(&off_config_g.stats.flows_del_tottsc, toc);
         rte_atomic32_inc(&off_config_g.stats.flows_del);
 
-	return ret;
+	return 0;
 
 out:
 	free(session_stat);
@@ -245,9 +250,9 @@ int opof_add_session_server(sessionRequest_t *parameters,
 	key.sess_id = parameters->sessId;
 
 	ret = rte_hash_lookup_data(ht, &key, (void **)&session);
-	if (session) {
+	if (ret >= 0) {
 		log_warn("Session (%lu) already exists",
-			 session->key.sess_id);
+			 key.sess_id);
 		return _ALREADY_EXISTS;
 	}
 
@@ -361,11 +366,10 @@ int opof_del_session_server(unsigned long sessionId,
 
 	pthread_mutex_lock(&off_config_g.ht_lock);
 	ret = rte_hash_lookup_data(ht, &key, (void **)&session);
-	if (ret < 0 || !session) {
+	if (ret < 0) {
 		pthread_mutex_unlock(&off_config_g.ht_lock);
 		return _NOT_FOUND;
 	}
-
 	ret = opof_del_flow(session);
 	pthread_mutex_unlock(&off_config_g.ht_lock);
 	if (!ret)
@@ -380,11 +384,17 @@ void opof_del_all_session_server(void)
 	struct fw_session *session = NULL;
 	const void *next_key = NULL;
 	uint32_t iter = 0;
+	int ret;
+
+	log_info("Delete all sessions");
 
 	pthread_mutex_lock(&off_config_g.ht_lock);
 	while (rte_hash_iterate(ht, &next_key,
-				(void **)&session, &iter) >= 0)
-		opof_del_flow(session);
+				(void **)&session, &iter) >= 0) {
+		ret = opof_del_flow(session);
+		if (!ret)
+			rte_atomic32_inc(&off_config_g.stats.client_del);
+	}
 	pthread_mutex_unlock(&off_config_g.ht_lock);
 }
 
