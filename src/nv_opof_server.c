@@ -173,7 +173,7 @@ int opof_del_flow(struct fw_session *session)
 	struct rte_hash *ht = off_config_g.session_ht;
 	sessionResponse_t *session_stat;
         uint64_t tic, toc;
-	int ret = 0;
+	int ret = 0, pos;
 
         tic = rte_rdtsc();
 
@@ -205,9 +205,11 @@ int opof_del_flow(struct fw_session *session)
 		goto out;
 	}
 
-	ret = rte_hash_del_key(ht, &session->key);
-	if (ret < 0)
+	pos = rte_hash_del_key(ht, &session->key);
+	if (pos < 0)
 		log_warn("no such session (%lu)", session->key.sess_id);
+	else
+		rte_hash_free_key_with_position(ht, pos);
 
 	memset(&session->flow_in, 0, sizeof(struct offload_flow));
 	memset(&session->flow_out, 0, sizeof(struct offload_flow));
