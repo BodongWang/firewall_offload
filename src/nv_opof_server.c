@@ -428,6 +428,8 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 				rte_atomic32_inc(&off_config_g.stats.zero_io);
 
 			display_response(&responses[i], "get_close");
+
+			free(session_stats[i]);
 		}
 	}
 
