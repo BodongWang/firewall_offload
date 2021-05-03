@@ -503,7 +503,8 @@ void offload_flow_aged(portid_t port_id)
 	if (total == 0)
 		goto unlock;
 
-	contexts = malloc(sizeof(void *) * total);
+	contexts = rte_zmalloc("aged_ctx", sizeof(void *) * total,
+			       RTE_CACHE_LINE_SIZE);
 	if (contexts == NULL)
 		goto unlock;
 
@@ -535,7 +536,7 @@ void offload_flow_aged(portid_t port_id)
 	}
 
 free:
-	free(contexts);
+	rte_free(contexts);
 unlock:
 	pthread_mutex_unlock(&off_config_g.ht_lock);
 }
