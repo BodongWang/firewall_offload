@@ -178,7 +178,9 @@ int opof_del_flow(struct fw_session *session)
         tic = rte_rdtsc();
 
 	session->state = _CLOSED;
-	session_stat = calloc(1, sizeof(sessionResponse_t));
+	session_stat = rte_zmalloc("stats",
+				   sizeof(sessionResponse_t),
+				   RTE_CACHE_LINE_SIZE);
 	if (!session_stat) {
 		log_error("failed to allocate session stat");
 		return _RESOURCE_EXHAUSTED;
@@ -217,7 +219,7 @@ int opof_del_flow(struct fw_session *session)
 	if (rte_ring_enqueue(off_config_g.session_fifo, session_stat))
 		log_error("no enough room in session session_fifo");
 
-	free(session);
+	rte_free(session);
 
 	rte_atomic32_dec(&off_config_g.stats.active);
 
@@ -230,7 +232,7 @@ int opof_del_flow(struct fw_session *session)
 	return 0;
 
 out:
-	free(session_stat);
+	rte_free(session_stat);
 	return ret;
 }
 
@@ -258,7 +260,9 @@ int opof_add_session_server(sessionRequest_t *parameters,
 		return _ALREADY_EXISTS;
 	}
 
-	session = calloc(1, sizeof(struct fw_session));
+	session = rte_zmalloc("session",
+			      sizeof(struct fw_session),
+			      RTE_CACHE_LINE_SIZE);
 	if (!session) {
 		log_error("failed to allocate session");
 		return _RESOURCE_EXHAUSTED;
@@ -349,7 +353,7 @@ err_hash:
 	offload_flow_destroy(session->flow_in.portid,
 			     session->flow_in.flow);
 out:
-	free(session);
+	rte_free(session);
 	return ret;
 }
 
@@ -417,7 +421,9 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 	if (!size)
 		return 0;
 
-	session_stats = calloc(size, sizeof(sessionResponse_t *));
+	session_stats = rte_zmalloc("temp",
+				    sizeof(sessionResponse_t *) * size,
+				    RTE_CACHE_LINE_SIZE);
 	if (!session_stats) {
 		log_error("failed to allocate session stats, size = %d", size);
 		return 0;
@@ -441,11 +447,11 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 
 			display_response(&responses[i], "get_close");
 
-			free(session_stats[i]);
+			rte_free(session_stats[i]);
 		}
 	}
 
-	free(session_stats);
+	rte_free(session_stats);
 
 	toc = (long double)(rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
 	if (toc >
