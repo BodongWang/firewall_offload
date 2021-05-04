@@ -168,6 +168,28 @@ int opof_get_session_server(unsigned long sessionId,
 	return _OK;
 }
 
+static void opof_get_session_stats(struct fw_session *session,
+				   sessionResponse_t *response)
+{
+	response->sessionId = session->key.sess_id;
+
+	offload_flow_query(session->flow_in.portid, session->flow_in.flow,
+			   &response->inPackets, &response->inBytes);
+
+	offload_flow_query(session->flow_out.portid, session->flow_out.flow,
+			   &response->outPackets, &response->outBytes);
+
+	if (!response->inPackets)
+		rte_atomic32_inc(&off_config_g.stats.zero_in);
+	if (!response->outPackets)
+		rte_atomic32_inc(&off_config_g.stats.zero_out);
+	if (!response->inPackets && !response->outPackets)
+		rte_atomic32_inc(&off_config_g.stats.zero_io);
+
+	response->sessionState = session->state;
+	response->sessionCloseCode = session->close_code;
+}
+
 int opof_del_flow(struct fw_session *session)
 {
 	struct rte_hash *ht = off_config_g.session_ht;
@@ -186,10 +208,7 @@ int opof_del_flow(struct fw_session *session)
 		return _RESOURCE_EXHAUSTED;
 	}
 
-	ret = opof_get_session_server(session->key.sess_id,
-				      session_stat);
-	if (ret == _NOT_FOUND)
-		goto out;
+	opof_get_session_stats(session, session_stat);
 
 	ret = offload_flow_destroy(session->flow_in.portid,
 				   session->flow_in.flow);
@@ -436,15 +455,6 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 		for (i = 0; i < deq; i++) {
 			memcpy(&responses[i], session_stats[i],
 			       sizeof(sessionResponse_t));
-
-			if (!responses[i].inPackets)
-				rte_atomic32_inc(&off_config_g.stats.zero_in);
-			if (!responses[i].outPackets)
-				rte_atomic32_inc(&off_config_g.stats.zero_out);
-			if (!responses[i].inPackets &&
-			    !responses[i].outPackets)
-				rte_atomic32_inc(&off_config_g.stats.zero_io);
-
 			display_response(&responses[i], "get_close");
 
 			rte_free(session_stats[i]);
