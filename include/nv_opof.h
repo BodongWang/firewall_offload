@@ -152,7 +152,7 @@ struct session_info {
 	uint16_t src_port;       /**< Source Port in big endian. */
 	uint8_t ip_ver;          /**< IP version. */
 	uint8_t proto;           /**< L4 Protocol. */
-	uint8_t vlan;
+	uint16_t vlan;
 };
 
 struct session_key {
