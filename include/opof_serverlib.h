@@ -23,8 +23,6 @@
 #include "opof.h"
 #include "opof_error.h"
 
-void opof_server(const char *address, unsigned short port, const char* cert,
-		 const char* key);
 int opof_add_session_server(sessionRequest_t *parameters, addSessionResponse_t *response);
 int opof_get_session_server(unsigned long sessionId, sessionResponse_t *response);
 int opof_del_session_server(unsigned long sessionId, sessionResponse_t *response);

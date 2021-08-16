@@ -25,6 +25,7 @@ using namespace std;
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <future>
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/channel.h>
 #include <grpcpp/server.h>
@@ -50,22 +51,27 @@ using grpc::ServerReader;
 using grpc::ServerWriter;
 using grpc::ClientWriter;
 //
-using openoffload::v1alpha5::SessionTable;
-//using openoffload::v1alpha4::SessionStatisticsTable;
-using openoffload::v1alpha5::sessionRequest;
-using openoffload::v1alpha5::statisticsRequestArgs;
-using openoffload::v1alpha5::addSessionResponse;
-using openoffload::v1alpha5::sessionResponse;
-using openoffload::v1alpha5::sessionResponseArray;
-using openoffload::v1alpha5::sessionResponseError;
-using openoffload::v1alpha5::sessionId;
-using openoffload::v1alpha5::IP_VERSION;
-using openoffload::v1alpha5::PROTOCOL_ID;
-using openoffload::v1alpha5::ACTION_TYPE;
-using openoffload::v1alpha5::REQUEST_STATUS;
-using openoffload::v1alpha5::ADD_SESSION_STATUS;
-using openoffload::v1alpha5::SESSION_STATE;
-using openoffload::v1alpha5::SESSION_CLOSE_CODE;
-using openoffload::v1alpha5::actionParameters;
+using openoffload::v1_1::SessionTable;
+using openoffload::v1_1::sessionRequest;
+using openoffload::v1_1::sessionRequestArgs;
+using openoffload::v1_1::addSessionResponse;
+using openoffload::v1_1::sessionResponse;
+using openoffload::v1_1::sessionResponses;
+using openoffload::v1_1::sessionResponseError;
+using openoffload::v1_1::shutdownResponse;
+using openoffload::v1_1::shutdownRequest;
+using openoffload::v1_1::sessionId;
+using openoffload::v1_1::IP_VERSION;
+using openoffload::v1_1::PROTOCOL_ID;
+using openoffload::v1_1::PARENT_TUNNEL_TYPE;
+using openoffload::v1_1::ACTION_TYPE;
+using openoffload::v1_1::REQUEST_STATUS;
+using openoffload::v1_1::ADD_SESSION_STATUS;
+using openoffload::v1_1::SESSION_STATE;
+using openoffload::v1_1::SESSION_CLOSE_CODE;
+using openoffload::v1_1::actionParameters;
 
+extern std::promise<void> exit_requested;
+
+//
 #endif // _OPOF_GRPC_H

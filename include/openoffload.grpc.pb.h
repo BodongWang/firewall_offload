@@ -44,7 +44,7 @@
 #include <grpcpp/impl/codegen/sync_stream.h>
 
 namespace openoffload {
-namespace v1alpha5 {
+namespace v1_1 {
 
 //
 // The session table was combined with the statistices service
@@ -53,116 +53,151 @@ namespace v1alpha5 {
 class SessionTable final {
  public:
   static constexpr char const* service_full_name() {
-    return "openoffload.v1alpha5.SessionTable";
+    return "openoffload.v1_1.SessionTable";
   }
   class StubInterface {
    public:
     virtual ~StubInterface() {}
+    //
     // Adds a session
     // This was changed in v1alpha4 to be a streaming API, for performance
     // reasons.
-    std::unique_ptr< ::grpc::ClientWriterInterface< ::openoffload::v1alpha5::sessionRequest>> addSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response) {
-      return std::unique_ptr< ::grpc::ClientWriterInterface< ::openoffload::v1alpha5::sessionRequest>>(addSessionRaw(context, response));
+    std::unique_ptr< ::grpc::ClientWriterInterface< ::openoffload::v1_1::sessionRequest>> addSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response) {
+      return std::unique_ptr< ::grpc::ClientWriterInterface< ::openoffload::v1_1::sessionRequest>>(addSessionRaw(context, response));
     }
-    std::unique_ptr< ::grpc::ClientAsyncWriterInterface< ::openoffload::v1alpha5::sessionRequest>> AsyncaddSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::CompletionQueue* cq, void* tag) {
-      return std::unique_ptr< ::grpc::ClientAsyncWriterInterface< ::openoffload::v1alpha5::sessionRequest>>(AsyncaddSessionRaw(context, response, cq, tag));
+    std::unique_ptr< ::grpc::ClientAsyncWriterInterface< ::openoffload::v1_1::sessionRequest>> AsyncaddSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncWriterInterface< ::openoffload::v1_1::sessionRequest>>(AsyncaddSessionRaw(context, response, cq, tag));
     }
-    std::unique_ptr< ::grpc::ClientAsyncWriterInterface< ::openoffload::v1alpha5::sessionRequest>> PrepareAsyncaddSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncWriterInterface< ::openoffload::v1alpha5::sessionRequest>>(PrepareAsyncaddSessionRaw(context, response, cq));
+    std::unique_ptr< ::grpc::ClientAsyncWriterInterface< ::openoffload::v1_1::sessionRequest>> PrepareAsyncaddSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncWriterInterface< ::openoffload::v1_1::sessionRequest>>(PrepareAsyncaddSessionRaw(context, response, cq));
     }
+    //
     // Obtains the session 
-    virtual ::grpc::Status getSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::openoffload::v1alpha5::sessionResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>> AsyncgetSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>>(AsyncgetSessionRaw(context, request, cq));
+    virtual ::grpc::Status getSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::openoffload::v1_1::sessionResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>> AsyncgetSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>>(AsyncgetSessionRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>> PrepareAsyncgetSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>>(PrepareAsyncgetSessionRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>> PrepareAsyncgetSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>>(PrepareAsyncgetSessionRaw(context, request, cq));
     }
+    //
     // Delete a session
-    virtual ::grpc::Status deleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::openoffload::v1alpha5::sessionResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>> AsyncdeleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>>(AsyncdeleteSessionRaw(context, request, cq));
+    virtual ::grpc::Status deleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::openoffload::v1_1::sessionResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>> AsyncdeleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>>(AsyncdeleteSessionRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>> PrepareAsyncdeleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>>(PrepareAsyncdeleteSessionRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>> PrepareAsyncdeleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>>(PrepareAsyncdeleteSessionRaw(context, request, cq));
     }
+    //
     // Stream back all current sessions
     // rpc getAllSessions(statisticsRequestArgs) returns (stream sessionResponse) {}
-    virtual ::grpc::Status getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::openoffload::v1alpha5::sessionResponseArray* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponseArray>> AsyncgetAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponseArray>>(AsyncgetAllSessionsRaw(context, request, cq));
+    virtual ::grpc::Status getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::openoffload::v1_1::sessionResponses* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponses>> AsyncgetAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponses>>(AsyncgetAllSessionsRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponseArray>> PrepareAsyncgetAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponseArray>>(PrepareAsyncgetAllSessionsRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponses>> PrepareAsyncgetAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponses>>(PrepareAsyncgetAllSessionsRaw(context, request, cq));
     }
+    //
     // statistics as a outgoing session from the WB to Applications ?
     // grpc seems to need a request input streamId is a placeholder
-    std::unique_ptr< ::grpc::ClientReaderInterface< ::openoffload::v1alpha5::sessionResponse>> getClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request) {
-      return std::unique_ptr< ::grpc::ClientReaderInterface< ::openoffload::v1alpha5::sessionResponse>>(getClosedSessionsRaw(context, request));
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::openoffload::v1_1::sessionResponse>> getClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::openoffload::v1_1::sessionResponse>>(getClosedSessionsRaw(context, request));
     }
-    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::openoffload::v1alpha5::sessionResponse>> AsyncgetClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq, void* tag) {
-      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::openoffload::v1alpha5::sessionResponse>>(AsyncgetClosedSessionsRaw(context, request, cq, tag));
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::openoffload::v1_1::sessionResponse>> AsyncgetClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::openoffload::v1_1::sessionResponse>>(AsyncgetClosedSessionsRaw(context, request, cq, tag));
     }
-    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::openoffload::v1alpha5::sessionResponse>> PrepareAsyncgetClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::openoffload::v1alpha5::sessionResponse>>(PrepareAsyncgetClosedSessionsRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::openoffload::v1_1::sessionResponse>> PrepareAsyncgetClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::openoffload::v1_1::sessionResponse>>(PrepareAsyncgetClosedSessionsRaw(context, request, cq));
+    }
+    //
+    // Shutdown Server method
+    //
+    virtual ::grpc::Status shutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::openoffload::v1_1::shutdownResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::shutdownResponse>> AsyncshutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::shutdownResponse>>(AsyncshutdownServerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::shutdownResponse>> PrepareAsyncshutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::shutdownResponse>>(PrepareAsyncshutdownServerRaw(context, request, cq));
     }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
+      //
       // Adds a session
       // This was changed in v1alpha4 to be a streaming API, for performance
       // reasons.
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void addSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::ClientWriteReactor< ::openoffload::v1alpha5::sessionRequest>* reactor) = 0;
+      virtual void addSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::ClientWriteReactor< ::openoffload::v1_1::sessionRequest>* reactor) = 0;
       #else
-      virtual void addSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::experimental::ClientWriteReactor< ::openoffload::v1alpha5::sessionRequest>* reactor) = 0;
+      virtual void addSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::experimental::ClientWriteReactor< ::openoffload::v1_1::sessionRequest>* reactor) = 0;
       #endif
+      //
       // Obtains the session 
-      virtual void getSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void getSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void getSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void getSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void getSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      //
       // Delete a session
-      virtual void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      //
       // Stream back all current sessions
       // rpc getAllSessions(statisticsRequestArgs) returns (stream sessionResponse) {}
-      virtual void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::openoffload::v1alpha5::sessionResponseArray* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponseArray* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs* request, ::openoffload::v1_1::sessionResponses* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponses* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::openoffload::v1alpha5::sessionResponseArray* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs* request, ::openoffload::v1_1::sessionResponses* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::openoffload::v1alpha5::sessionResponseArray* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs* request, ::openoffload::v1_1::sessionResponses* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponseArray* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponses* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
-      virtual void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponseArray* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponses* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      //
       // statistics as a outgoing session from the WB to Applications ?
       // grpc seems to need a request input streamId is a placeholder
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getClosedSessions(::grpc::ClientContext* context, ::openoffload::v1alpha5::statisticsRequestArgs* request, ::grpc::ClientReadReactor< ::openoffload::v1alpha5::sessionResponse>* reactor) = 0;
+      virtual void getClosedSessions(::grpc::ClientContext* context, ::openoffload::v1_1::sessionRequestArgs* request, ::grpc::ClientReadReactor< ::openoffload::v1_1::sessionResponse>* reactor) = 0;
       #else
-      virtual void getClosedSessions(::grpc::ClientContext* context, ::openoffload::v1alpha5::statisticsRequestArgs* request, ::grpc::experimental::ClientReadReactor< ::openoffload::v1alpha5::sessionResponse>* reactor) = 0;
+      virtual void getClosedSessions(::grpc::ClientContext* context, ::openoffload::v1_1::sessionRequestArgs* request, ::grpc::experimental::ClientReadReactor< ::openoffload::v1_1::sessionResponse>* reactor) = 0;
+      #endif
+      //
+      // Shutdown Server method
+      //
+      virtual void shutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest* request, ::openoffload::v1_1::shutdownResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void shutdownServer(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::shutdownResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void shutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest* request, ::openoffload::v1_1::shutdownResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void shutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest* request, ::openoffload::v1_1::shutdownResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void shutdownServer(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::shutdownResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void shutdownServer(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::shutdownResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
     };
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -173,109 +208,130 @@ class SessionTable final {
     #endif
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
-    virtual ::grpc::ClientWriterInterface< ::openoffload::v1alpha5::sessionRequest>* addSessionRaw(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response) = 0;
-    virtual ::grpc::ClientAsyncWriterInterface< ::openoffload::v1alpha5::sessionRequest>* AsyncaddSessionRaw(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::CompletionQueue* cq, void* tag) = 0;
-    virtual ::grpc::ClientAsyncWriterInterface< ::openoffload::v1alpha5::sessionRequest>* PrepareAsyncaddSessionRaw(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>* AsyncgetSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>* PrepareAsyncgetSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>* AsyncdeleteSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponse>* PrepareAsyncdeleteSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponseArray>* AsyncgetAllSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::sessionResponseArray>* PrepareAsyncgetAllSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientReaderInterface< ::openoffload::v1alpha5::sessionResponse>* getClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request) = 0;
-    virtual ::grpc::ClientAsyncReaderInterface< ::openoffload::v1alpha5::sessionResponse>* AsyncgetClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
-    virtual ::grpc::ClientAsyncReaderInterface< ::openoffload::v1alpha5::sessionResponse>* PrepareAsyncgetClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientWriterInterface< ::openoffload::v1_1::sessionRequest>* addSessionRaw(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response) = 0;
+    virtual ::grpc::ClientAsyncWriterInterface< ::openoffload::v1_1::sessionRequest>* AsyncaddSessionRaw(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncWriterInterface< ::openoffload::v1_1::sessionRequest>* PrepareAsyncaddSessionRaw(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>* AsyncgetSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>* PrepareAsyncgetSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>* AsyncdeleteSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponse>* PrepareAsyncdeleteSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponses>* AsyncgetAllSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::sessionResponses>* PrepareAsyncgetAllSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::openoffload::v1_1::sessionResponse>* getClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::openoffload::v1_1::sessionResponse>* AsyncgetClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::openoffload::v1_1::sessionResponse>* PrepareAsyncgetClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::shutdownResponse>* AsyncshutdownServerRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1_1::shutdownResponse>* PrepareAsyncshutdownServerRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    std::unique_ptr< ::grpc::ClientWriter< ::openoffload::v1alpha5::sessionRequest>> addSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response) {
-      return std::unique_ptr< ::grpc::ClientWriter< ::openoffload::v1alpha5::sessionRequest>>(addSessionRaw(context, response));
+    std::unique_ptr< ::grpc::ClientWriter< ::openoffload::v1_1::sessionRequest>> addSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response) {
+      return std::unique_ptr< ::grpc::ClientWriter< ::openoffload::v1_1::sessionRequest>>(addSessionRaw(context, response));
     }
-    std::unique_ptr< ::grpc::ClientAsyncWriter< ::openoffload::v1alpha5::sessionRequest>> AsyncaddSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::CompletionQueue* cq, void* tag) {
-      return std::unique_ptr< ::grpc::ClientAsyncWriter< ::openoffload::v1alpha5::sessionRequest>>(AsyncaddSessionRaw(context, response, cq, tag));
+    std::unique_ptr< ::grpc::ClientAsyncWriter< ::openoffload::v1_1::sessionRequest>> AsyncaddSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncWriter< ::openoffload::v1_1::sessionRequest>>(AsyncaddSessionRaw(context, response, cq, tag));
     }
-    std::unique_ptr< ::grpc::ClientAsyncWriter< ::openoffload::v1alpha5::sessionRequest>> PrepareAsyncaddSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncWriter< ::openoffload::v1alpha5::sessionRequest>>(PrepareAsyncaddSessionRaw(context, response, cq));
+    std::unique_ptr< ::grpc::ClientAsyncWriter< ::openoffload::v1_1::sessionRequest>> PrepareAsyncaddSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncWriter< ::openoffload::v1_1::sessionRequest>>(PrepareAsyncaddSessionRaw(context, response, cq));
     }
-    ::grpc::Status getSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::openoffload::v1alpha5::sessionResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>> AsyncgetSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>>(AsyncgetSessionRaw(context, request, cq));
+    ::grpc::Status getSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::openoffload::v1_1::sessionResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>> AsyncgetSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>>(AsyncgetSessionRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>> PrepareAsyncgetSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>>(PrepareAsyncgetSessionRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>> PrepareAsyncgetSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>>(PrepareAsyncgetSessionRaw(context, request, cq));
     }
-    ::grpc::Status deleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::openoffload::v1alpha5::sessionResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>> AsyncdeleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>>(AsyncdeleteSessionRaw(context, request, cq));
+    ::grpc::Status deleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::openoffload::v1_1::sessionResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>> AsyncdeleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>>(AsyncdeleteSessionRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>> PrepareAsyncdeleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>>(PrepareAsyncdeleteSessionRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>> PrepareAsyncdeleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>>(PrepareAsyncdeleteSessionRaw(context, request, cq));
     }
-    ::grpc::Status getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::openoffload::v1alpha5::sessionResponseArray* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponseArray>> AsyncgetAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponseArray>>(AsyncgetAllSessionsRaw(context, request, cq));
+    ::grpc::Status getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::openoffload::v1_1::sessionResponses* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponses>> AsyncgetAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponses>>(AsyncgetAllSessionsRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponseArray>> PrepareAsyncgetAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponseArray>>(PrepareAsyncgetAllSessionsRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponses>> PrepareAsyncgetAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponses>>(PrepareAsyncgetAllSessionsRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientReader< ::openoffload::v1alpha5::sessionResponse>> getClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request) {
-      return std::unique_ptr< ::grpc::ClientReader< ::openoffload::v1alpha5::sessionResponse>>(getClosedSessionsRaw(context, request));
+    std::unique_ptr< ::grpc::ClientReader< ::openoffload::v1_1::sessionResponse>> getClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::openoffload::v1_1::sessionResponse>>(getClosedSessionsRaw(context, request));
     }
-    std::unique_ptr< ::grpc::ClientAsyncReader< ::openoffload::v1alpha5::sessionResponse>> AsyncgetClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq, void* tag) {
-      return std::unique_ptr< ::grpc::ClientAsyncReader< ::openoffload::v1alpha5::sessionResponse>>(AsyncgetClosedSessionsRaw(context, request, cq, tag));
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::openoffload::v1_1::sessionResponse>> AsyncgetClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::openoffload::v1_1::sessionResponse>>(AsyncgetClosedSessionsRaw(context, request, cq, tag));
     }
-    std::unique_ptr< ::grpc::ClientAsyncReader< ::openoffload::v1alpha5::sessionResponse>> PrepareAsyncgetClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncReader< ::openoffload::v1alpha5::sessionResponse>>(PrepareAsyncgetClosedSessionsRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::openoffload::v1_1::sessionResponse>> PrepareAsyncgetClosedSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::openoffload::v1_1::sessionResponse>>(PrepareAsyncgetClosedSessionsRaw(context, request, cq));
+    }
+    ::grpc::Status shutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::openoffload::v1_1::shutdownResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::shutdownResponse>> AsyncshutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::shutdownResponse>>(AsyncshutdownServerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::shutdownResponse>> PrepareAsyncshutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::shutdownResponse>>(PrepareAsyncshutdownServerRaw(context, request, cq));
     }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void addSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::ClientWriteReactor< ::openoffload::v1alpha5::sessionRequest>* reactor) override;
+      void addSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::ClientWriteReactor< ::openoffload::v1_1::sessionRequest>* reactor) override;
       #else
-      void addSession(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::experimental::ClientWriteReactor< ::openoffload::v1alpha5::sessionRequest>* reactor) override;
+      void addSession(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::experimental::ClientWriteReactor< ::openoffload::v1_1::sessionRequest>* reactor) override;
       #endif
-      void getSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, std::function<void(::grpc::Status)>) override;
-      void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, std::function<void(::grpc::Status)>) override;
+      void getSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, std::function<void(::grpc::Status)>) override;
+      void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void getSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
-      void getSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, std::function<void(::grpc::Status)>) override;
-      void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void getSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
-      void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void getSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
-      void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::openoffload::v1alpha5::sessionResponseArray* response, std::function<void(::grpc::Status)>) override;
-      void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponseArray* response, std::function<void(::grpc::Status)>) override;
+      void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, std::function<void(::grpc::Status)>) override;
+      void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::openoffload::v1alpha5::sessionResponseArray* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
-      void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::openoffload::v1alpha5::sessionResponseArray* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponseArray* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::sessionResponseArray* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void deleteSession(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getClosedSessions(::grpc::ClientContext* context, ::openoffload::v1alpha5::statisticsRequestArgs* request, ::grpc::ClientReadReactor< ::openoffload::v1alpha5::sessionResponse>* reactor) override;
+      void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
-      void getClosedSessions(::grpc::ClientContext* context, ::openoffload::v1alpha5::statisticsRequestArgs* request, ::grpc::experimental::ClientReadReactor< ::openoffload::v1alpha5::sessionResponse>* reactor) override;
+      void deleteSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs* request, ::openoffload::v1_1::sessionResponses* response, std::function<void(::grpc::Status)>) override;
+      void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponses* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs* request, ::openoffload::v1_1::sessionResponses* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void getAllSessions(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs* request, ::openoffload::v1_1::sessionResponses* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponses* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void getAllSessions(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::sessionResponses* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void getClosedSessions(::grpc::ClientContext* context, ::openoffload::v1_1::sessionRequestArgs* request, ::grpc::ClientReadReactor< ::openoffload::v1_1::sessionResponse>* reactor) override;
+      #else
+      void getClosedSessions(::grpc::ClientContext* context, ::openoffload::v1_1::sessionRequestArgs* request, ::grpc::experimental::ClientReadReactor< ::openoffload::v1_1::sessionResponse>* reactor) override;
+      #endif
+      void shutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest* request, ::openoffload::v1_1::shutdownResponse* response, std::function<void(::grpc::Status)>) override;
+      void shutdownServer(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::shutdownResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void shutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest* request, ::openoffload::v1_1::shutdownResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void shutdownServer(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest* request, ::openoffload::v1_1::shutdownResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void shutdownServer(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::shutdownResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void shutdownServer(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1_1::shutdownResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
      private:
       friend class Stub;
@@ -288,23 +344,26 @@ class SessionTable final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class experimental_async async_stub_{this};
-    ::grpc::ClientWriter< ::openoffload::v1alpha5::sessionRequest>* addSessionRaw(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response) override;
-    ::grpc::ClientAsyncWriter< ::openoffload::v1alpha5::sessionRequest>* AsyncaddSessionRaw(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::CompletionQueue* cq, void* tag) override;
-    ::grpc::ClientAsyncWriter< ::openoffload::v1alpha5::sessionRequest>* PrepareAsyncaddSessionRaw(::grpc::ClientContext* context, ::openoffload::v1alpha5::addSessionResponse* response, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>* AsyncgetSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>* PrepareAsyncgetSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>* AsyncdeleteSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponse>* PrepareAsyncdeleteSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::sessionId& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponseArray>* AsyncgetAllSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::sessionResponseArray>* PrepareAsyncgetAllSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientReader< ::openoffload::v1alpha5::sessionResponse>* getClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request) override;
-    ::grpc::ClientAsyncReader< ::openoffload::v1alpha5::sessionResponse>* AsyncgetClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq, void* tag) override;
-    ::grpc::ClientAsyncReader< ::openoffload::v1alpha5::sessionResponse>* PrepareAsyncgetClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientWriter< ::openoffload::v1_1::sessionRequest>* addSessionRaw(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response) override;
+    ::grpc::ClientAsyncWriter< ::openoffload::v1_1::sessionRequest>* AsyncaddSessionRaw(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncWriter< ::openoffload::v1_1::sessionRequest>* PrepareAsyncaddSessionRaw(::grpc::ClientContext* context, ::openoffload::v1_1::addSessionResponse* response, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>* AsyncgetSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>* PrepareAsyncgetSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>* AsyncdeleteSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponse>* PrepareAsyncdeleteSessionRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionId& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponses>* AsyncgetAllSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::sessionResponses>* PrepareAsyncgetAllSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::openoffload::v1_1::sessionResponse>* getClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request) override;
+    ::grpc::ClientAsyncReader< ::openoffload::v1_1::sessionResponse>* AsyncgetClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::openoffload::v1_1::sessionResponse>* PrepareAsyncgetClosedSessionsRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::sessionRequestArgs& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::shutdownResponse>* AsyncshutdownServerRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::openoffload::v1_1::shutdownResponse>* PrepareAsyncshutdownServerRaw(::grpc::ClientContext* context, const ::openoffload::v1_1::shutdownRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_addSession_;
     const ::grpc::internal::RpcMethod rpcmethod_getSession_;
     const ::grpc::internal::RpcMethod rpcmethod_deleteSession_;
     const ::grpc::internal::RpcMethod rpcmethod_getAllSessions_;
     const ::grpc::internal::RpcMethod rpcmethod_getClosedSessions_;
+    const ::grpc::internal::RpcMethod rpcmethod_shutdownServer_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -312,20 +371,29 @@ class SessionTable final {
    public:
     Service();
     virtual ~Service();
+    //
     // Adds a session
     // This was changed in v1alpha4 to be a streaming API, for performance
     // reasons.
-    virtual ::grpc::Status addSession(::grpc::ServerContext* context, ::grpc::ServerReader< ::openoffload::v1alpha5::sessionRequest>* reader, ::openoffload::v1alpha5::addSessionResponse* response);
+    virtual ::grpc::Status addSession(::grpc::ServerContext* context, ::grpc::ServerReader< ::openoffload::v1_1::sessionRequest>* reader, ::openoffload::v1_1::addSessionResponse* response);
+    //
     // Obtains the session 
-    virtual ::grpc::Status getSession(::grpc::ServerContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response);
+    virtual ::grpc::Status getSession(::grpc::ServerContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response);
+    //
     // Delete a session
-    virtual ::grpc::Status deleteSession(::grpc::ServerContext* context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response);
+    virtual ::grpc::Status deleteSession(::grpc::ServerContext* context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response);
+    //
     // Stream back all current sessions
     // rpc getAllSessions(statisticsRequestArgs) returns (stream sessionResponse) {}
-    virtual ::grpc::Status getAllSessions(::grpc::ServerContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::openoffload::v1alpha5::sessionResponseArray* response);
+    virtual ::grpc::Status getAllSessions(::grpc::ServerContext* context, const ::openoffload::v1_1::sessionRequestArgs* request, ::openoffload::v1_1::sessionResponses* response);
+    //
     // statistics as a outgoing session from the WB to Applications ?
     // grpc seems to need a request input streamId is a placeholder
-    virtual ::grpc::Status getClosedSessions(::grpc::ServerContext* context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::grpc::ServerWriter< ::openoffload::v1alpha5::sessionResponse>* writer);
+    virtual ::grpc::Status getClosedSessions(::grpc::ServerContext* context, const ::openoffload::v1_1::sessionRequestArgs* request, ::grpc::ServerWriter< ::openoffload::v1_1::sessionResponse>* writer);
+    //
+    // Shutdown Server method
+    //
+    virtual ::grpc::Status shutdownServer(::grpc::ServerContext* context, const ::openoffload::v1_1::shutdownRequest* request, ::openoffload::v1_1::shutdownResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_addSession : public BaseClass {
@@ -339,11 +407,11 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1alpha5::sessionRequest>* /*reader*/, ::openoffload::v1alpha5::addSessionResponse* /*response*/) override {
+    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1_1::sessionRequest>* /*reader*/, ::openoffload::v1_1::addSessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestaddSession(::grpc::ServerContext* context, ::grpc::ServerAsyncReader< ::openoffload::v1alpha5::addSessionResponse, ::openoffload::v1alpha5::sessionRequest>* reader, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestaddSession(::grpc::ServerContext* context, ::grpc::ServerAsyncReader< ::openoffload::v1_1::addSessionResponse, ::openoffload::v1_1::sessionRequest>* reader, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncClientStreaming(0, context, reader, new_call_cq, notification_cq, tag);
     }
   };
@@ -359,11 +427,11 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestgetSession(::grpc::ServerContext* context, ::openoffload::v1alpha5::sessionId* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::sessionResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestgetSession(::grpc::ServerContext* context, ::openoffload::v1_1::sessionId* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1_1::sessionResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -379,11 +447,11 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestdeleteSession(::grpc::ServerContext* context, ::openoffload::v1alpha5::sessionId* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::sessionResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestdeleteSession(::grpc::ServerContext* context, ::openoffload::v1_1::sessionId* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1_1::sessionResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -399,11 +467,11 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::openoffload::v1alpha5::sessionResponseArray* /*response*/) override {
+    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::openoffload::v1_1::sessionResponses* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestgetAllSessions(::grpc::ServerContext* context, ::openoffload::v1alpha5::statisticsRequestArgs* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::sessionResponseArray>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestgetAllSessions(::grpc::ServerContext* context, ::openoffload::v1_1::sessionRequestArgs* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1_1::sessionResponses>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -419,15 +487,35 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1alpha5::sessionResponse>* /*writer*/) override {
+    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1_1::sessionResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestgetClosedSessions(::grpc::ServerContext* context, ::openoffload::v1alpha5::statisticsRequestArgs* request, ::grpc::ServerAsyncWriter< ::openoffload::v1alpha5::sessionResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestgetClosedSessions(::grpc::ServerContext* context, ::openoffload::v1_1::sessionRequestArgs* request, ::grpc::ServerAsyncWriter< ::openoffload::v1_1::sessionResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncServerStreaming(4, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_addSession<WithAsyncMethod_getSession<WithAsyncMethod_deleteSession<WithAsyncMethod_getAllSessions<WithAsyncMethod_getClosedSessions<Service > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_shutdownServer : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_shutdownServer() {
+      ::grpc::Service::MarkMethodAsync(5);
+    }
+    ~WithAsyncMethod_shutdownServer() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status shutdownServer(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::shutdownRequest* /*request*/, ::openoffload::v1_1::shutdownResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestshutdownServer(::grpc::ServerContext* context, ::openoffload::v1_1::shutdownRequest* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1_1::shutdownResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_addSession<WithAsyncMethod_getSession<WithAsyncMethod_deleteSession<WithAsyncMethod_getAllSessions<WithAsyncMethod_getClosedSessions<WithAsyncMethod_shutdownServer<Service > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_addSession : public BaseClass {
    private:
@@ -440,29 +528,29 @@ class SessionTable final {
       ::grpc::Service::experimental().
     #endif
         MarkMethodCallback(0,
-          new ::grpc_impl::internal::CallbackClientStreamingHandler< ::openoffload::v1alpha5::sessionRequest, ::openoffload::v1alpha5::addSessionResponse>(
+          new ::grpc_impl::internal::CallbackClientStreamingHandler< ::openoffload::v1_1::sessionRequest, ::openoffload::v1_1::addSessionResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, ::openoffload::v1alpha5::addSessionResponse* response) { return this->addSession(context, response); }));
+                     context, ::openoffload::v1_1::addSessionResponse* response) { return this->addSession(context, response); }));
     }
     ~ExperimentalWithCallbackMethod_addSession() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1alpha5::sessionRequest>* /*reader*/, ::openoffload::v1alpha5::addSessionResponse* /*response*/) override {
+    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1_1::sessionRequest>* /*reader*/, ::openoffload::v1_1::addSessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerReadReactor< ::openoffload::v1alpha5::sessionRequest>* addSession(
-      ::grpc::CallbackServerContext* /*context*/, ::openoffload::v1alpha5::addSessionResponse* /*response*/)
+    virtual ::grpc::ServerReadReactor< ::openoffload::v1_1::sessionRequest>* addSession(
+      ::grpc::CallbackServerContext* /*context*/, ::openoffload::v1_1::addSessionResponse* /*response*/)
     #else
-    virtual ::grpc::experimental::ServerReadReactor< ::openoffload::v1alpha5::sessionRequest>* addSession(
-      ::grpc::experimental::CallbackServerContext* /*context*/, ::openoffload::v1alpha5::addSessionResponse* /*response*/)
+    virtual ::grpc::experimental::ServerReadReactor< ::openoffload::v1_1::sessionRequest>* addSession(
+      ::grpc::experimental::CallbackServerContext* /*context*/, ::openoffload::v1_1::addSessionResponse* /*response*/)
     #endif
       { return nullptr; }
   };
@@ -478,38 +566,38 @@ class SessionTable final {
       ::grpc::Service::experimental().
     #endif
         MarkMethodCallback(1,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>(
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response) { return this->getSession(context, request, response); }));}
+                     context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response) { return this->getSession(context, request, response); }));}
     void SetMessageAllocatorFor_getSession(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>* allocator) {
+        ::grpc::experimental::MessageAllocator< ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
     #else
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
     #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>*>(handler)
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_getSession() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* getSession(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/)
+      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/)
     #else
     virtual ::grpc::experimental::ServerUnaryReactor* getSession(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/)
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/)
     #endif
       { return nullptr; }
   };
@@ -525,38 +613,38 @@ class SessionTable final {
       ::grpc::Service::experimental().
     #endif
         MarkMethodCallback(2,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>(
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::openoffload::v1alpha5::sessionId* request, ::openoffload::v1alpha5::sessionResponse* response) { return this->deleteSession(context, request, response); }));}
+                     context, const ::openoffload::v1_1::sessionId* request, ::openoffload::v1_1::sessionResponse* response) { return this->deleteSession(context, request, response); }));}
     void SetMessageAllocatorFor_deleteSession(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>* allocator) {
+        ::grpc::experimental::MessageAllocator< ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
     #else
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(2);
     #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>*>(handler)
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_deleteSession() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* deleteSession(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/)
+      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/)
     #else
     virtual ::grpc::experimental::ServerUnaryReactor* deleteSession(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/)
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/)
     #endif
       { return nullptr; }
   };
@@ -572,38 +660,38 @@ class SessionTable final {
       ::grpc::Service::experimental().
     #endif
         MarkMethodCallback(3,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::statisticsRequestArgs, ::openoffload::v1alpha5::sessionResponseArray>(
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1_1::sessionRequestArgs, ::openoffload::v1_1::sessionResponses>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::openoffload::v1alpha5::statisticsRequestArgs* request, ::openoffload::v1alpha5::sessionResponseArray* response) { return this->getAllSessions(context, request, response); }));}
+                     context, const ::openoffload::v1_1::sessionRequestArgs* request, ::openoffload::v1_1::sessionResponses* response) { return this->getAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_getAllSessions(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::statisticsRequestArgs, ::openoffload::v1alpha5::sessionResponseArray>* allocator) {
+        ::grpc::experimental::MessageAllocator< ::openoffload::v1_1::sessionRequestArgs, ::openoffload::v1_1::sessionResponses>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
     #else
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(3);
     #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::statisticsRequestArgs, ::openoffload::v1alpha5::sessionResponseArray>*>(handler)
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1_1::sessionRequestArgs, ::openoffload::v1_1::sessionResponses>*>(handler)
               ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_getAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::openoffload::v1alpha5::sessionResponseArray* /*response*/) override {
+    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::openoffload::v1_1::sessionResponses* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     virtual ::grpc::ServerUnaryReactor* getAllSessions(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::openoffload::v1alpha5::sessionResponseArray* /*response*/)
+      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::openoffload::v1_1::sessionResponses* /*response*/)
     #else
     virtual ::grpc::experimental::ServerUnaryReactor* getAllSessions(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::openoffload::v1alpha5::sessionResponseArray* /*response*/)
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::openoffload::v1_1::sessionResponses* /*response*/)
     #endif
       { return nullptr; }
   };
@@ -619,37 +707,84 @@ class SessionTable final {
       ::grpc::Service::experimental().
     #endif
         MarkMethodCallback(4,
-          new ::grpc_impl::internal::CallbackServerStreamingHandler< ::openoffload::v1alpha5::statisticsRequestArgs, ::openoffload::v1alpha5::sessionResponse>(
+          new ::grpc_impl::internal::CallbackServerStreamingHandler< ::openoffload::v1_1::sessionRequestArgs, ::openoffload::v1_1::sessionResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
                    ::grpc::CallbackServerContext*
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::openoffload::v1alpha5::statisticsRequestArgs* request) { return this->getClosedSessions(context, request); }));
+                     context, const ::openoffload::v1_1::sessionRequestArgs* request) { return this->getClosedSessions(context, request); }));
     }
     ~ExperimentalWithCallbackMethod_getClosedSessions() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1alpha5::sessionResponse>* /*writer*/) override {
+    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1_1::sessionResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerWriteReactor< ::openoffload::v1alpha5::sessionResponse>* getClosedSessions(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/)
+    virtual ::grpc::ServerWriteReactor< ::openoffload::v1_1::sessionResponse>* getClosedSessions(
+      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/)
     #else
-    virtual ::grpc::experimental::ServerWriteReactor< ::openoffload::v1alpha5::sessionResponse>* getClosedSessions(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/)
+    virtual ::grpc::experimental::ServerWriteReactor< ::openoffload::v1_1::sessionResponse>* getClosedSessions(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_shutdownServer : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_shutdownServer() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(5,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1_1::shutdownRequest, ::openoffload::v1_1::shutdownResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::openoffload::v1_1::shutdownRequest* request, ::openoffload::v1_1::shutdownResponse* response) { return this->shutdownServer(context, request, response); }));}
+    void SetMessageAllocatorFor_shutdownServer(
+        ::grpc::experimental::MessageAllocator< ::openoffload::v1_1::shutdownRequest, ::openoffload::v1_1::shutdownResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1_1::shutdownRequest, ::openoffload::v1_1::shutdownResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_shutdownServer() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status shutdownServer(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::shutdownRequest* /*request*/, ::openoffload::v1_1::shutdownResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* shutdownServer(
+      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1_1::shutdownRequest* /*request*/, ::openoffload::v1_1::shutdownResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* shutdownServer(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1_1::shutdownRequest* /*request*/, ::openoffload::v1_1::shutdownResponse* /*response*/)
     #endif
       { return nullptr; }
   };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_addSession<ExperimentalWithCallbackMethod_getSession<ExperimentalWithCallbackMethod_deleteSession<ExperimentalWithCallbackMethod_getAllSessions<ExperimentalWithCallbackMethod_getClosedSessions<Service > > > > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_addSession<ExperimentalWithCallbackMethod_getSession<ExperimentalWithCallbackMethod_deleteSession<ExperimentalWithCallbackMethod_getAllSessions<ExperimentalWithCallbackMethod_getClosedSessions<ExperimentalWithCallbackMethod_shutdownServer<Service > > > > > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_addSession<ExperimentalWithCallbackMethod_getSession<ExperimentalWithCallbackMethod_deleteSession<ExperimentalWithCallbackMethod_getAllSessions<ExperimentalWithCallbackMethod_getClosedSessions<Service > > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_addSession<ExperimentalWithCallbackMethod_getSession<ExperimentalWithCallbackMethod_deleteSession<ExperimentalWithCallbackMethod_getAllSessions<ExperimentalWithCallbackMethod_getClosedSessions<ExperimentalWithCallbackMethod_shutdownServer<Service > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_addSession : public BaseClass {
    private:
@@ -662,7 +797,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1alpha5::sessionRequest>* /*reader*/, ::openoffload::v1alpha5::addSessionResponse* /*response*/) override {
+    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1_1::sessionRequest>* /*reader*/, ::openoffload::v1_1::addSessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -679,7 +814,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -696,7 +831,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -713,7 +848,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::openoffload::v1alpha5::sessionResponseArray* /*response*/) override {
+    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::openoffload::v1_1::sessionResponses* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -730,7 +865,24 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1alpha5::sessionResponse>* /*writer*/) override {
+    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1_1::sessionResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_shutdownServer : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_shutdownServer() {
+      ::grpc::Service::MarkMethodGeneric(5);
+    }
+    ~WithGenericMethod_shutdownServer() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status shutdownServer(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::shutdownRequest* /*request*/, ::openoffload::v1_1::shutdownResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -747,7 +899,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1alpha5::sessionRequest>* /*reader*/, ::openoffload::v1alpha5::addSessionResponse* /*response*/) override {
+    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1_1::sessionRequest>* /*reader*/, ::openoffload::v1_1::addSessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -767,7 +919,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -787,7 +939,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -807,7 +959,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::openoffload::v1alpha5::sessionResponseArray* /*response*/) override {
+    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::openoffload::v1_1::sessionResponses* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -827,12 +979,32 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1alpha5::sessionResponse>* /*writer*/) override {
+    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1_1::sessionResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestgetClosedSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncServerStreaming(4, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_shutdownServer : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_shutdownServer() {
+      ::grpc::Service::MarkMethodRaw(5);
+    }
+    ~WithRawMethod_shutdownServer() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status shutdownServer(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::shutdownRequest* /*request*/, ::openoffload::v1_1::shutdownResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestshutdownServer(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -860,7 +1032,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1alpha5::sessionRequest>* /*reader*/, ::openoffload::v1alpha5::addSessionResponse* /*response*/) override {
+    ::grpc::Status addSession(::grpc::ServerContext* /*context*/, ::grpc::ServerReader< ::openoffload::v1_1::sessionRequest>* /*reader*/, ::openoffload::v1_1::addSessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -898,7 +1070,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -936,7 +1108,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
+    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -974,7 +1146,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::openoffload::v1alpha5::sessionResponseArray* /*response*/) override {
+    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::openoffload::v1_1::sessionResponses* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1012,7 +1184,7 @@ class SessionTable final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1alpha5::sessionResponse>* /*writer*/) override {
+    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1_1::sessionResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1026,1296 +1198,11 @@ class SessionTable final {
       { return nullptr; }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_getSession : public BaseClass {
+  class ExperimentalWithRawCallbackMethod_shutdownServer : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_getSession() {
-      ::grpc::Service::MarkMethodStreamed(1,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>(
-            [this](::grpc_impl::ServerContext* context,
-                   ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>* streamer) {
-                       return this->StreamedgetSession(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_getSession() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedgetSession(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::sessionId,::openoffload::v1alpha5::sessionResponse>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_deleteSession : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_deleteSession() {
-      ::grpc::Service::MarkMethodStreamed(2,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>(
-            [this](::grpc_impl::ServerContext* context,
-                   ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::sessionId, ::openoffload::v1alpha5::sessionResponse>* streamer) {
-                       return this->StreameddeleteSession(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_deleteSession() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::sessionId* /*request*/, ::openoffload::v1alpha5::sessionResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreameddeleteSession(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::sessionId,::openoffload::v1alpha5::sessionResponse>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_getAllSessions : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_getAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(3,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::statisticsRequestArgs, ::openoffload::v1alpha5::sessionResponseArray>(
-            [this](::grpc_impl::ServerContext* context,
-                   ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::statisticsRequestArgs, ::openoffload::v1alpha5::sessionResponseArray>* streamer) {
-                       return this->StreamedgetAllSessions(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_getAllSessions() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::openoffload::v1alpha5::sessionResponseArray* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedgetAllSessions(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::statisticsRequestArgs,::openoffload::v1alpha5::sessionResponseArray>* server_unary_streamer) = 0;
-  };
-  typedef WithStreamedUnaryMethod_getSession<WithStreamedUnaryMethod_deleteSession<WithStreamedUnaryMethod_getAllSessions<Service > > > StreamedUnaryService;
-  template <class BaseClass>
-  class WithSplitStreamingMethod_getClosedSessions : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithSplitStreamingMethod_getClosedSessions() {
-      ::grpc::Service::MarkMethodStreamed(4,
-        new ::grpc::internal::SplitServerStreamingHandler<
-          ::openoffload::v1alpha5::statisticsRequestArgs, ::openoffload::v1alpha5::sessionResponse>(
-            [this](::grpc_impl::ServerContext* context,
-                   ::grpc_impl::ServerSplitStreamer<
-                     ::openoffload::v1alpha5::statisticsRequestArgs, ::openoffload::v1alpha5::sessionResponse>* streamer) {
-                       return this->StreamedgetClosedSessions(context,
-                         streamer);
-                  }));
-    }
-    ~WithSplitStreamingMethod_getClosedSessions() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::statisticsRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1alpha5::sessionResponse>* /*writer*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with split streamed
-    virtual ::grpc::Status StreamedgetClosedSessions(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::openoffload::v1alpha5::statisticsRequestArgs,::openoffload::v1alpha5::sessionResponse>* server_split_streamer) = 0;
-  };
-  typedef WithSplitStreamingMethod_getClosedSessions<Service > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_getSession<WithStreamedUnaryMethod_deleteSession<WithStreamedUnaryMethod_getAllSessions<WithSplitStreamingMethod_getClosedSessions<Service > > > > StreamedService;
-};
-
-class Activation final {
- public:
-  static constexpr char const* service_full_name() {
-    return "openoffload.v1alpha5.Activation";
-  }
-  class StubInterface {
-   public:
-    virtual ~StubInterface() {}
-    // 
-    // Device registeration
-    //
-    // Registration is the process of telling the network function that a offload device
-    // is available for use and some metadata about the device. The metadata is there only
-    // for the operator to make a decision on which device to activate.
-    //
-    virtual ::grpc::Status registerOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::openoffload::v1alpha5::registrationStatus* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>> AsyncregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>>(AsyncregisterOffloadDeviceRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>> PrepareAsyncregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>>(PrepareAsyncregisterOffloadDeviceRaw(context, request, cq));
-    }
-    virtual ::grpc::Status deregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::openoffload::v1alpha5::registrationStatus* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>> AsyncderegisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>>(AsyncderegisterOffloadDeviceRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>> PrepareAsyncderegisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>>(PrepareAsyncderegisterOffloadDeviceRaw(context, request, cq));
-    }
-    virtual ::grpc::Status getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::openoffload::v1alpha5::deviceList* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceList>> AsyncgetRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceList>>(AsyncgetRegisteredOffloadDevicesRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceList>> PrepareAsyncgetRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceList>>(PrepareAsyncgetRegisteredOffloadDevicesRaw(context, request, cq));
-    }
-    //
-    // Device activation
-    //
-    // Activation is the process of selecting a registered device and activating it on 
-    // the netwwork function. Currently only one network device is supported per network
-    // element.
-    //
-    virtual ::grpc::Status activateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::openoffload::v1alpha5::activationStatus* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>> AsyncactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>>(AsyncactivateOffloadRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>> PrepareAsyncactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>>(PrepareAsyncactivateOffloadRaw(context, request, cq));
-    }
-    virtual ::grpc::Status deactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::openoffload::v1alpha5::activationStatus* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>> AsyncdeactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>>(AsyncdeactivateOffloadRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>> PrepareAsyncdeactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>>(PrepareAsyncdeactivateOffloadRaw(context, request, cq));
-    }
-    virtual ::grpc::Status getActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::openoffload::v1alpha5::deviceDescription* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceDescription>> AsyncgetActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceDescription>>(AsyncgetActivatedOffloadRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceDescription>> PrepareAsyncgetActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceDescription>>(PrepareAsyncgetActivatedOffloadRaw(context, request, cq));
-    }
-    class experimental_async_interface {
-     public:
-      virtual ~experimental_async_interface() {}
-      // 
-      // Device registeration
-      //
-      // Registration is the process of telling the network function that a offload device
-      // is available for use and some metadata about the device. The metadata is there only
-      // for the operator to make a decision on which device to activate.
-      //
-      virtual void registerOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void registerOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void registerOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void registerOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void registerOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void registerOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      virtual void deregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void deregisterOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void deregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void deregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void deregisterOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void deregisterOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      virtual void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceList* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceList* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceList* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceList* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceList* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceList* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      //
-      // Device activation
-      //
-      // Activation is the process of selecting a registered device and activating it on 
-      // the netwwork function. Currently only one network device is supported per network
-      // element.
-      //
-      virtual void activateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void activateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void activateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void activateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void activateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void activateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      virtual void deactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void deactivateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void deactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void deactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void deactivateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void deactivateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      virtual void getActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceDescription* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void getActivatedOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceDescription* response, std::function<void(::grpc::Status)>) = 0;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceDescription* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void getActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceDescription* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      virtual void getActivatedOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceDescription* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      #else
-      virtual void getActivatedOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceDescription* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
-      #endif
-    };
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    typedef class experimental_async_interface async_interface;
-    #endif
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    async_interface* async() { return experimental_async(); }
-    #endif
-    virtual class experimental_async_interface* experimental_async() { return nullptr; }
-  private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>* AsyncregisterOffloadDeviceRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>* PrepareAsyncregisterOffloadDeviceRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>* AsyncderegisterOffloadDeviceRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::registrationStatus>* PrepareAsyncderegisterOffloadDeviceRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceList>* AsyncgetRegisteredOffloadDevicesRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceList>* PrepareAsyncgetRegisteredOffloadDevicesRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>* AsyncactivateOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>* PrepareAsyncactivateOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>* AsyncdeactivateOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::activationStatus>* PrepareAsyncdeactivateOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceDescription>* AsyncgetActivatedOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::openoffload::v1alpha5::deviceDescription>* PrepareAsyncgetActivatedOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-  };
-  class Stub final : public StubInterface {
-   public:
-    Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status registerOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::openoffload::v1alpha5::registrationStatus* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>> AsyncregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>>(AsyncregisterOffloadDeviceRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>> PrepareAsyncregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>>(PrepareAsyncregisterOffloadDeviceRaw(context, request, cq));
-    }
-    ::grpc::Status deregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::openoffload::v1alpha5::registrationStatus* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>> AsyncderegisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>>(AsyncderegisterOffloadDeviceRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>> PrepareAsyncderegisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>>(PrepareAsyncderegisterOffloadDeviceRaw(context, request, cq));
-    }
-    ::grpc::Status getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::openoffload::v1alpha5::deviceList* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceList>> AsyncgetRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceList>>(AsyncgetRegisteredOffloadDevicesRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceList>> PrepareAsyncgetRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceList>>(PrepareAsyncgetRegisteredOffloadDevicesRaw(context, request, cq));
-    }
-    ::grpc::Status activateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::openoffload::v1alpha5::activationStatus* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>> AsyncactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>>(AsyncactivateOffloadRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>> PrepareAsyncactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>>(PrepareAsyncactivateOffloadRaw(context, request, cq));
-    }
-    ::grpc::Status deactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::openoffload::v1alpha5::activationStatus* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>> AsyncdeactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>>(AsyncdeactivateOffloadRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>> PrepareAsyncdeactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>>(PrepareAsyncdeactivateOffloadRaw(context, request, cq));
-    }
-    ::grpc::Status getActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::openoffload::v1alpha5::deviceDescription* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceDescription>> AsyncgetActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceDescription>>(AsyncgetActivatedOffloadRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceDescription>> PrepareAsyncgetActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceDescription>>(PrepareAsyncgetActivatedOffloadRaw(context, request, cq));
-    }
-    class experimental_async final :
-      public StubInterface::experimental_async_interface {
-     public:
-      void registerOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, std::function<void(::grpc::Status)>) override;
-      void registerOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void registerOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void registerOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void registerOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void registerOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      void deregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, std::function<void(::grpc::Status)>) override;
-      void deregisterOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void deregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void deregisterOffloadDevice(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void deregisterOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void deregisterOffloadDevice(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::registrationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceList* response, std::function<void(::grpc::Status)>) override;
-      void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceList* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceList* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceList* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceList* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void getRegisteredOffloadDevices(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceList* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      void activateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, std::function<void(::grpc::Status)>) override;
-      void activateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void activateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void activateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void activateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void activateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      void deactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, std::function<void(::grpc::Status)>) override;
-      void deactivateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void deactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void deactivateOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void deactivateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void deactivateOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::activationStatus* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      void getActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceDescription* response, std::function<void(::grpc::Status)>) override;
-      void getActivatedOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceDescription* response, std::function<void(::grpc::Status)>) override;
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceDescription* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void getActivatedOffload(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceDescription* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      void getActivatedOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceDescription* response, ::grpc::ClientUnaryReactor* reactor) override;
-      #else
-      void getActivatedOffload(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::openoffload::v1alpha5::deviceDescription* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
-      #endif
-     private:
-      friend class Stub;
-      explicit experimental_async(Stub* stub): stub_(stub) { }
-      Stub* stub() { return stub_; }
-      Stub* stub_;
-    };
-    class experimental_async_interface* experimental_async() override { return &async_stub_; }
-
-   private:
-    std::shared_ptr< ::grpc::ChannelInterface> channel_;
-    class experimental_async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>* AsyncregisterOffloadDeviceRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>* PrepareAsyncregisterOffloadDeviceRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>* AsyncderegisterOffloadDeviceRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::registrationStatus>* PrepareAsyncderegisterOffloadDeviceRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceList>* AsyncgetRegisteredOffloadDevicesRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceList>* PrepareAsyncgetRegisteredOffloadDevicesRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>* AsyncactivateOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>* PrepareAsyncactivateOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>* AsyncdeactivateOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::activationStatus>* PrepareAsyncdeactivateOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::deviceDescription& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceDescription>* AsyncgetActivatedOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::openoffload::v1alpha5::deviceDescription>* PrepareAsyncgetActivatedOffloadRaw(::grpc::ClientContext* context, const ::openoffload::v1alpha5::Empty& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_registerOffloadDevice_;
-    const ::grpc::internal::RpcMethod rpcmethod_deregisterOffloadDevice_;
-    const ::grpc::internal::RpcMethod rpcmethod_getRegisteredOffloadDevices_;
-    const ::grpc::internal::RpcMethod rpcmethod_activateOffload_;
-    const ::grpc::internal::RpcMethod rpcmethod_deactivateOffload_;
-    const ::grpc::internal::RpcMethod rpcmethod_getActivatedOffload_;
-  };
-  static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-
-  class Service : public ::grpc::Service {
-   public:
-    Service();
-    virtual ~Service();
-    // 
-    // Device registeration
-    //
-    // Registration is the process of telling the network function that a offload device
-    // is available for use and some metadata about the device. The metadata is there only
-    // for the operator to make a decision on which device to activate.
-    //
-    virtual ::grpc::Status registerOffloadDevice(::grpc::ServerContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response);
-    virtual ::grpc::Status deregisterOffloadDevice(::grpc::ServerContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response);
-    virtual ::grpc::Status getRegisteredOffloadDevices(::grpc::ServerContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceList* response);
-    //
-    // Device activation
-    //
-    // Activation is the process of selecting a registered device and activating it on 
-    // the netwwork function. Currently only one network device is supported per network
-    // element.
-    //
-    virtual ::grpc::Status activateOffload(::grpc::ServerContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response);
-    virtual ::grpc::Status deactivateOffload(::grpc::ServerContext* context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response);
-    virtual ::grpc::Status getActivatedOffload(::grpc::ServerContext* context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceDescription* response);
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_registerOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_registerOffloadDevice() {
-      ::grpc::Service::MarkMethodAsync(0);
-    }
-    ~WithAsyncMethod_registerOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status registerOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestregisterOffloadDevice(::grpc::ServerContext* context, ::openoffload::v1alpha5::deviceDescription* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::registrationStatus>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_deregisterOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_deregisterOffloadDevice() {
-      ::grpc::Service::MarkMethodAsync(1);
-    }
-    ~WithAsyncMethod_deregisterOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deregisterOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestderegisterOffloadDevice(::grpc::ServerContext* context, ::openoffload::v1alpha5::deviceDescription* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::registrationStatus>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_getRegisteredOffloadDevices : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_getRegisteredOffloadDevices() {
-      ::grpc::Service::MarkMethodAsync(2);
-    }
-    ~WithAsyncMethod_getRegisteredOffloadDevices() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getRegisteredOffloadDevices(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceList* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestgetRegisteredOffloadDevices(::grpc::ServerContext* context, ::openoffload::v1alpha5::Empty* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::deviceList>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_activateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_activateOffload() {
-      ::grpc::Service::MarkMethodAsync(3);
-    }
-    ~WithAsyncMethod_activateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status activateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestactivateOffload(::grpc::ServerContext* context, ::openoffload::v1alpha5::deviceDescription* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::activationStatus>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_deactivateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_deactivateOffload() {
-      ::grpc::Service::MarkMethodAsync(4);
-    }
-    ~WithAsyncMethod_deactivateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deactivateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestdeactivateOffload(::grpc::ServerContext* context, ::openoffload::v1alpha5::deviceDescription* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::activationStatus>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_getActivatedOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_getActivatedOffload() {
-      ::grpc::Service::MarkMethodAsync(5);
-    }
-    ~WithAsyncMethod_getActivatedOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getActivatedOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceDescription* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestgetActivatedOffload(::grpc::ServerContext* context, ::openoffload::v1alpha5::Empty* request, ::grpc::ServerAsyncResponseWriter< ::openoffload::v1alpha5::deviceDescription>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  typedef WithAsyncMethod_registerOffloadDevice<WithAsyncMethod_deregisterOffloadDevice<WithAsyncMethod_getRegisteredOffloadDevices<WithAsyncMethod_activateOffload<WithAsyncMethod_deactivateOffload<WithAsyncMethod_getActivatedOffload<Service > > > > > > AsyncService;
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_registerOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithCallbackMethod_registerOffloadDevice() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(0,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response) { return this->registerOffloadDevice(context, request, response); }));}
-    void SetMessageAllocatorFor_registerOffloadDevice(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(0);
-    #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~ExperimentalWithCallbackMethod_registerOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status registerOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* registerOffloadDevice(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* registerOffloadDevice(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_deregisterOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithCallbackMethod_deregisterOffloadDevice() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(1,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::registrationStatus* response) { return this->deregisterOffloadDevice(context, request, response); }));}
-    void SetMessageAllocatorFor_deregisterOffloadDevice(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
-    #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~ExperimentalWithCallbackMethod_deregisterOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deregisterOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* deregisterOffloadDevice(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* deregisterOffloadDevice(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_getRegisteredOffloadDevices : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithCallbackMethod_getRegisteredOffloadDevices() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(2,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceList>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceList* response) { return this->getRegisteredOffloadDevices(context, request, response); }));}
-    void SetMessageAllocatorFor_getRegisteredOffloadDevices(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceList>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(2);
-    #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceList>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~ExperimentalWithCallbackMethod_getRegisteredOffloadDevices() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getRegisteredOffloadDevices(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceList* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* getRegisteredOffloadDevices(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceList* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* getRegisteredOffloadDevices(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceList* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_activateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithCallbackMethod_activateOffload() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(3,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response) { return this->activateOffload(context, request, response); }));}
-    void SetMessageAllocatorFor_activateOffload(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(3);
-    #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~ExperimentalWithCallbackMethod_activateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status activateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* activateOffload(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* activateOffload(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_deactivateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithCallbackMethod_deactivateOffload() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(4,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::openoffload::v1alpha5::deviceDescription* request, ::openoffload::v1alpha5::activationStatus* response) { return this->deactivateOffload(context, request, response); }));}
-    void SetMessageAllocatorFor_deactivateOffload(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(4);
-    #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~ExperimentalWithCallbackMethod_deactivateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deactivateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* deactivateOffload(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* deactivateOffload(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_getActivatedOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithCallbackMethod_getActivatedOffload() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodCallback(5,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceDescription>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::openoffload::v1alpha5::Empty* request, ::openoffload::v1alpha5::deviceDescription* response) { return this->getActivatedOffload(context, request, response); }));}
-    void SetMessageAllocatorFor_getActivatedOffload(
-        ::grpc::experimental::MessageAllocator< ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceDescription>* allocator) {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
-    #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
-    #endif
-      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceDescription>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~ExperimentalWithCallbackMethod_getActivatedOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getActivatedOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceDescription* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* getActivatedOffload(
-      ::grpc::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceDescription* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* getActivatedOffload(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceDescription* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_registerOffloadDevice<ExperimentalWithCallbackMethod_deregisterOffloadDevice<ExperimentalWithCallbackMethod_getRegisteredOffloadDevices<ExperimentalWithCallbackMethod_activateOffload<ExperimentalWithCallbackMethod_deactivateOffload<ExperimentalWithCallbackMethod_getActivatedOffload<Service > > > > > > CallbackService;
-  #endif
-
-  typedef ExperimentalWithCallbackMethod_registerOffloadDevice<ExperimentalWithCallbackMethod_deregisterOffloadDevice<ExperimentalWithCallbackMethod_getRegisteredOffloadDevices<ExperimentalWithCallbackMethod_activateOffload<ExperimentalWithCallbackMethod_deactivateOffload<ExperimentalWithCallbackMethod_getActivatedOffload<Service > > > > > > ExperimentalCallbackService;
-  template <class BaseClass>
-  class WithGenericMethod_registerOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_registerOffloadDevice() {
-      ::grpc::Service::MarkMethodGeneric(0);
-    }
-    ~WithGenericMethod_registerOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status registerOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_deregisterOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_deregisterOffloadDevice() {
-      ::grpc::Service::MarkMethodGeneric(1);
-    }
-    ~WithGenericMethod_deregisterOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deregisterOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_getRegisteredOffloadDevices : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_getRegisteredOffloadDevices() {
-      ::grpc::Service::MarkMethodGeneric(2);
-    }
-    ~WithGenericMethod_getRegisteredOffloadDevices() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getRegisteredOffloadDevices(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceList* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_activateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_activateOffload() {
-      ::grpc::Service::MarkMethodGeneric(3);
-    }
-    ~WithGenericMethod_activateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status activateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_deactivateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_deactivateOffload() {
-      ::grpc::Service::MarkMethodGeneric(4);
-    }
-    ~WithGenericMethod_deactivateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deactivateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_getActivatedOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_getActivatedOffload() {
-      ::grpc::Service::MarkMethodGeneric(5);
-    }
-    ~WithGenericMethod_getActivatedOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getActivatedOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceDescription* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_registerOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_registerOffloadDevice() {
-      ::grpc::Service::MarkMethodRaw(0);
-    }
-    ~WithRawMethod_registerOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status registerOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestregisterOffloadDevice(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_deregisterOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_deregisterOffloadDevice() {
-      ::grpc::Service::MarkMethodRaw(1);
-    }
-    ~WithRawMethod_deregisterOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deregisterOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestderegisterOffloadDevice(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_getRegisteredOffloadDevices : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_getRegisteredOffloadDevices() {
-      ::grpc::Service::MarkMethodRaw(2);
-    }
-    ~WithRawMethod_getRegisteredOffloadDevices() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getRegisteredOffloadDevices(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceList* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestgetRegisteredOffloadDevices(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_activateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_activateOffload() {
-      ::grpc::Service::MarkMethodRaw(3);
-    }
-    ~WithRawMethod_activateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status activateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestactivateOffload(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_deactivateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_deactivateOffload() {
-      ::grpc::Service::MarkMethodRaw(4);
-    }
-    ~WithRawMethod_deactivateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deactivateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestdeactivateOffload(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_getActivatedOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_getActivatedOffload() {
-      ::grpc::Service::MarkMethodRaw(5);
-    }
-    ~WithRawMethod_getActivatedOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getActivatedOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceDescription* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestgetActivatedOffload(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_registerOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithRawCallbackMethod_registerOffloadDevice() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(0,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->registerOffloadDevice(context, request, response); }));
-    }
-    ~ExperimentalWithRawCallbackMethod_registerOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status registerOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* registerOffloadDevice(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* registerOffloadDevice(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_deregisterOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithRawCallbackMethod_deregisterOffloadDevice() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(1,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->deregisterOffloadDevice(context, request, response); }));
-    }
-    ~ExperimentalWithRawCallbackMethod_deregisterOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deregisterOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* deregisterOffloadDevice(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* deregisterOffloadDevice(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_getRegisteredOffloadDevices : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithRawCallbackMethod_getRegisteredOffloadDevices() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(2,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->getRegisteredOffloadDevices(context, request, response); }));
-    }
-    ~ExperimentalWithRawCallbackMethod_getRegisteredOffloadDevices() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status getRegisteredOffloadDevices(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceList* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* getRegisteredOffloadDevices(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* getRegisteredOffloadDevices(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_activateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithRawCallbackMethod_activateOffload() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(3,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->activateOffload(context, request, response); }));
-    }
-    ~ExperimentalWithRawCallbackMethod_activateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status activateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* activateOffload(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* activateOffload(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_deactivateOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithRawCallbackMethod_deactivateOffload() {
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::Service::
-    #else
-      ::grpc::Service::experimental().
-    #endif
-        MarkMethodRawCallback(4,
-          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-                   ::grpc::CallbackServerContext*
-    #else
-                   ::grpc::experimental::CallbackServerContext*
-    #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->deactivateOffload(context, request, response); }));
-    }
-    ~ExperimentalWithRawCallbackMethod_deactivateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status deactivateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* deactivateOffload(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #else
-    virtual ::grpc::experimental::ServerUnaryReactor* deactivateOffload(
-      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
-    #endif
-      { return nullptr; }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_getActivatedOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    ExperimentalWithRawCallbackMethod_getActivatedOffload() {
+    ExperimentalWithRawCallbackMethod_shutdownServer() {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
       ::grpc::Service::
     #else
@@ -2329,199 +1216,166 @@ class Activation final {
     #else
                    ::grpc::experimental::CallbackServerContext*
     #endif
-                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->getActivatedOffload(context, request, response); }));
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->shutdownServer(context, request, response); }));
     }
-    ~ExperimentalWithRawCallbackMethod_getActivatedOffload() override {
+    ~ExperimentalWithRawCallbackMethod_shutdownServer() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status getActivatedOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceDescription* /*response*/) override {
+    ::grpc::Status shutdownServer(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::shutdownRequest* /*request*/, ::openoffload::v1_1::shutdownResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-    virtual ::grpc::ServerUnaryReactor* getActivatedOffload(
+    virtual ::grpc::ServerUnaryReactor* shutdownServer(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
     #else
-    virtual ::grpc::experimental::ServerUnaryReactor* getActivatedOffload(
+    virtual ::grpc::experimental::ServerUnaryReactor* shutdownServer(
       ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
     #endif
       { return nullptr; }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_registerOffloadDevice : public BaseClass {
+  class WithStreamedUnaryMethod_getSession : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_registerOffloadDevice() {
-      ::grpc::Service::MarkMethodStreamed(0,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>(
-            [this](::grpc_impl::ServerContext* context,
-                   ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>* streamer) {
-                       return this->StreamedregisterOffloadDevice(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_registerOffloadDevice() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status registerOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedregisterOffloadDevice(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::deviceDescription,::openoffload::v1alpha5::registrationStatus>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_deregisterOffloadDevice : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_deregisterOffloadDevice() {
+    WithStreamedUnaryMethod_getSession() {
       ::grpc::Service::MarkMethodStreamed(1,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>(
+          ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>(
             [this](::grpc_impl::ServerContext* context,
                    ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::registrationStatus>* streamer) {
-                       return this->StreamedderegisterOffloadDevice(context,
+                     ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>* streamer) {
+                       return this->StreamedgetSession(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_deregisterOffloadDevice() override {
+    ~WithStreamedUnaryMethod_getSession() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status deregisterOffloadDevice(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::registrationStatus* /*response*/) override {
+    ::grpc::Status getSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedderegisterOffloadDevice(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::deviceDescription,::openoffload::v1alpha5::registrationStatus>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedgetSession(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1_1::sessionId,::openoffload::v1_1::sessionResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_getRegisteredOffloadDevices : public BaseClass {
+  class WithStreamedUnaryMethod_deleteSession : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_getRegisteredOffloadDevices() {
+    WithStreamedUnaryMethod_deleteSession() {
       ::grpc::Service::MarkMethodStreamed(2,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceList>(
+          ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>(
             [this](::grpc_impl::ServerContext* context,
                    ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceList>* streamer) {
-                       return this->StreamedgetRegisteredOffloadDevices(context,
+                     ::openoffload::v1_1::sessionId, ::openoffload::v1_1::sessionResponse>* streamer) {
+                       return this->StreameddeleteSession(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_getRegisteredOffloadDevices() override {
+    ~WithStreamedUnaryMethod_deleteSession() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status getRegisteredOffloadDevices(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceList* /*response*/) override {
+    ::grpc::Status deleteSession(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionId* /*request*/, ::openoffload::v1_1::sessionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedgetRegisteredOffloadDevices(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::Empty,::openoffload::v1alpha5::deviceList>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreameddeleteSession(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1_1::sessionId,::openoffload::v1_1::sessionResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_activateOffload : public BaseClass {
+  class WithStreamedUnaryMethod_getAllSessions : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_activateOffload() {
+    WithStreamedUnaryMethod_getAllSessions() {
       ::grpc::Service::MarkMethodStreamed(3,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>(
+          ::openoffload::v1_1::sessionRequestArgs, ::openoffload::v1_1::sessionResponses>(
             [this](::grpc_impl::ServerContext* context,
                    ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>* streamer) {
-                       return this->StreamedactivateOffload(context,
+                     ::openoffload::v1_1::sessionRequestArgs, ::openoffload::v1_1::sessionResponses>* streamer) {
+                       return this->StreamedgetAllSessions(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_activateOffload() override {
+    ~WithStreamedUnaryMethod_getAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status activateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
+    ::grpc::Status getAllSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::openoffload::v1_1::sessionResponses* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedactivateOffload(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::deviceDescription,::openoffload::v1alpha5::activationStatus>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedgetAllSessions(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1_1::sessionRequestArgs,::openoffload::v1_1::sessionResponses>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_deactivateOffload : public BaseClass {
+  class WithStreamedUnaryMethod_shutdownServer : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_deactivateOffload() {
-      ::grpc::Service::MarkMethodStreamed(4,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>(
-            [this](::grpc_impl::ServerContext* context,
-                   ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::deviceDescription, ::openoffload::v1alpha5::activationStatus>* streamer) {
-                       return this->StreameddeactivateOffload(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_deactivateOffload() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status deactivateOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::deviceDescription* /*request*/, ::openoffload::v1alpha5::activationStatus* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreameddeactivateOffload(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::deviceDescription,::openoffload::v1alpha5::activationStatus>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_getActivatedOffload : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_getActivatedOffload() {
+    WithStreamedUnaryMethod_shutdownServer() {
       ::grpc::Service::MarkMethodStreamed(5,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceDescription>(
+          ::openoffload::v1_1::shutdownRequest, ::openoffload::v1_1::shutdownResponse>(
             [this](::grpc_impl::ServerContext* context,
                    ::grpc_impl::ServerUnaryStreamer<
-                     ::openoffload::v1alpha5::Empty, ::openoffload::v1alpha5::deviceDescription>* streamer) {
-                       return this->StreamedgetActivatedOffload(context,
+                     ::openoffload::v1_1::shutdownRequest, ::openoffload::v1_1::shutdownResponse>* streamer) {
+                       return this->StreamedshutdownServer(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_getActivatedOffload() override {
+    ~WithStreamedUnaryMethod_shutdownServer() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status getActivatedOffload(::grpc::ServerContext* /*context*/, const ::openoffload::v1alpha5::Empty* /*request*/, ::openoffload::v1alpha5::deviceDescription* /*response*/) override {
+    ::grpc::Status shutdownServer(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::shutdownRequest* /*request*/, ::openoffload::v1_1::shutdownResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedgetActivatedOffload(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1alpha5::Empty,::openoffload::v1alpha5::deviceDescription>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedshutdownServer(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::openoffload::v1_1::shutdownRequest,::openoffload::v1_1::shutdownResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_registerOffloadDevice<WithStreamedUnaryMethod_deregisterOffloadDevice<WithStreamedUnaryMethod_getRegisteredOffloadDevices<WithStreamedUnaryMethod_activateOffload<WithStreamedUnaryMethod_deactivateOffload<WithStreamedUnaryMethod_getActivatedOffload<Service > > > > > > StreamedUnaryService;
-  typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_registerOffloadDevice<WithStreamedUnaryMethod_deregisterOffloadDevice<WithStreamedUnaryMethod_getRegisteredOffloadDevices<WithStreamedUnaryMethod_activateOffload<WithStreamedUnaryMethod_deactivateOffload<WithStreamedUnaryMethod_getActivatedOffload<Service > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_getSession<WithStreamedUnaryMethod_deleteSession<WithStreamedUnaryMethod_getAllSessions<WithStreamedUnaryMethod_shutdownServer<Service > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithSplitStreamingMethod_getClosedSessions : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_getClosedSessions() {
+      ::grpc::Service::MarkMethodStreamed(4,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::openoffload::v1_1::sessionRequestArgs, ::openoffload::v1_1::sessionResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerSplitStreamer<
+                     ::openoffload::v1_1::sessionRequestArgs, ::openoffload::v1_1::sessionResponse>* streamer) {
+                       return this->StreamedgetClosedSessions(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_getClosedSessions() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status getClosedSessions(::grpc::ServerContext* /*context*/, const ::openoffload::v1_1::sessionRequestArgs* /*request*/, ::grpc::ServerWriter< ::openoffload::v1_1::sessionResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedgetClosedSessions(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::openoffload::v1_1::sessionRequestArgs,::openoffload::v1_1::sessionResponse>* server_split_streamer) = 0;
+  };
+  typedef WithSplitStreamingMethod_getClosedSessions<Service > SplitStreamedService;
+  typedef WithStreamedUnaryMethod_getSession<WithStreamedUnaryMethod_deleteSession<WithStreamedUnaryMethod_getAllSessions<WithSplitStreamingMethod_getClosedSessions<WithStreamedUnaryMethod_shutdownServer<Service > > > > > StreamedService;
 };
-//
-// Register OpenOffload devices with a network function. Currently multiple
-// devices could be registered. For instance a SmartNIC device and a Software
-// device could be registered and the operator could decide to activate one or
-// the other
-//
 
-}  // namespace v1alpha5
+}  // namespace v1_1
 }  // namespace openoffload
 
 
