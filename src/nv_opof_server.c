@@ -64,6 +64,19 @@ static void display_response(sessionResponse_t *response,
 	       get_close_code(response->sessionCloseCode));
 }
 
+static char *get_tunnel_type(PARENT_TUNNEL_T tunnel)
+{
+	switch(tunnel)
+	{
+	case _TUNNEL_NONE:
+		return "NONE";
+	case _TUNNEL_GTPU:
+		return "GTPU";
+	default:
+		return "ERR";
+	}
+}
+
 static void display_request(sessionRequest_t *request,
 			    uint8_t *cmd)
 {
@@ -74,10 +87,10 @@ static void display_request(sessionRequest_t *request,
 
 	log_debug("\n" "CMD  " "ID        IN  OUT  VLAN  "
 		  "SRC_IPv4         SRC_PORT  DST_IPv4         DST_PORT  "
-		  "PROTO  IP  ACT  AGE" "\n"
+		  "PROTO  IP  ACT  AGE  TUNNEL" "\n"
 		  "%-5s" "%-10lu" "%-4u" "%-5u" "%-6u"
 		  "%03u.%03u.%03u.%03u  " "%-10u" "%03u.%03u.%03u.%03u  "
-		  "%-10u" "%-7s" "%-4u" "%-5s" "%-4u" "\n",
+		  "%-10u" "%-7s" "%-4u" "%-5s" "%-4u" "%-6s" "\n",
 		  cmd, request->sessId,
 		  request->inlif & 0xFFFF,
 		  request->outlif & 0xFFFF,
@@ -95,7 +108,8 @@ static void display_request(sessionRequest_t *request,
 		  request->proto == 6 ? "TCP" : "UDP",
 		  request->ipver == _IPV4 ? 4 : 6,
 		  request->actType == 1 ? "FWD" : "DROP",
-		  request->cacheTimeout);
+		  request->cacheTimeout,
+		  get_tunnel_type(request->parentTunnel));
 
 	if (request->ipver == _IPV6)
 		log_debug("\n"
