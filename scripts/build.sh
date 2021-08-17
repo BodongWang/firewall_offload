@@ -110,15 +110,16 @@ build_session_offload() {
 	export PATH=$INSTALL_DIR/bin:$PATH
 	pushd .
 	cd "$DEPS_DIR"
-	git clone -b v1beta1 https://github.com/att/sessionOffload.git
+	git clone -b v1.1beta https://github.com/att/sessionOffload.git
 	if [[ "$SOURCE_ONLY" == "y" ]]; then
 		echo -e "${COLOR_GREEN}session offload source download only ${COLOR_OFF}"
 		return
 	fi
 	cd sessionOffload/openoffload/cpp/framework
-	make -j "$NCPUS" server
+	make -j "$NCPUS" -B server ROOT_DIR=$INSTALL_DIR
 	if [ 0 -ne $? ] ; then exit 1 ; fi
 	yes | cp lib/libopof_server.a $ROOT_DIR/lib
+	yes | cp include/*.h $ROOT_DIR/include
 	touch "${DEPS_DIR}/sessionOffload_installed"
 	echo -e "${COLOR_GREEN}sessionOffload is installed ${COLOR_OFF}"
 	popd
@@ -145,5 +146,5 @@ build_kernel() {
 }
 
 build_grpc
-#build_session_offload
+build_session_offload
 build_firewall_offload
