@@ -153,6 +153,7 @@ struct session_info {
 	uint8_t ip_ver;          /**< IP version. */
 	uint8_t proto;           /**< L4 Protocol. */
 	uint16_t vlan;
+	bool tunnel;
 };
 
 struct session_key {
