@@ -303,6 +303,7 @@ int opof_add_session_server(sessionRequest_t *parameters,
 			       IPPROTO_IP : IPPROTO_IPV6;
 	session->info.proto = parameters->proto;
 	session->info.vlan = parameters->inlif >> 16;
+	session->info.tunnel = !!parameters->parentTunnel;
 
 	if (parameters->cacheTimeout >= MAX_TIMEOUT) {
 		log_info("WARNING: "

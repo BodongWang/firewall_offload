@@ -3,6 +3,9 @@
  */
 #include "nv_opof.h"
 
+#define MAX_FLOW_ITEM (9)
+#define MAX_ACTION_ITEM (6)
+
 static struct rte_flow_item eth_item = {
 	RTE_FLOW_ITEM_TYPE_ETH,
 	0, 0, 0
@@ -147,8 +150,6 @@ add_simple_flow(uint16_t port_id,
 
 int offload_flow_test(portid_t port_id, uint32_t num)
 {
-#define MAX_FLOW_ITEM (6)
-#define MAX_ACTION_ITEM (6)
 	struct rte_flow_item flow_pattern[MAX_FLOW_ITEM];
 	struct rte_flow_action actions[MAX_ACTION_ITEM];
 	struct rte_flow_action_age age = {};
@@ -252,13 +253,14 @@ int offload_flow_add(portid_t port_id,
 		     enum flow_action action,
 		     enum flow_dir dir)
 {
-#define MAX_FLOW_ITEM (6)
-#define MAX_ACTION_ITEM (6)
 	struct rte_flow_item flow_pattern[MAX_FLOW_ITEM] = {};
 	struct rte_flow_action actions[MAX_ACTION_ITEM] = {};
 	struct rte_flow_action_age age = {};
 	struct rte_flow_item_vlan vlan_spec = {};
 	struct rte_flow_item vlan_item = {};
+	struct rte_flow_item outer_ip_item = {};
+	struct rte_flow_item outer_udp_item = {};
+	struct rte_flow_item outer_gtp_item = {};
 	struct rte_flow_item_ipv4 ipv4_spec = {};
 	struct rte_flow_item_ipv6 ipv6_spec = {};
 	struct rte_flow_item ip_item = {};
@@ -288,6 +290,15 @@ int offload_flow_add(portid_t port_id,
 		vlan_spec.tci = htons(session->info.vlan);
 
 		flow_pattern[flow_index++] = vlan_item;
+	}
+
+	if (1 || session->info.tunnel) {
+		outer_ip_item.type = RTE_FLOW_ITEM_TYPE_IPV4;
+		outer_udp_item.type = RTE_FLOW_ITEM_TYPE_UDP;
+		outer_gtp_item.type = RTE_FLOW_ITEM_TYPE_GTP;
+		flow_pattern[flow_index++] = outer_ip_item;
+		flow_pattern[flow_index++] = outer_udp_item;
+		flow_pattern[flow_index++] = outer_gtp_item;
 	}
 
 	/* IP item */
