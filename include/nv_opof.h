@@ -36,7 +36,7 @@
 extern "C" {
 #endif
 
-#define NV_OPOF_VERSION "1.0.4.2"
+#define NV_OPOF_VERSION "1.0.4.3"
 
 #define RTE_PORT_ALL	(~(uint16_t)0x0)
 
