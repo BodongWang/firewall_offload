@@ -292,7 +292,7 @@ int offload_flow_add(portid_t port_id,
 		flow_pattern[flow_index++] = vlan_item;
 	}
 
-	if (1 || session->info.tunnel) {
+	if (session->info.tunnel) {
 		outer_ip_item.type = RTE_FLOW_ITEM_TYPE_IPV4;
 		outer_udp_item.type = RTE_FLOW_ITEM_TYPE_UDP;
 		outer_gtp_item.type = RTE_FLOW_ITEM_TYPE_GTP;
