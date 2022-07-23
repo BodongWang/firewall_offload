@@ -8,7 +8,7 @@ COLOR_GREEN="\033[0;32m"
 COLOR_OFF="\033[0m"
 
 OVS_BRIDGE0=${OVS_BRIDGE1:-"ovsbr0"}
-OVS_BRIDGE0_PORTS=${OVS_BRIDGE0_PORTS:-"p0 pf0vf0 pf0sf0 pf0vf1"}
+OVS_BRIDGE0_PORTS=${OVS_BRIDGE0_PORTS:-"p0 pf0vf0 en3f1pf1sf0 pf0vf1"}
 OVS_BRIDGE1=${OVS_BRIDGE2:-"ovsbr1"}
 OVS_BRIDGE1_PORTS=${OVS_BRIDGE1_PORTS:-"p1 pf1vf0"}
 GRPC_IP_MASK=169.254.33.51/24
@@ -45,7 +45,7 @@ fi
 
 if [ -z "${GRPC_PORT-}" ] ; then
 	echo -e "${COLOR_RED}[ INFO ] No gRPC port specified, use p0m0${COLOR_OFF}"
-	GRPC_PORT=p0m0
+	GRPC_PORT=p0
 fi
 
 pre_check()
