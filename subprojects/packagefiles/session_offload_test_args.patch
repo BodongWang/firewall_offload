@@ -1,0 +1,24 @@
+diff --git a/openoffload/cpp/framework/src/opof_client_main.c b/openoffload/cpp/framework/src/opof_client_main.c
+index 2cccf2a..28a5405 100644
+--- a/openoffload/cpp/framework/src/opof_client_main.c
++++ b/openoffload/cpp/framework/src/opof_client_main.c
+@@ -77,13 +77,13 @@ int main(int argc, char ** argv){
+     //
+     static struct option longopts[] = {
+         {"version", no_argument,0,'v'},
+-        {"address", no_argument, 0, 'a'},
+-        {"port", no_argument, 0 ,'p'},
++        {"address", required_argument, 0, 'a'},
++        {"port", required_argument, 0 ,'p'},
+         {"verbose",no_argument, 0,'v'},
+-        {"number", no_argument,0,'n'},
+-        {"buffersize", no_argument,0,'b'},
+-        {"config", no_argument,0,'c'},
+-        {"test", no_argument, 0, 't'},
++        {"number", required_argument,0,'n'},
++        {"buffersize", required_argument,0,'b'},
++        {"config", required_argument,0,'c'},
++        {"test", required_argument, 0, 't'},
+         {"full", no_argument, 0,'f'},
+         {"list", no_argument, 0, 'l'},
+         {"help",no_argument,0,'h'},

@@ -36,7 +36,7 @@ static char *signals [] = {
 void nv_opof_log_open(void)
 {
 	openlog("nv_opof", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_USER);
-	setlogmask(LOG_UPTO(LOG_ERR));
+	setlogmask(LOG_UPTO(LOG_INFO));
 }
 
 void nv_opof_log_close(void)
@@ -57,7 +57,7 @@ nv_opof_signal_handler(int signum, siginfo_t *info, void *ucontext)
 	switch (signum) {
 	case SIGINT:
 	case SIGTERM:
-		clean_up();
+		nv_opof_clean_up();
 		kill(getpid(), signum);
 		break;
 	case SIGILL:
@@ -172,6 +172,7 @@ int nv_opof_config_load(const char *file_path)
 		snprintf(off_config_g.grpc_addr, GRPC_ADDR_SIZE, "%s",
 			 grpc_addr->valuestring);
 		off_config_g.grpc_port = grpc_port->valueint;
+		log_info("nv_opof grpc listening on %s:%d", off_config_g.grpc_addr, off_config_g.grpc_port);
 	}
 
 out_free:

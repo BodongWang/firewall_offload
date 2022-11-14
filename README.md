@@ -6,13 +6,13 @@ BlueField DPU
 # Prerequisite
 
 1. Create 2 VFs for each PF on x86 side
-2. An option configure file can be added to __/opt/mellanox/opof/opof.conf__
+2. An option configure file can be added to __/opt/mellanox/nv_opof/nv_opof.conf__
 with json format. For example:
 
 ```
 {
-  "grpc_addr":"169.254.33.51"
-  "grpc_port":3443
+  "grpc_addr": "169.254.33.51",
+  "grpc_port": 3443
 }
 ```
 
@@ -23,14 +23,10 @@ Dependency:
 
 To build and install this daemon with all deps, run:
 ```sh
-$ ./build.sh
+$ meson build
+$ ninja -C build
 ```
 
-To only build the daemon with preconfigured deps(grpc/sessionOffload)
-```sh
-$ export PKG_CONFIG_PATH=/opt/mellanox/dpdk/lib/aarch64-linux-gnu/pkgconfig/
-$ make && make install
-```
 Setup hugepages
 ```sh
 $ mkdir -p /dev/hugepages
@@ -52,8 +48,8 @@ User can run __opof_setup__ to setup opof.
 
 1. As default, the script does configures below:
 * Configure OVS fallback bridges. So that, when daemon is failed or killed,
-  all traffic will be forward to PAN-OS for processing.
-* Configure gRPC interface(default pf0vf1) IP address.
+  all traffic will be forward to Host VM for processing.
+* Configure gRPC interface(default enp3s0f0s0) IP address.
 * Reserve hugepages, default 2048 * 2M.
 
 2. User can specify the number of HugePages
@@ -62,7 +58,7 @@ $ opof_setup -p 2048
 ```
 3. User can specify the interface used by grpc
 ```sh
-$ opof_setup -g pf1vf1
+$ opof_setup -g enp3s0f0s0
 ```
 
 ## SystemD Service

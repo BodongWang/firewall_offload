@@ -1,0 +1,9 @@
+{
+    "image": "nvcr.io/nvidia/doca/doca:1.5.0-devel",
+    "customizations": {
+        "vscode": {
+          "extensions": ["ms-vscode.cpptools", "mesonbuild.mesonbuild"]
+        }
+    },
+    "postCreateCommand": ".devcontainer/setup_container.sh"
+}

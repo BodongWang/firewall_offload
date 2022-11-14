@@ -3,7 +3,7 @@
  */
 #include "nv_opof.h"
 
-void lcore_init(void)
+void nv_opof_lcore_init(void)
 {
 	int i;
 
@@ -15,7 +15,7 @@ void lcore_init(void)
 	off_config_g.aging.lcore_id = LCORE_TYPE_AGING;
 }
 
-static void aging_thread(uint32_t lcore_id)
+static void nv_opof_aging_thread(uint32_t lcore_id)
 {
 	long int lwp_id;
 	uint32_t i = 0;
@@ -27,12 +27,12 @@ static void aging_thread(uint32_t lcore_id)
 	while (1) {
 		if (++i & 0x10000)
 			rte_atomic32_inc(&off_config_g.stats.age_thread_hb);
-		offload_flow_aged(INITIATOR_PORT_ID);
-		offload_flow_aged(RESPONDER_PORT_ID);
+		nv_opof_offload_flow_aged(INITIATOR_PORT_ID);
+		nv_opof_offload_flow_aged(RESPONDER_PORT_ID);
 	}
 }
 
-static void grpc_thread(uint32_t lcore_id)
+static void nv_opof_grpc_thread(uint32_t lcore_id)
 {
 	long int lwp_id;
 
@@ -45,7 +45,7 @@ static void grpc_thread(uint32_t lcore_id)
 		    NULL, NULL);
 }
 
-int thread_mux(void *data __rte_unused)
+int nv_opof_thread_mux(void *data __rte_unused)
 {
 	char thread_name[RTE_MAX_THREAD_NAME_LEN];
 	uint32_t lcore_id = rte_lcore_id();
@@ -64,12 +64,12 @@ int thread_mux(void *data __rte_unused)
 	{
 	case LCORE_TYPE_GRPC:
 		thread_name_pattern = "lcore-%u-grpc";
-		grpc_thread(lcore_id);
+		nv_opof_grpc_thread(lcore_id);
 		break;
 
 	case LCORE_TYPE_AGING:
 		thread_name_pattern = "lcore-%u-aging";
-		aging_thread(lcore_id);
+		nv_opof_aging_thread(lcore_id);
 		break;
 
 	case LCORE_TYPE_MAX:

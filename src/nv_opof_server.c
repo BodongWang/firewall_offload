@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <rte_cycles.h>
+
 #include "opof.h"
 #include "opof_error.h"
 #include "opof_serverlib.h"
@@ -46,7 +48,7 @@ char *get_close_code(uint8_t code)
 }
 
 static void display_response(sessionResponse_t *response,
-			     uint8_t *cmd)
+			     char *cmd)
 {
 	log_debug("\n" "CMD        " "ID        "
 	       "IN_PACKETS   IN_BYTES      OUT_PACKETS  OUT_BYTES     "
@@ -65,7 +67,7 @@ static void display_response(sessionResponse_t *response,
 }
 
 static void display_request(sessionRequest_t *request,
-			    uint8_t *cmd)
+			    char *cmd)
 {
 	if (request->ipver == _IPV6) {
 		request->srcIP.s_addr = 0;
@@ -156,10 +158,10 @@ int opof_get_session_server(unsigned long sessionId,
 		return _NOT_FOUND;
 	}
 
-	offload_flow_query(session->flow_in.portid, session->flow_in.flow,
+	nv_opof_offload_flow_query(session->flow_in.portid, session->flow_in.flow,
 			   &response->inPackets, &response->inBytes);
 
-	offload_flow_query(session->flow_out.portid, session->flow_out.flow,
+	nv_opof_offload_flow_query(session->flow_out.portid, session->flow_out.flow,
 			   &response->outPackets, &response->outBytes);
 
 	response->sessionState = session->state;
@@ -173,10 +175,10 @@ static void opof_get_session_stats(struct fw_session *session,
 {
 	response->sessionId = session->key.sess_id;
 
-	offload_flow_query(session->flow_in.portid, session->flow_in.flow,
+	nv_opof_offload_flow_query(session->flow_in.portid, session->flow_in.flow,
 			   &response->inPackets, &response->inBytes);
 
-	offload_flow_query(session->flow_out.portid, session->flow_out.flow,
+	nv_opof_offload_flow_query(session->flow_out.portid, session->flow_out.flow,
 			   &response->outPackets, &response->outBytes);
 
 	if (!response->inPackets)
@@ -194,37 +196,23 @@ int opof_del_flow(struct fw_session *session)
 {
 	struct rte_hash *ht = off_config_g.session_ht;
 	sessionResponse_t *session_stat;
-        uint64_t tic, toc;
-	int ret = 0, pos;
+	uint64_t tic, toc;
+	int pos;
 
-        tic = rte_rdtsc();
+	tic = rte_rdtsc();
 
 	session->state = _CLOSED;
 	session_stat = rte_zmalloc("stats",
 				   sizeof(sessionResponse_t),
 				   RTE_CACHE_LINE_SIZE);
-	if (!session_stat) {
+	if (session_stat) {
+		opof_get_session_stats(session, session_stat);
+	} else {
 		log_error("failed to allocate session stat");
-		return _RESOURCE_EXHAUSTED;
 	}
 
-	opof_get_session_stats(session, session_stat);
-
-	ret = offload_flow_destroy(session->flow_in.portid,
-				   session->flow_in.flow);
-
-	if (ret) {
-		log_error("failed to delete flow in");
-		goto out;
-	}
-
-	ret = offload_flow_destroy(session->flow_out.portid,
-				   session->flow_out.flow);
-
-	if (ret) {
-		log_error("failed to delete flow out");
-		goto out;
-	}
+	nv_opof_offload_flow_destroy(session->flow_in.portid, session->flow_in.flow);
+	nv_opof_offload_flow_destroy(session->flow_out.portid, session->flow_out.flow);
 
 	pos = rte_hash_del_key(ht, &session->key);
 	if (pos < 0)
@@ -232,27 +220,21 @@ int opof_del_flow(struct fw_session *session)
 	else
 		rte_hash_free_key_with_position(ht, pos);
 
-	memset(&session->flow_in, 0, sizeof(struct offload_flow));
-	memset(&session->flow_out, 0, sizeof(struct offload_flow));
-
-	if (rte_ring_enqueue(off_config_g.session_fifo, session_stat))
+	if (session_stat && rte_ring_enqueue(off_config_g.session_fifo, session_stat))
 		log_error("no enough room in session session_fifo");
 
+	memset(session, 0, sizeof(struct fw_session));
 	rte_free(session);
 
 	rte_atomic32_dec(&off_config_g.stats.active);
 
-        toc = (long double)(rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
-	if (toc > rte_atomic64_read(&off_config_g.stats.flows_del_maxtsc))
+	toc = (rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
+	if (toc > (uint64_t)rte_atomic64_read(&off_config_g.stats.flows_del_maxtsc))
 		rte_atomic64_set(&off_config_g.stats.flows_del_maxtsc, toc);
-        rte_atomic64_add(&off_config_g.stats.flows_del_tottsc, toc);
-        rte_atomic32_inc(&off_config_g.stats.flows_del);
+	rte_atomic64_add(&off_config_g.stats.flows_del_tottsc, toc);
+	rte_atomic32_inc(&off_config_g.stats.flows_del);
 
 	return 0;
-
-out:
-	rte_free(session_stat);
-	return ret;
 }
 
 int opof_add_session_server(sessionRequest_t *parameters,
@@ -261,14 +243,17 @@ int opof_add_session_server(sessionRequest_t *parameters,
 	struct rte_hash *ht = off_config_g.session_ht;
 	struct fw_session *session = NULL;
 	struct session_key key;
-        uint64_t tic, toc;
+	uint64_t tic, toc;
 	int ret;
+	int i;
+	int flow_result[2] = { 0, 0 };
+	(void)response;
 
 	memset(&key, 0, sizeof(key));
 
 	display_request(parameters, "add");
 
-        tic = rte_rdtsc();
+	tic = rte_rdtsc();
 
 	key.sess_id = parameters->sessId;
 
@@ -303,7 +288,11 @@ int opof_add_session_server(sessionRequest_t *parameters,
 			       IPPROTO_IP : IPPROTO_IPV6;
 	session->info.proto = parameters->proto;
 	session->info.vlan = parameters->inlif >> 16;
+#if 1
+	session->info.tunnel = 0; // parentTunnel is missing from the Schema
+#else
 	session->info.tunnel = !!parameters->parentTunnel;
+#endif
 
 	if (parameters->cacheTimeout >= MAX_TIMEOUT) {
 		log_info("WARNING: "
@@ -323,56 +312,43 @@ int opof_add_session_server(sessionRequest_t *parameters,
 		session->flow_out.portid = INITIATOR_PORT_ID;
 	}
 
-	ret = offload_flow_add(session->flow_in.portid, session,
-			       (enum flow_action)parameters->actType,
-			       DIR_IN);
+	session->action = (enum flow_action)parameters->actType;
 
-	if (ret) {
-		log_error("ERR(%d): Failed to add session (%lu) flow in",
-			  ret, session->key.sess_id);
-		ret = _INTERNAL;
-		goto out;
-	}
+	flow_result[0] = nv_opof_offload_flow_add(session->flow_in.portid, session, DIR_IN);
+	flow_result[1] = nv_opof_offload_flow_add(session->flow_out.portid, session, DIR_OUT);
 
-	ret = offload_flow_add(session->flow_out.portid, session,
-			       (enum flow_action)parameters->actType,
-			       DIR_OUT);
-
-	if (!ret) {
-		ret = rte_hash_add_key_data(ht, &session->key,
-					    (void *)session);
-		if (ret < 0) {
-			log_error("Failed to add sessiion (%lu) to ht",
-				  session->key.sess_id);
+	for (i=0; i<2; i++) {
+		if (flow_result[i] != 0) {
+			log_error("ERR(%d): Failed to add session (%lu) flow in",
+				flow_result[i], session->key.sess_id);
 			ret = _INTERNAL;
-			goto err_hash;
+			goto out;
 		}
-		session->state = _ESTABLISHED;
-		rte_atomic32_inc(&off_config_g.stats.active);
-	} else {
-		offload_flow_destroy(session->flow_in.portid,
-				     session->flow_in.flow);
-		log_error("ERR(%d): Failed to add session (%lu), flow out",
-		       ret, session->key.sess_id);
+	}
+
+	ret = rte_hash_add_key_data(ht, &session->key,
+					(void *)session);
+	if (ret < 0) {
+		log_error("Failed to add sessiion (%lu) to ht",
+				session->key.sess_id);
 		ret = _INTERNAL;
 		goto out;
 	}
 
-        toc = (long double)(rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
-	if (toc > rte_atomic64_read(&off_config_g.stats.flows_in_maxtsc))
+	session->state = _ESTABLISHED;
+	rte_atomic32_inc(&off_config_g.stats.active);
+
+	toc = (rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
+	if (toc > (uint64_t)rte_atomic64_read(&off_config_g.stats.flows_in_maxtsc))
 		rte_atomic64_set(&off_config_g.stats.flows_in_maxtsc, toc);
-        rte_atomic64_add(&off_config_g.stats.flows_in_tottsc, toc);
-        rte_atomic32_inc(&off_config_g.stats.flows_in);
+	rte_atomic64_add(&off_config_g.stats.flows_in_tottsc, toc);
+	rte_atomic32_inc(&off_config_g.stats.flows_in);
 
-        return _OK;
+	return _OK;
 
-err_hash:
-	offload_flow_destroy(session->flow_out.portid,
-			     session->flow_out.flow);
-
-	offload_flow_destroy(session->flow_in.portid,
-			     session->flow_in.flow);
 out:
+	nv_opof_offload_flow_destroy(session->flow_out.portid, session->flow_out.flow);
+	nv_opof_offload_flow_destroy(session->flow_in.portid, session->flow_in.flow);
 	rte_free(session);
 	return ret;
 }
@@ -428,11 +404,11 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 				    sessionResponse_t responses[])
 {
 	int size = request->pageSize;
-	int deq, count, ret, i;
-        uint64_t tic, toc;
+	int deq, count, i;
+	uint64_t tic, toc;
 	sessionResponse_t **session_stats;
 
-        tic = rte_rdtsc();
+	tic = rte_rdtsc();
 
 	count = rte_ring_count(off_config_g.session_fifo);
 
@@ -464,9 +440,8 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 
 	rte_free(session_stats);
 
-	toc = (long double)(rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
-	if (toc >
-	    rte_atomic64_read(&off_config_g.stats.flows_get_closed_maxtsc))
+	toc = (rte_rdtsc() - tic) * 1000000 / rte_get_tsc_hz();
+	if (toc > (uint64_t)rte_atomic64_read(&off_config_g.stats.flows_get_closed_maxtsc))
 		rte_atomic64_set(&off_config_g.stats.flows_get_closed_maxtsc, toc);
 	rte_atomic64_add(&off_config_g.stats.flows_get_closed_tottsc, toc);
 	rte_atomic32_inc(&off_config_g.stats.flows_get_closed);
@@ -474,8 +449,15 @@ int opof_get_closed_sessions_server(statisticsRequestArgs_t *request,
 	return deq;
 }
 
-int opof_get_all_sessions_server(int pageSize, uint64_t *startSession,int
-				 pageCount, sessionResponse_t **responses)
+int opof_get_all_sessions_server(
+	int pageSize, 
+	uint64_t *startSession,
+	int pageCount, 
+	sessionResponse_t **responses)
 {
+	(void)pageSize;
+	(void)startSession;
+	(void)pageCount;
+	(void)responses;
 	return _OK;
 }

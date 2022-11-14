@@ -22,7 +22,7 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/mellanox/dpdk/lib/aarch64-linux-gnu
 	dh $@
 
 override_dh_auto_build:
-	./scripts/build.sh
+	rm -rf build && meson build && meson install -C build
 
 override_dh_shlibdeps:
 	dh_shlibdeps -l /opt/mellanox/dpdk/lib/aarch64-linux-gnu/

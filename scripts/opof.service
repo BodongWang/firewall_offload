@@ -7,7 +7,7 @@ After=network.target network.service networking.service
 Type=simple
 Environment="LD_LIBRARY_PATH=/opt/mellanox/dpdk/lib/aarch64-linux-gnu/"
 ExecStartPre=/usr/sbin/opof_pre_check
-ExecStart=/usr/sbin/nv_opof -n 1 -a 0000:03:00.0,representor=[0] -a 0000:03:00.1,representor=[0]
+ExecStart=/usr/sbin/nv_opof -n 1 -a 0000:03:00.0,representor=vf[0] -a 0000:03:00.1,representor=vf[0]
 Restart=on-failure
 
 [Install]
