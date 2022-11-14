@@ -36,24 +36,15 @@
 extern "C" {
 #endif
 
-#define NV_OPOF_VERSION "1.0.4"
-
-#define RTE_PORT_ALL	(~(uint16_t)0x0)
+#define NV_OPOF_VERSION "1.1.0"
 
 #define RX_RING_SIZE	1024
 #define TX_RING_SIZE	1024
-#define BURST_SIZE	32
 
 #define MAX_LCORES	(16u)
-#define MAX_DPDK_PORT	(4u)
-#define NUM_PHY_PORT	(2u)
-#define NUM_VF_PORT	(2u)
-
-#define MAX_PATTERN_NUM	(2u)
-#define MAX_ACTION_NUM	(3u)
 
 #define NUM_REGULAR_Q	(1)
-#define NUM_HP_Q	(1)
+#define NUM_HP_Q	(4)
 
 #define MAX_SESSION		(4000000u)
 #define SAMPLE_SESSION_FWD	(MAX_SESSION - 1)
@@ -63,17 +54,19 @@ extern "C" {
 #define DEFAULT_GRPC_ADDR	"169.254.33.51"
 #define DEFAULT_GRPC_PORT	3443
 
+#define PORT_ID_INVALID ((portid_t)-1)
+
 typedef uint16_t queueid_t;
 typedef uint16_t portid_t;
 
 extern struct fw_offload_config off_config_g;
 
 enum {
-	portid_pf0	= 0,
-	portid_pf0_vf0	= 1,
-
-	portid_pf1	= 2,
-	portid_pf1_vf0	= 3
+	portid_pf0,
+	portid_pf0_vf0,
+	portid_pf1,
+	portid_pf1_vf0,
+	MAX_DPDK_PORT
 };
 
 enum {
@@ -81,15 +74,19 @@ enum {
 	RESPONDER_PORT_ID = portid_pf1
 };
 
-enum {
-	FDB_ROOT_PRIORITY	= 0x0,
-	FDB_DROP_PRIORITY	= 0x1,
-	FDB_FWD_PRIORITY	= 0x2,
-	FDB_NO_MATCH_PRIORITY	= 0x3,
+// Note that regardless of priority, FDB (transfer) rules always
+// take precedence / execute before NIC (non-transfer) rules.
+// When the FDB executes a jump to a non-existing group
+// (NIC_RX_GROUP), only then are the NIC-domain rules evaluated.
+#define FDB_DROP_PRIORITY     1
+#define FDB_FWD_PRIORITY      2
+#define FDB_NO_MATCH_PRIORITY 3
 
-	NIC_RX_NO_MATCH_PRIORITY = 0x3,
-};
-
+// The ID of a non-existing FDB flow group.
+// Once a packet lookup reaches this group, it
+// transitions from the FDB domain to the NIC RX domain.
+// From the NIC RX domain, a packet can be hairpin-
+// queued and sent out the uplink port.
 enum {
 	NIC_RX_GROUP = 0xA,
 };
@@ -131,18 +128,6 @@ struct aging_priv {
 	uint8_t lcore_id;
 };
 
-struct rte_port {
-	struct rte_eth_dev_info dev_info;   /**< PCI info + driver name */
-	struct rte_eth_conf     dev_conf;   /**< Port configuration. */
-	struct rte_ether_addr   eth_addr;   /**< Port ethernet address */
-	struct rte_eth_stats    stats;      /**< Last port statistics */
-
-	uint8_t			is_rep;
-	uint8_t			is_initiator;
-	uint8_t			is_responder;
-	portid_t		id;
-};
-
 struct session_info {
 	uint32_t dst_ip;         /**< Dest IPv4 address in big endian. */
 	uint32_t src_ip;         /**< Source IPv4 address in big endian. */
@@ -160,6 +145,9 @@ struct session_key {
 	uint64_t sess_id;
 };
 
+// This structure is passed as the age.context parameter to ensure flows are properly
+// aged out and removed, but only after all the flows associated with a session have
+// individually timed out.
 struct offload_flow {
 	struct fw_session *session;
 	struct rte_flow *flow;
@@ -170,6 +158,7 @@ struct offload_flow {
 struct fw_session {
 	struct session_key		key;
 	struct session_info		info;
+	enum flow_action        action;
 
 	struct offload_flow		flow_in;
 	struct offload_flow		flow_out;
@@ -187,13 +176,13 @@ struct offload_stats {
 	rte_atomic32_t zero_io;
 	rte_atomic32_t client_del;
 	rte_atomic32_t age_thread_hb;
-        rte_atomic32_t flows_in;
-        rte_atomic32_t flows_del;
-        rte_atomic32_t flows_get_closed;
-        rte_atomic64_t flows_in_maxtsc;
-        rte_atomic64_t flows_in_tottsc;
-        rte_atomic64_t flows_del_maxtsc;
-        rte_atomic64_t flows_del_tottsc;
+	rte_atomic32_t flows_in;
+	rte_atomic32_t flows_del;
+	rte_atomic32_t flows_get_closed;
+	rte_atomic64_t flows_in_maxtsc;
+	rte_atomic64_t flows_in_tottsc;
+	rte_atomic64_t flows_del_maxtsc;
+	rte_atomic64_t flows_del_tottsc;
 	rte_atomic64_t flows_get_closed_maxtsc;
 	rte_atomic64_t flows_get_closed_tottsc;
 };
@@ -204,45 +193,48 @@ struct fw_offload_config {
 	struct rte_ring		*session_fifo;
 	struct rte_hash		*session_ht;
 	pthread_mutex_t		ht_lock;
-	struct rte_port		*ports;
 	struct offload_stats	stats;
 
-	portid_t phy_port[MAX_DPDK_PORT];
-	portid_t peer_port[MAX_DPDK_PORT];
-	portid_t vf_port[MAX_DPDK_PORT];
+	bool     is_port_used[MAX_DPDK_PORT]; /**< whether to initialize the port */
+	portid_t phy_port[MAX_DPDK_PORT]; /**< specifies the destination for pkts from the VF representors */
+	portid_t peer_port[MAX_DPDK_PORT]; /**< specifies the hairpin pairs */
+	portid_t vf_port[MAX_DPDK_PORT]; /**< specifies "miss" destination for pkts from PF uplinks */
 
 	char grpc_addr[GRPC_ADDR_SIZE];
 	uint16_t grpc_port;
+
+	bool overwrite_dst_mac_enabled;
+	struct rte_ether_addr overwrite_dst_mac;	
 };
 
-int port_init(portid_t pid,
-	      struct rte_mempool *mbuf_pool);
-int hairpin_bind_port(portid_t pid);
+int nv_opof_port_init(portid_t pid, struct rte_mempool *mbuf_pool);
+int nv_opof_hairpin_bind_port(portid_t pid);
+int nv_opof_init_flows(portid_t pid);
+int nv_opof_create_sample_fwd_flow(int proto, enum flow_action action, int dir);
 
-void lcore_init(void);
-void clean_up(void);
-void force_quit(void);
-int thread_mux(void *data __rte_unused);
+void nv_opof_lcore_init(void);
+void nv_opof_clean_up(void);
+void nv_opof_force_quit(void);
+int nv_opof_thread_mux(void *data __rte_unused);
 
 struct rte_flow *
-add_simple_flow(uint16_t port_id,
+nv_opof_add_simple_flow(uint16_t port_id,
 		struct rte_flow_attr *attr,
 		struct rte_flow_item pattern[],
 		struct rte_flow_action actions[],
 		const char *flow_name);
 
-int offload_flow_add(portid_t port_id,
+int nv_opof_offload_flow_add(portid_t port_id,
 		     struct fw_session * session,
-		     enum flow_action action,
 		     enum flow_dir dir);
-int offload_flow_query(portid_t port_id,
+int nv_opof_offload_flow_query(portid_t port_id,
 		       struct rte_flow *flow,
-		       uint64_t *packets,
-		       uint64_t *bytes);
-int offload_flow_destroy(portid_t port_id,
+		       int64_t *packets,
+		       int64_t *bytes);
+int nv_opof_offload_flow_destroy(portid_t port_id,
 			 struct rte_flow *flow);
-void offload_flow_aged(portid_t port_id);
-int offload_flow_flush(portid_t port_id);
+void nv_opof_offload_flow_aged(portid_t port_id);
+int nv_opof_offload_flow_flush(portid_t port_id);
 
 int opof_del_flow(struct fw_session *session);
 void opof_del_all_session_server(void);

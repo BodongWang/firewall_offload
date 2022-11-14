@@ -4,6 +4,9 @@
 # ignore generated documentation tables
 nv_opof
 
+# ignore meson fetched dependencies
+subprojects/session_offload
+
 # ignore generated ctags/cscope files
 cscope.out.po
 cscope.out.in

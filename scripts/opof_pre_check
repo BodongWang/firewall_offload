@@ -35,14 +35,12 @@ if [ "${eswitch_mode}" != "switchdev" ]; then
 	exit 1
 fi
 
-if [ ! -d /sys/class/net/pf0vf0/ ] ; then
-	echo "Error: No VF for PF0"
-	exit 2
-fi
-
-if [ ! -d /sys/class/net/pf1vf0/ ] ; then
-	echo "Error: No VF for PF1"
-	exit 3
-fi
+for VF in pf0vf0 pf0vf1 pf1vf0 pf1vf1
+do
+	if [ ! -d /sys/class/net/$VF/ ] ; then
+		echo "Error: expected $VF to exist under /sys/class/net. Please set numvfs to 4."
+		exit 2
+	fi
+done
 
 exit 0

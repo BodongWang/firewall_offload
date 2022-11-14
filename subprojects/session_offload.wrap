@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://gitlab-master.nvidia.com/bschartung/sessionOffload.git
+revision = v1beta2
+depth = 1
+patch_directory = session_offload_patches
+diff_files = session_offload_test_args.patch

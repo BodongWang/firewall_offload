@@ -7,18 +7,27 @@ COLOR_RED="\033[0;31m"
 COLOR_GREEN="\033[0;32m"
 COLOR_OFF="\033[0m"
 
+# Bridges are for control-plane gRPC traffic, and as a fall-back
+# means of routing to/from the VFs in case of DPU software failure.
+# Note PF0SF0 has netdev enp3s0f0s0 and representor en3f0pf0sf0.
 OVS_BRIDGE0=${OVS_BRIDGE1:-"ovsbr0"}
-OVS_BRIDGE0_PORTS=${OVS_BRIDGE0_PORTS:-"p0 pf0vf0 pf0sf0 pf0vf1"}
+OVS_BRIDGE0_PORTS=${OVS_BRIDGE0_PORTS:-"p0 en3f0pf0sf0 pf0vf0 pf0vf1"}
 OVS_BRIDGE1=${OVS_BRIDGE2:-"ovsbr1"}
 OVS_BRIDGE1_PORTS=${OVS_BRIDGE1_PORTS:-"p1 pf1vf0"}
 GRPC_IP_MASK=169.254.33.51/24
+
+# Netdev which listens for control-plane gRPC traffic.
+DEFAULT_GRPC_PORT=enp3s0f0s0
+
+# Default number of 2048KB pages to allocate.
+DEFAULT_NUM_HUGEPAGE=2048
 
 usage()
 {
 cat 1>&2 <<EOF
 Usage ${0##*/} [-h|?]
     -p NUM_HUGEPAGE: Number of 2MB hugepages, default 2048
-    -g GRPC_PORT:    GRPC port name, default pf0vf1
+    -g GRPC_PORT:    GRPC port name, default $DEFAULT_GRPC_PORT
     -h|?             Show this help message
 EOF
 }
@@ -39,13 +48,13 @@ while getopts ":h:p:g:" arg; do
 done
 
 if [ -z "${NUM_HUGEPAGE-}" ] ; then
-	echo -e "${COLOR_RED}[ INFO ] No num of hugepages specified, use 2048 ${COLOR_OFF}"
-	NUM_HUGEPAGE=2048
+	echo -e "[ INFO ] No num of hugepages specified, using ${DEFAULT_NUM_HUGEPAGE}"
+	NUM_HUGEPAGE=${DEFAULT_NUM_HUGEPAGE}
 fi
 
 if [ -z "${GRPC_PORT-}" ] ; then
-	echo -e "${COLOR_RED}[ INFO ] No gRPC port specified, use p0m0${COLOR_OFF}"
-	GRPC_PORT=p0m0
+	echo -e "[ INFO ] No gRPC port specified, using ${DEFAULT_GRPC_PORT}"
+	GRPC_PORT=${DEFAULT_GRPC_PORT}
 fi
 
 pre_check()
@@ -100,3 +109,5 @@ pre_check
 configure_ovs_fallback
 configure_grpc_interface
 reserve_hugepages
+
+cp /opt/mellanox/nv_opof/nv_opof.conf.default /opt/mellanox/nv_opof/nv_opof.conf
