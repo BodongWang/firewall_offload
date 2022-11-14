@@ -62,6 +62,7 @@ cJSON *query(jrpc_context *ctx, cJSON *params, cJSON *id)
 	struct nv_opof_rpc_context *rpc_ctx;
 	sessionResponse_t response;
 	int ret;
+	(void)id;
 
 	rpc_ctx = (struct nv_opof_rpc_context *)ctx->data;
 
@@ -82,7 +83,7 @@ cJSON *query(jrpc_context *ctx, cJSON *params, cJSON *id)
 
 unlock:
 	pthread_mutex_unlock(&rpc_ctx->rpc_lock);
-out:
+
 	return result;
 }
 
@@ -90,6 +91,7 @@ cJSON *stats(jrpc_context *ctx, cJSON *params, cJSON *id)
 {
 	struct nv_opof_rpc_context *rpc_ctx;
 	sessionResponse_t response;
+	(void)id;
 
 	cJSON *clear = cJSON_GetObjectItem(params, "clear");
 
@@ -159,6 +161,7 @@ cJSON *delete(jrpc_context *ctx, cJSON *params, cJSON *id)
 	struct nv_opof_rpc_context *rpc_ctx;
 	sessionResponse_t response;
 	int ret = 0;
+	(void)id;
 
 	rpc_ctx = (struct nv_opof_rpc_context *)ctx->data;
 
@@ -190,9 +193,10 @@ cJSON *add(jrpc_context *ctx, cJSON *params, cJSON *id)
 	struct nv_opof_rpc_context *rpc_ctx;
 	addSessionResponse_t response;
 	sessionRequest_t request;
-        uint64_t tic, toc;
+	uint64_t tic, toc;
 	uint32_t rate;
 	int ret = 0;
+	(void)id;
 
 	rpc_ctx = (struct nv_opof_rpc_context *)ctx->data;
 
@@ -219,7 +223,7 @@ cJSON *add(jrpc_context *ctx, cJSON *params, cJSON *id)
 	}
 
 	tic = rte_rdtsc();
-	while (request.sessId < num->valueint) {
+	while ((int)request.sessId < num->valueint) {
 		ret = opof_add_session_server(&request, &response);
 		if (ret != _OK) {
 			JSON_STR_NUM_TO_OBJ(result, "Failed at iter", "%lu",
@@ -229,9 +233,9 @@ cJSON *add(jrpc_context *ctx, cJSON *params, cJSON *id)
 		request.sessId++;
 	}
 
-        toc = rte_rdtsc() - tic;
+	toc = rte_rdtsc() - tic;
 
-	rate = (long double)num->valueint * rte_get_tsc_hz() / toc;
+	rate = (uint64_t)num->valueint * rte_get_tsc_hz() / toc;
 
 unlock:
 	opof_del_all_session_server();
@@ -245,6 +249,8 @@ cJSON *log_level(jrpc_context *ctx, cJSON *params, cJSON *id)
 {
 	cJSON *level = cJSON_GetObjectItem(params, "level");
 	int val = 0;
+	(void)ctx;
+	(void)id;
 
 	if (!strcmp("info", level->valuestring))
 		val = LOG_INFO;
